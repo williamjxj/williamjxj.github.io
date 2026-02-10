@@ -150,7 +150,41 @@ function vitePluginManusDebugCollector(): Plugin {
   };
 }
 
-const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector()];
+/**
+ * Vite plugin to conditionally inject analytics script
+ * Only injects if both VITE_ANALYTICS_ENDPOINT and VITE_ANALYTICS_WEBSITE_ID are defined
+ */
+function vitePluginAnalytics(): Plugin {
+  return {
+    name: "vite-plugin-analytics",
+    transformIndexHtml(html) {
+      const endpoint = process.env.VITE_ANALYTICS_ENDPOINT;
+      const websiteId = process.env.VITE_ANALYTICS_WEBSITE_ID;
+
+      // Only inject analytics script if both env vars are set
+      if (endpoint && websiteId) {
+        return {
+          html,
+          tags: [
+            {
+              tag: "script",
+              attrs: {
+                defer: true,
+                src: `${endpoint}/umami`,
+                "data-website-id": websiteId,
+              },
+              injectTo: "body",
+            },
+          ],
+        };
+      }
+
+      return html;
+    },
+  };
+}
+
+const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector(), vitePluginAnalytics()];
 
 export default defineConfig({
   plugins,
