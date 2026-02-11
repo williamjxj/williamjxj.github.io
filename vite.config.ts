@@ -184,10 +184,29 @@ function vitePluginAnalytics(): Plugin {
   };
 }
 
-const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector(), vitePluginAnalytics()];
+/**
+ * Vite plugin to copy index.html to 404.html for GitHub Pages SPA routing.
+ * When users visit a client route directly (e.g. /404), GitHub serves 404.html,
+ * which loads the same SPA and lets the router handle the path.
+ */
+function vitePluginGhPages404(): Plugin {
+  return {
+    name: "vite-plugin-gh-pages-404",
+    closeBundle() {
+      const indexPath = path.join(PROJECT_ROOT, "dist", "public", "index.html");
+      const notFoundPath = path.join(PROJECT_ROOT, "dist", "public", "404.html");
+      if (fs.existsSync(indexPath)) {
+        fs.copyFileSync(indexPath, notFoundPath);
+      }
+    },
+  };
+}
+
+const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector(), vitePluginAnalytics(), vitePluginGhPages404()];
 
 export default defineConfig({
   plugins,
+  base: "/", // Required for username.github.io - site served from root
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "client", "src"),
