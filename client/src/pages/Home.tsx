@@ -102,6 +102,7 @@ export default function Home() {
             <a href="#projects" className="text-sm hover:text-accent transition">Projects</a>
             <a href="#skills" className="text-sm hover:text-accent transition">Skills</a>
             <a href="#experience" className="text-sm hover:text-accent transition">Experience</a>
+            <a href="#documents" className="text-sm hover:text-accent transition">Documents</a>
             <a href="#contact" className="text-sm hover:text-accent transition">Contact</a>
           </div>
         </div>
@@ -323,6 +324,61 @@ export default function Home() {
                 </Card>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Documents Section */}
+      <section id="documents" className="py-20">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.8 }}
+            className="mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">Resources & Documentation</h2>
+            <p className="text-muted-foreground text-lg">Technical documentation and training materials</p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <Card className="bg-background border-glow hover:glow-pulse p-6 h-full transition-all hover:scale-105 cursor-pointer">
+                <a href="/docs/autodrive-ml-training-overview.docx" download className="block">
+                  <h3 className="text-xl font-bold mb-3 text-accent">AutoDrive ML Training Overview</h3>
+                  <p className="text-muted-foreground mb-4">
+                    Comprehensive overview of machine learning training workflows for autonomous driving systems.
+                  </p>
+                  <div className="flex items-center gap-2 text-accent hover:text-accent/80">
+                    <ExternalLink size={16} />
+                    <span>Download Document</span>
+                  </div>
+                </a>
+              </Card>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              <Card className="bg-background border-glow hover:glow-pulse p-6 h-full transition-all hover:scale-105 cursor-pointer">
+                <a href="/docs/autodrive-ml-training-details.docx" download className="block">
+                  <h3 className="text-xl font-bold mb-3 text-accent">AutoDrive ML Training Details</h3>
+                  <p className="text-muted-foreground mb-4">
+                    Detailed technical specifications and implementation guidelines for ML training pipelines.
+                  </p>
+                  <div className="flex items-center gap-2 text-accent hover:text-accent/80">
+                    <ExternalLink size={16} />
+                    <span>Download Document</span>
+                  </div>
+                </a>
+              </Card>
+            </motion.div>
           </div>
         </div>
       </section>
