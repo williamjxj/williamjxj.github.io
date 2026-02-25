@@ -21,6 +21,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { gsap } from "gsap";
 import { TextPlugin } from "gsap/TextPlugin";
+import { useCountUp } from "@/hooks/useCountUp";
 
 // Register GSAP plugins
 gsap.registerPlugin(TextPlugin);
@@ -36,6 +37,11 @@ export default function Home() {
   const [scrollY, setScrollY] = useState(0);
   const [activeSection, setActiveSection] = useState("projects");
   const flipTextRef = useRef<HTMLSpanElement>(null);
+
+  // Animated counter for stats
+  const yearsCount = useCountUp({ end: 20, duration: 2000 });
+  const projectsCount = useCountUp({ end: 50, duration: 2000 });
+  const systemsCount = useCountUp({ end: 6, duration: 2000 });
 
   // GSAP flip animation for rotating titles
   useEffect(() => {
@@ -189,10 +195,10 @@ export default function Home() {
     <div className="min-h-screen bg-background text-foreground overflow-hidden">
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <a href="#" className="flex items-center gap-2 group">
+        <div className="container mx-auto px-2 sm:px-4 py-3 sm:py-4 flex justify-between items-center">
+          <a href="#" className="flex items-center gap-2 group flex-shrink-0">
             <div className="relative logo-ai-effect">
-              <span className="text-xl font-bold gradient-text">William Jiang</span>
+              <span className="text-base sm:text-xl font-bold gradient-text">William Jiang</span>
               <motion.div
                 className="absolute -right-1 -top-1 w-2 h-2 bg-accent rounded-full opacity-0 group-hover:opacity-100"
                 animate={{
@@ -220,10 +226,10 @@ export default function Home() {
               />
             </div>
           </a>
-          <div className="flex gap-6 items-center">
+          <div className="flex gap-2 sm:gap-4 md:gap-6 items-center overflow-x-auto scrollbar-hide">
             <a 
               href="#projects" 
-              className={`text-sm transition relative pb-1 ${
+              className={`text-xs sm:text-sm transition relative pb-1 whitespace-nowrap flex-shrink-0 ${
                 activeSection === "projects" 
                   ? "text-accent after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-accent" 
                   : "text-foreground hover:text-accent"
@@ -233,7 +239,7 @@ export default function Home() {
             </a>
             <a 
               href="#skills" 
-              className={`text-sm transition relative pb-1 ${
+              className={`text-xs sm:text-sm transition relative pb-1 whitespace-nowrap flex-shrink-0 ${
                 activeSection === "skills" 
                   ? "text-accent after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-accent" 
                   : "text-foreground hover:text-accent"
@@ -243,7 +249,7 @@ export default function Home() {
             </a>
             <a 
               href="#experience" 
-              className={`text-sm transition relative pb-1 ${
+              className={`text-xs sm:text-sm transition relative pb-1 whitespace-nowrap flex-shrink-0 ${
                 activeSection === "experience" 
                   ? "text-accent after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-accent" 
                   : "text-foreground hover:text-accent"
@@ -253,7 +259,7 @@ export default function Home() {
             </a>
             <a 
               href="#documents" 
-              className={`text-sm transition relative pb-1 ${
+              className={`text-xs sm:text-sm transition relative pb-1 whitespace-nowrap flex-shrink-0 ${
                 activeSection === "documents" 
                   ? "text-accent after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-accent" 
                   : "text-foreground hover:text-accent"
@@ -263,7 +269,7 @@ export default function Home() {
             </a>
             <a 
               href="#contact" 
-              className={`text-sm transition relative pb-1 ${
+              className={`text-xs sm:text-sm transition relative pb-1 whitespace-nowrap flex-shrink-0 ${
                 activeSection === "contact" 
                   ? "text-accent after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-accent" 
                   : "text-foreground hover:text-accent"
@@ -347,19 +353,33 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="grid grid-cols-3 gap-8 max-w-2xl mx-auto pt-12"
+              onViewportEnter={() => {
+                if (!yearsCount.hasStarted) {
+                  yearsCount.startCounting();
+                  projectsCount.startCounting();
+                  systemsCount.startCounting();
+                }
+              }}
+              viewport={{ once: true, amount: 0.5 }}
+              className="grid grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-2xl mx-auto pt-12 px-4"
             >
-              <div>
-                <div className="text-3xl md:text-4xl font-bold text-accent">20+</div>
-                <div className="text-sm text-muted-foreground mt-2">Years Exp.</div>
+              <div className="text-center">
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-accent">
+                  {yearsCount.count}+
+                </div>
+                <div className="text-xs sm:text-sm text-muted-foreground mt-1 sm:mt-2">Years Exp.</div>
               </div>
-              <div>
-                <div className="text-3xl md:text-4xl font-bold text-accent">50+</div>
-                <div className="text-sm text-muted-foreground mt-2">Projects</div>
+              <div className="text-center">
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-accent">
+                  {projectsCount.count}+
+                </div>
+                <div className="text-xs sm:text-sm text-muted-foreground mt-1 sm:mt-2">Projects</div>
               </div>
-              <div>
-                <div className="text-3xl md:text-4xl font-bold text-accent">6+</div>
-                <div className="text-sm text-muted-foreground mt-2">AI Systems</div>
+              <div className="text-center">
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-accent">
+                  {systemsCount.count}+
+                </div>
+                <div className="text-xs sm:text-sm text-muted-foreground mt-1 sm:mt-2">AI Systems</div>
               </div>
             </motion.div>
 
