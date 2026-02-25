@@ -1,8 +1,29 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Github, Linkedin, Mail, ExternalLink, ChevronDown } from "lucide-react";
-import { useState, useEffect } from "react";
+import { 
+  Github, 
+  Linkedin, 
+  Mail, 
+  ExternalLink, 
+  ChevronDown,
+  Bot,
+  FileText,
+  Lightbulb,
+  MessageCircle,
+  Building2,
+  Camera,
+  Calculator,
+  BookOpen,
+  ScrollText,
+  Phone
+} from "lucide-react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import { gsap } from "gsap";
+import { TextPlugin } from "gsap/TextPlugin";
+
+// Register GSAP plugins
+gsap.registerPlugin(TextPlugin);
 
 /**
  * Neural Networks Design Theme - Tech-Forward Minimalism
@@ -13,9 +34,67 @@ import { motion } from "framer-motion";
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
+  const [activeSection, setActiveSection] = useState("projects");
+  const flipTextRef = useRef<HTMLSpanElement>(null);
 
+  // GSAP flip animation for rotating titles
   useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
+    const titles = [
+      "Full-Stack Engineer",
+      "AI/ML Architect",
+      "RAG Systems Expert",
+      "Enterprise Solutions"
+    ];
+    
+    let currentIndex = 0;
+    
+    const animateText = () => {
+      if (flipTextRef.current) {
+        gsap.to(flipTextRef.current, {
+          duration: 0.5,
+          opacity: 0,
+          y: -20,
+          ease: "power2.in",
+          onComplete: () => {
+            currentIndex = (currentIndex + 1) % titles.length;
+            if (flipTextRef.current) {
+              flipTextRef.current.textContent = titles[currentIndex];
+              gsap.to(flipTextRef.current, {
+                duration: 0.5,
+                opacity: 1,
+                y: 0,
+                ease: "power2.out"
+              });
+            }
+          }
+        });
+      }
+    };
+
+    const interval = setInterval(animateText, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Active section detection on scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+      
+      const sections = ["projects", "skills", "experience", "documents", "contact"];
+      const scrollPosition = window.scrollY + 200;
+      
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const { offsetTop, offsetHeight } = element;
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            setActiveSection(section);
+            break;
+          }
+        }
+      }
+    };
+    
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -26,6 +105,7 @@ export default function Home() {
       description: "AI-native financial automation platform dedicated to processing heterogeneous invoice formats with RAG and agentic workflows.",
       tags: ["Python", "RAG", "Agentic AI", "FastAPI", "OCR"],
       link: "https://github.com/williamjxj/AgenticAP",
+      icon: Bot,
       featured: true,
     },
     {
@@ -33,6 +113,7 @@ export default function Home() {
       description: "Multi-modal document intelligence platform combining OCR, LLM processing, and agentic AI for enterprise document workflows.",
       tags: ["Python", "AI", "PyTorch", "FastAPI", "LangChain"],
       link: "https://github.com/williamjxj/AgenticOmni",
+      icon: FileText,
       featured: true,
     },
     {
@@ -40,6 +121,15 @@ export default function Home() {
       description: "AI-powered proposal automation agent with job scraping, requirement analysis, and personalized proposal drafting.",
       tags: ["TypeScript", "Next.js", "RAG", "FastAPI", "AI Agent"],
       link: "https://github.com/williamjxj/agentic-proposal-engine",
+      icon: Lightbulb,
+      featured: true,
+    },
+    {
+      title: "Agentic LangGraph Accounting",
+      description: "Intelligent accounting system powered by LangGraph for automated financial workflows and multi-agent orchestration.",
+      tags: ["Python", "LangGraph", "Agentic AI", "LangChain", "Finance"],
+      link: "https://github.com/williamjxj/agentic-langgraph-accounting",
+      icon: Calculator,
       featured: true,
     },
     {
@@ -47,18 +137,21 @@ export default function Home() {
       description: "RAG-powered chatbot for static websites with content ingestion from sitemaps and documents.",
       tags: ["Python", "FastAPI", "Next.js", "PostgreSQL", "OpenAI"],
       link: "https://github.com/williamjxj/site-rag-chatbot",
+      icon: MessageCircle,
     },
     {
       title: "BestIT Consultants",
       description: "Corporate website showcasing AI/ML solutions and enterprise digital transformation services.",
       tags: ["Next.js 15", "React 19", "TypeScript", "Tailwind CSS"],
       link: "https://github.com/williamjxj/bestitconsultants",
+      icon: Building2,
     },
     {
       title: "Face Swap SaaS",
       description: "Production-ready AI face-swapping platform with multi-format support and multiple payment gateways.",
       tags: ["Next.js", "React", "Supabase", "Stripe", "AI"],
       link: "https://github.com/williamjxj/face-swap-poc",
+      icon: Camera,
     },
   ];
 
@@ -97,13 +190,87 @@ export default function Home() {
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="text-xl font-bold gradient-text">WJ</div>
+          <a href="#" className="flex items-center gap-2 group">
+            <div className="relative logo-ai-effect">
+              <span className="text-xl font-bold gradient-text">William Jiang</span>
+              <motion.div
+                className="absolute -right-1 -top-1 w-2 h-2 bg-accent rounded-full opacity-0 group-hover:opacity-100"
+                animate={{
+                  scale: [1, 1.5, 1],
+                  opacity: [0.5, 1, 0.5],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
+              <motion.div
+                className="absolute -right-2 top-1 w-1 h-1 bg-secondary rounded-full opacity-0 group-hover:opacity-100"
+                animate={{
+                  scale: [1, 1.3, 1],
+                  opacity: [0.3, 0.8, 0.3],
+                }}
+                transition={{
+                  duration: 2.5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 0.5
+                }}
+              />
+            </div>
+          </a>
           <div className="flex gap-6 items-center">
-            <a href="#projects" className="text-sm hover:text-accent transition">Projects</a>
-            <a href="#skills" className="text-sm hover:text-accent transition">Skills</a>
-            <a href="#experience" className="text-sm hover:text-accent transition">Experience</a>
-            <a href="#documents" className="text-sm hover:text-accent transition">Documents</a>
-            <a href="#contact" className="text-sm hover:text-accent transition">Contact</a>
+            <a 
+              href="#projects" 
+              className={`text-sm transition relative pb-1 ${
+                activeSection === "projects" 
+                  ? "text-accent after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-accent" 
+                  : "text-foreground hover:text-accent"
+              }`}
+            >
+              Projects
+            </a>
+            <a 
+              href="#skills" 
+              className={`text-sm transition relative pb-1 ${
+                activeSection === "skills" 
+                  ? "text-accent after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-accent" 
+                  : "text-foreground hover:text-accent"
+              }`}
+            >
+              Skills
+            </a>
+            <a 
+              href="#experience" 
+              className={`text-sm transition relative pb-1 ${
+                activeSection === "experience" 
+                  ? "text-accent after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-accent" 
+                  : "text-foreground hover:text-accent"
+              }`}
+            >
+              Experience
+            </a>
+            <a 
+              href="#documents" 
+              className={`text-sm transition relative pb-1 ${
+                activeSection === "documents" 
+                  ? "text-accent after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-accent" 
+                  : "text-foreground hover:text-accent"
+              }`}
+            >
+              Documents
+            </a>
+            <a 
+              href="#contact" 
+              className={`text-sm transition relative pb-1 ${
+                activeSection === "contact" 
+                  ? "text-accent after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-accent" 
+                  : "text-foreground hover:text-accent"
+              }`}
+            >
+              Contact
+            </a>
           </div>
         </div>
       </nav>
@@ -127,28 +294,91 @@ export default function Home() {
             transition={{ duration: 0.8 }}
             className="space-y-6"
           >
+            {/* Available for projects badge */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="flex justify-center mb-6"
+            >
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent/10 border border-accent/30 rounded-full">
+                <div className="w-2 h-2 bg-accent rounded-full animate-pulse" />
+                <span className="text-sm text-accent font-medium">Available for projects</span>
+              </div>
+            </motion.div>
+
             <h1 className="text-5xl md:text-7xl font-bold gradient-text">
               William Jiang
             </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto">
-              Senior Full-Stack & AI Engineer | 20+ Years Building Intelligent Systems
+            
+            <p className="text-xl md:text-2xl text-muted-foreground">
+              Senior Full-Stack & AI Engineer
             </p>
-            <p className="text-lg text-accent max-w-3xl mx-auto">
-              Specializing in <span className="font-semibold">Agentic AI</span>, <span className="font-semibold">RAG Systems</span>, and <span className="font-semibold">Enterprise Automation</span>
+            
+            {/* Animated rotating titles */}
+            <div className="text-lg md:text-xl max-w-2xl mx-auto h-8 flex items-center justify-center">
+              <span ref={flipTextRef} className="text-accent font-medium">Full-Stack Engineer</span>
+            </div>
+            
+            <p className="text-base md:text-lg text-muted-foreground max-w-3xl mx-auto">
+              20+ years building intelligent systems across startups and Fortune 500 companies. Specializing in agentic AI, RAG pipelines, and enterprise digital transformation.
             </p>
 
-            <div className="flex gap-4 justify-center pt-8">
+            <div className="flex gap-4 justify-center pt-8 flex-wrap">
               <Button className="bg-accent text-accent-foreground hover:bg-accent/90 glow-cyan">
                 <a href="#projects" className="flex items-center gap-2">
-                  View My Work <ExternalLink size={16} />
+                  View My Work <ChevronDown size={16} />
                 </a>
               </Button>
               <Button variant="outline" className="border-accent text-accent hover:bg-accent/10">
                 <a href="https://github.com/williamjxj" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                  GitHub <Github size={16} />
+                  <Github size={16} /> GitHub
+                </a>
+              </Button>
+              <Button variant="outline" className="border-accent text-accent hover:bg-accent/10">
+                <a href="https://www.linkedin.com/in/william-jiang-226a7616/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                  <Linkedin size={16} /> LinkedIn
                 </a>
               </Button>
             </div>
+
+            {/* Stats Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="grid grid-cols-3 gap-8 max-w-2xl mx-auto pt-12"
+            >
+              <div>
+                <div className="text-3xl md:text-4xl font-bold text-accent">20+</div>
+                <div className="text-sm text-muted-foreground mt-2">Years Exp.</div>
+              </div>
+              <div>
+                <div className="text-3xl md:text-4xl font-bold text-accent">50+</div>
+                <div className="text-sm text-muted-foreground mt-2">Projects</div>
+              </div>
+              <div>
+                <div className="text-3xl md:text-4xl font-bold text-accent">6+</div>
+                <div className="text-sm text-muted-foreground mt-2">AI Systems</div>
+              </div>
+            </motion.div>
+
+            {/* Founder Title */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="pt-6"
+            >
+              <a 
+                href="https://www.bestitconsulting.ca/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-sm text-muted-foreground hover:text-accent transition inline-flex items-center gap-2"
+              >
+                Founder, Best IT Consulting Inc. <ExternalLink size={14} />
+              </a>
+            </motion.div>
           </motion.div>
 
           {/* Scroll indicator */}
@@ -177,61 +407,77 @@ export default function Home() {
 
           {/* Featured Projects Grid */}
           <div className="grid md:grid-cols-2 gap-8 mb-16">
-            {projects.filter(p => p.featured).map((project, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: idx * 0.1 }}
-              >
-                <Card className="bg-background border-glow hover:glow-pulse p-6 h-full transition-all hover:scale-105 cursor-pointer">
-                  <h3 className="text-2xl font-bold mb-3 text-accent">{project.title}</h3>
-                  <p className="text-muted-foreground mb-4">{project.description}</p>
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {project.tags.map((tag, i) => (
-                      <span key={i} className="px-3 py-1 bg-accent/10 text-accent text-sm rounded-full border border-accent/30">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-accent hover:text-accent/80 flex items-center gap-2">
-                    View on GitHub <ExternalLink size={16} />
-                  </a>
-                </Card>
-              </motion.div>
-            ))}
+            {projects.filter(p => p.featured).map((project, idx) => {
+              const IconComponent = project.icon;
+              return (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: idx * 0.1 }}
+                >
+                  <Card className="bg-background border-glow hover:glow-pulse p-6 h-full transition-all hover:scale-105 cursor-pointer">
+                    <div className="flex items-start gap-4 mb-3">
+                      <div className="p-3 bg-accent/10 rounded-lg border border-accent/30">
+                        <IconComponent className="text-accent" size={24} />
+                      </div>
+                      <h3 className="text-2xl font-bold text-accent flex-1">{project.title}</h3>
+                    </div>
+                    <p className="text-muted-foreground mb-4">{project.description}</p>
+                    <div className="flex flex-wrap gap-2 mb-6">
+                      {project.tags.map((tag, i) => (
+                        <span key={i} className="px-3 py-1 bg-accent/10 text-accent text-sm rounded-full border border-accent/30">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                    <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-accent hover:text-accent/80 flex items-center gap-2">
+                      View on GitHub <ExternalLink size={16} />
+                    </a>
+                  </Card>
+                </motion.div>
+              );
+            })}
           </div>
 
           {/* Other Projects */}
           <div className="space-y-4">
             <h3 className="text-2xl font-bold mb-6">Other Notable Projects</h3>
-            {projects.filter(p => !p.featured).map((project, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: idx * 0.1 }}
-              >
-                <Card className="bg-background border border-border hover:border-accent/50 p-4 transition-all hover:translate-x-2">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h4 className="text-lg font-semibold text-accent mb-2">{project.title}</h4>
-                      <p className="text-muted-foreground text-sm mb-3">{project.description}</p>
-                      <div className="flex flex-wrap gap-2">
-                        {project.tags.map((tag, i) => (
-                          <span key={i} className="px-2 py-1 bg-muted text-muted-foreground text-xs rounded">
-                            {tag}
-                          </span>
-                        ))}
+            {projects.filter(p => !p.featured).map((project, idx) => {
+              const IconComponent = project.icon;
+              return (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: idx * 0.1 }}
+                >
+                  <Card className="bg-background border border-border hover:border-accent/50 p-4 transition-all hover:translate-x-2">
+                    <div className="flex justify-between items-start gap-4">
+                      <div className="flex items-start gap-3 flex-1">
+                        <div className="p-2 bg-accent/10 rounded-lg border border-accent/30 mt-1">
+                          <IconComponent className="text-accent" size={20} />
+                        </div>
+                        <div>
+                          <h4 className="text-lg font-semibold text-accent mb-2">{project.title}</h4>
+                          <p className="text-muted-foreground text-sm mb-3">{project.description}</p>
+                          <div className="flex flex-wrap gap-2">
+                            {project.tags.map((tag, i) => (
+                              <span key={i} className="px-2 py-1 bg-muted text-muted-foreground text-xs rounded">
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
                       </div>
+                      <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-accent hover:text-accent/80">
+                        <ExternalLink size={20} />
+                      </a>
                     </div>
-                    <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-accent hover:text-accent/80">
-                      <ExternalLink size={20} />
-                    </a>
-                  </div>
-                </Card>
-              </motion.div>
-            ))}
+                  </Card>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -349,7 +595,12 @@ export default function Home() {
             >
               <Card className="bg-background border-glow hover:glow-pulse p-6 h-full transition-all hover:scale-105 cursor-pointer">
                 <a href="/docs/autodrive-ml-training-overview.docx" download className="block">
-                  <h3 className="text-xl font-bold mb-3 text-accent">AutoDrive ML Training Overview</h3>
+                  <div className="flex items-start gap-4 mb-3">
+                    <div className="p-3 bg-accent/10 rounded-lg border border-accent/30">
+                      <BookOpen className="text-accent" size={24} />
+                    </div>
+                    <h3 className="text-xl font-bold text-accent flex-1 pt-2">AutoDrive ML Training Overview</h3>
+                  </div>
                   <p className="text-muted-foreground mb-4">
                     Comprehensive overview of machine learning training workflows for autonomous driving systems.
                   </p>
@@ -368,7 +619,12 @@ export default function Home() {
             >
               <Card className="bg-background border-glow hover:glow-pulse p-6 h-full transition-all hover:scale-105 cursor-pointer">
                 <a href="/docs/autodrive-ml-training-details.docx" download className="block">
-                  <h3 className="text-xl font-bold mb-3 text-accent">AutoDrive ML Training Details</h3>
+                  <div className="flex items-start gap-4 mb-3">
+                    <div className="p-3 bg-accent/10 rounded-lg border border-accent/30">
+                      <ScrollText className="text-accent" size={24} />
+                    </div>
+                    <h3 className="text-xl font-bold text-accent flex-1 pt-2">AutoDrive ML Training Details</h3>
+                  </div>
                   <p className="text-muted-foreground mb-4">
                     Detailed technical specifications and implementation guidelines for ML training pipelines.
                   </p>
@@ -383,7 +639,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* Contact Section */}
       <section id="contact" className="py-20 relative overflow-hidden">
         <div className="absolute inset-0 opacity-20">
           <img
@@ -400,7 +656,10 @@ export default function Home() {
             transition={{ duration: 0.8 }}
             className="space-y-6"
           >
-            <h2 className="text-4xl md:text-5xl font-bold">Let's Build Something Extraordinary</h2>
+            <div className="mb-8">
+              <h2 className="text-4xl md:text-5xl font-bold mb-2">Get in Touch</h2>
+              <p className="text-lg text-accent">Let's Build Something Extraordinary</p>
+            </div>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Whether you need AI-driven automation, full-stack development, or enterprise digital transformation, I'm ready to help.
             </p>
@@ -408,17 +667,22 @@ export default function Home() {
             <div className="flex gap-4 justify-center pt-8 flex-wrap">
               <Button className="bg-accent text-accent-foreground hover:bg-accent/90 glow-cyan">
                 <a href="mailto:jxjwilliam@gmail.com" className="flex items-center gap-2">
-                  Get in Touch <Mail size={16} />
+                  <Mail size={16} /> Email Me
+                </a>
+              </Button>
+              <Button variant="outline" className="border-accent text-accent hover:bg-accent/10">
+                <a href="tel:+12369923846" className="flex items-center gap-2">
+                  <Phone size={16} /> 236.992.3846
                 </a>
               </Button>
               <Button variant="outline" className="border-accent text-accent hover:bg-accent/10">
                 <a href="https://www.linkedin.com/in/william-jiang-226a7616/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                  LinkedIn <Linkedin size={16} />
+                  <Linkedin size={16} /> LinkedIn
                 </a>
               </Button>
               <Button variant="outline" className="border-accent text-accent hover:bg-accent/10">
                 <a href="https://github.com/williamjxj" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                  GitHub <Github size={16} />
+                  <Github size={16} /> GitHub
                 </a>
               </Button>
             </div>

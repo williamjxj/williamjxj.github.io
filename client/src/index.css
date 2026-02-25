@@ -192,6 +192,25 @@
     background-clip: text;
   }
 
+  .logo-ai-effect {
+    position: relative;
+    display: inline-block;
+    transition: all 0.3s ease;
+  }
+
+  .logo-ai-effect:hover {
+    filter: drop-shadow(0 0 8px rgba(0, 217, 255, 0.6));
+  }
+
+  @keyframes logo-pulse {
+    0%, 100% { 
+      text-shadow: 0 0 5px rgba(0, 217, 255, 0.3);
+    }
+    50% { 
+      text-shadow: 0 0 10px rgba(0, 217, 255, 0.5), 0 0 20px rgba(124, 58, 237, 0.3);
+    }
+  }
+
   @keyframes float {
     0%, 100% { transform: translateY(0px); }
     50% { transform: translateY(-10px); }
