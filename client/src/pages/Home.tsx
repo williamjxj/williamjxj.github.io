@@ -22,6 +22,9 @@ import { motion } from "framer-motion";
 import { gsap } from "gsap";
 import { TextPlugin } from "gsap/TextPlugin";
 import { useCountUp } from "@/hooks/useCountUp";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useTranslations } from "@/lib/translations";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 // Register GSAP plugins
 gsap.registerPlugin(TextPlugin);
@@ -37,6 +40,10 @@ export default function Home() {
   const [scrollY, setScrollY] = useState(0);
   const [activeSection, setActiveSection] = useState("projects");
   const flipTextRef = useRef<HTMLSpanElement>(null);
+  
+  // Language and translations
+  const { language } = useLanguage();
+  const t = useTranslations(language);
 
   // Animated counter for stats
   const yearsCount = useCountUp({ end: 20, duration: 2000 });
@@ -46,10 +53,10 @@ export default function Home() {
   // GSAP flip animation for rotating titles
   useEffect(() => {
     const titles = [
-      "Full-Stack Engineer",
-      "AI/ML Architect",
-      "RAG Systems Expert",
-      "Enterprise Solutions"
+      t.hero.title1,
+      t.hero.title2,
+      t.hero.title3,
+      t.hero.title4,
     ];
     
     let currentIndex = 0;
@@ -79,7 +86,7 @@ export default function Home() {
 
     const interval = setInterval(animateText, 3000);
     return () => clearInterval(interval);
-  }, []);
+  }, [t.hero.title1, t.hero.title2, t.hero.title3, t.hero.title4]);
 
   // Active section detection on scroll
   useEffect(() => {
@@ -107,54 +114,54 @@ export default function Home() {
 
   const projects = [
     {
-      title: "AgenticAP",
-      description: "AI-native financial automation platform dedicated to processing heterogeneous invoice formats with RAG and agentic workflows.",
+      title: t.projects.agenticAP.title,
+      description: t.projects.agenticAP.description,
       tags: ["Python", "RAG", "Agentic AI", "FastAPI", "OCR"],
       link: "https://github.com/williamjxj/AgenticAP",
       icon: Bot,
       featured: true,
     },
     {
-      title: "AgenticOmni",
-      description: "Multi-modal document intelligence platform combining OCR, LLM processing, and agentic AI for enterprise document workflows.",
+      title: t.projects.agenticOmni.title,
+      description: t.projects.agenticOmni.description,
       tags: ["Python", "AI", "PyTorch", "FastAPI", "LangChain"],
       link: "https://github.com/williamjxj/AgenticOmni",
       icon: FileText,
       featured: true,
     },
     {
-      title: "Agentic Proposal Engine",
-      description: "AI-powered proposal automation agent with job scraping, requirement analysis, and personalized proposal drafting.",
+      title: t.projects.proposalEngine.title,
+      description: t.projects.proposalEngine.description,
       tags: ["TypeScript", "Next.js", "RAG", "FastAPI", "AI Agent"],
       link: "https://github.com/williamjxj/agentic-proposal-engine",
       icon: Lightbulb,
       featured: true,
     },
     {
-      title: "Agentic LangGraph Accounting",
-      description: "Intelligent accounting system powered by LangGraph for automated financial workflows and multi-agent orchestration.",
+      title: t.projects.langGraphAccounting.title,
+      description: t.projects.langGraphAccounting.description,
       tags: ["Python", "LangGraph", "Agentic AI", "LangChain", "Finance"],
       link: "https://github.com/williamjxj/agentic-langgraph-accounting",
       icon: Calculator,
       featured: true,
     },
     {
-      title: "Site RAG Chatbot",
-      description: "RAG-powered chatbot for static websites with content ingestion from sitemaps and documents.",
+      title: t.projects.siteRagChatbot.title,
+      description: t.projects.siteRagChatbot.description,
       tags: ["Python", "FastAPI", "Next.js", "PostgreSQL", "OpenAI"],
       link: "https://github.com/williamjxj/site-rag-chatbot",
       icon: MessageCircle,
     },
     {
-      title: "BestIT Consultants",
-      description: "Corporate website showcasing AI/ML solutions and enterprise digital transformation services.",
+      title: t.projects.bestItConsultants.title,
+      description: t.projects.bestItConsultants.description,
       tags: ["Next.js 15", "React 19", "TypeScript", "Tailwind CSS"],
       link: "https://github.com/williamjxj/bestitconsultants",
       icon: Building2,
     },
     {
-      title: "Face Swap SaaS",
-      description: "Production-ready AI face-swapping platform with multi-format support and multiple payment gateways.",
+      title: t.projects.faceSwap.title,
+      description: t.projects.faceSwap.description,
       tags: ["Next.js", "React", "Supabase", "Stripe", "AI"],
       link: "https://github.com/williamjxj/face-swap-poc",
       icon: Camera,
@@ -162,32 +169,85 @@ export default function Home() {
   ];
 
   const skills = [
-    { category: "Frontend", items: ["Next.js", "React.js", "TypeScript", "TailwindCSS", "Shadcn/ui"], level: 95 },
-    { category: "Backend", items: ["Node.js", "Express.js", "Python", "FastAPI", "GraphQL"], level: 90 },
-    { category: "AI & Automation", items: ["LangChain", "LlamaIndex", "RAG", "Agentic AI", "LLM Integration"], level: 92 },
-    { category: "Databases", items: ["PostgreSQL", "MongoDB", "Supabase", "pgvector"], level: 88 },
-    { category: "Cloud & DevOps", items: ["AWS", "GCP", "Docker", "Kubernetes", "CI/CD"], level: 85 },
-    { category: "Data & ML", items: ["Kafka", "ElasticSearch", "Prometheus", "PyTorch", "Hugging Face"], level: 80 },
+    { 
+      category: t.skills.frontend, 
+      items: [
+        { name: "Next.js", level: 95 },
+        { name: "React.js", level: 92 },
+        { name: "TypeScript", level: 88 },
+        { name: "TailwindCSS", level: 85 },
+        { name: "Shadcn/ui", level: 78 }
+      ]
+    },
+    { 
+      category: t.skills.backend, 
+      items: [
+        { name: "Node.js", level: 90 },
+        { name: "Express.js", level: 85 },
+        { name: "Python", level: 82 },
+        { name: "FastAPI", level: 75 },
+        { name: "GraphQL", level: 68 }
+      ]
+    },
+    { 
+      category: t.skills.aiAutomation, 
+      items: [
+        { name: "LangChain", level: 92 },
+        { name: "LlamaIndex", level: 88 },
+        { name: "RAG", level: 90 },
+        { name: "Agentic AI", level: 85 },
+        { name: "LLM Integration", level: 80 }
+      ]
+    },
+    { 
+      category: t.skills.databases, 
+      items: [
+        { name: "PostgreSQL", level: 88 },
+        { name: "MongoDB", level: 82 },
+        { name: "Supabase", level: 78 },
+        { name: "pgvector", level: 72 }
+      ]
+    },
+    { 
+      category: t.skills.cloudDevops, 
+      items: [
+        { name: "AWS", level: 85 },
+        { name: "GCP", level: 78 },
+        { name: "Docker", level: 82 },
+        { name: "Kubernetes", level: 72 },
+        { name: "CI/CD", level: 80 }
+      ]
+    },
+    { 
+      category: t.skills.dataML, 
+      items: [
+        { name: "Kafka", level: 80 },
+        { name: "ElasticSearch", level: 75 },
+        { name: "Prometheus", level: 70 },
+        { name: "PyTorch", level: 65 },
+        { name: "Hugging Face", level: 68 }
+      ]
+    },
   ];
 
   const experience = [
     {
-      title: "Full-Stack & AI Engineer",
-      company: "Best IT Consulting Inc.",
-      period: "Oct 2024 - Present",
-      highlights: ["Founded and scaled consulting firm", "AI-driven digital solutions", "Node.js, FastAPI, RAG"],
+      title: t.experience.current.title,
+      company: t.experience.current.company,
+      period: t.experience.current.period,
+      highlights: [t.experience.current.highlight1, t.experience.current.highlight2, t.experience.current.highlight3],
     },
     {
-      title: "Senior Full-stack Engineer",
-      company: "Xperi",
-      period: "Mar 2021 - Sep 2024",
-      highlights: ["ML Data Pipelines", "Microservices architecture", "Kubernetes deployment"],
+      title: t.experience.xperi.title,
+      company: t.experience.xperi.company,
+      period: t.experience.xperi.period,
+      highlights: [t.experience.xperi.highlight1, t.experience.xperi.highlight2, t.experience.xperi.highlight3],
     },
     {
-      title: "React/Full-stack Engineer, Software Architect",
-      company: "EPAM",
-      period: "Dec 2018 - Feb 2020",
-      highlights: ["Credit Suisse integration", "Real-time data pipelines", "Team mentorship"],
+      title: t.experience.epam.title,
+      company: t.experience.epam.company,
+      period: t.experience.epam.period,
+      highlights: [t.experience.epam.highlight1, t.experience.epam.highlight2, t.experience.epam.highlight3],
     },
   ];
 
@@ -197,6 +257,7 @@ export default function Home() {
       <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="container mx-auto px-2 sm:px-4 py-3 sm:py-4 flex justify-between items-center">
           <a href="#" className="flex items-center gap-2 group flex-shrink-0">
+            <img src="/william.jpg" alt="William Jiang" className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover" />
             <div className="relative logo-ai-effect">
               <span className="text-base sm:text-xl font-bold gradient-text">William Jiang</span>
               <motion.div
@@ -235,7 +296,7 @@ export default function Home() {
                   : "text-foreground hover:text-accent"
               }`}
             >
-              Projects
+              {t.nav.projects}
             </a>
             <a 
               href="#skills" 
@@ -245,7 +306,7 @@ export default function Home() {
                   : "text-foreground hover:text-accent"
               }`}
             >
-              Skills
+              {t.nav.skills}
             </a>
             <a 
               href="#experience" 
@@ -255,7 +316,7 @@ export default function Home() {
                   : "text-foreground hover:text-accent"
               }`}
             >
-              Experience
+              {t.nav.experience}
             </a>
             <a 
               href="#documents" 
@@ -265,7 +326,7 @@ export default function Home() {
                   : "text-foreground hover:text-accent"
               }`}
             >
-              Documents
+              {t.nav.documents}
             </a>
             <a 
               href="#contact" 
@@ -275,8 +336,9 @@ export default function Home() {
                   : "text-foreground hover:text-accent"
               }`}
             >
-              Contact
+              {t.nav.contact}
             </a>
+            <LanguageSwitcher />
           </div>
         </div>
       </nav>
@@ -307,43 +369,46 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="flex justify-center mb-6"
             >
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent/10 border border-accent/30 rounded-full">
+              <a 
+                href="mailto:jxjwilliam@gmail.com" 
+                className="inline-flex items-center gap-2 px-4 py-2 bg-accent/10 border border-accent/30 rounded-full hover:bg-accent/20 hover:border-accent/50 transition-all cursor-pointer"
+              >
                 <div className="w-2 h-2 bg-accent rounded-full animate-pulse" />
                 <span className="text-sm text-accent font-medium">Available for projects</span>
-              </div>
+              </a>
             </motion.div>
 
             <h1 className="text-5xl md:text-7xl font-bold gradient-text">
-              William Jiang
+              {t.hero.name}
             </h1>
             
             <p className="text-xl md:text-2xl text-muted-foreground">
-              Senior Full-Stack & AI Engineer
+              {t.hero.title1}
             </p>
             
             {/* Animated rotating titles */}
             <div className="text-lg md:text-xl max-w-2xl mx-auto h-8 flex items-center justify-center">
-              <span ref={flipTextRef} className="text-accent font-medium">Full-Stack Engineer</span>
+              <span ref={flipTextRef} className="text-accent font-medium">{t.hero.title1}</span>
             </div>
             
             <p className="text-base md:text-lg text-muted-foreground max-w-3xl mx-auto">
-              20+ years building intelligent systems across startups and Fortune 500 companies. Specializing in agentic AI, RAG pipelines, and enterprise digital transformation.
+              {t.hero.description}
             </p>
 
             <div className="flex gap-4 justify-center pt-8 flex-wrap">
               <Button className="bg-accent text-accent-foreground hover:bg-accent/90 glow-cyan">
                 <a href="#projects" className="flex items-center gap-2">
-                  View My Work <ChevronDown size={16} />
+                  {t.hero.viewWork} <ChevronDown size={16} />
                 </a>
               </Button>
               <Button variant="outline" className="border-accent text-accent hover:bg-accent/10">
-                <a href="https://github.com/williamjxj" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                  <Github size={16} /> GitHub
+                <a href="https://github.com/williamjxj?tab=repositories" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                  <Github size={16} /> {t.hero.github}
                 </a>
               </Button>
               <Button variant="outline" className="border-accent text-accent hover:bg-accent/10">
                 <a href="https://www.linkedin.com/in/william-jiang-226a7616/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                  <Linkedin size={16} /> LinkedIn
+                  <Linkedin size={16} /> {t.hero.linkedin}
                 </a>
               </Button>
             </div>
@@ -367,19 +432,19 @@ export default function Home() {
                 <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-accent">
                   {yearsCount.count}+
                 </div>
-                <div className="text-xs sm:text-sm text-muted-foreground mt-1 sm:mt-2">Years Exp.</div>
+                <div className="text-xs sm:text-sm text-muted-foreground mt-1 sm:mt-2">{t.hero.yearsLabel}</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-accent">
                   {projectsCount.count}+
                 </div>
-                <div className="text-xs sm:text-sm text-muted-foreground mt-1 sm:mt-2">Projects</div>
+                <div className="text-xs sm:text-sm text-muted-foreground mt-1 sm:mt-2">{t.hero.projectsLabel}</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-accent">
                   {systemsCount.count}+
                 </div>
-                <div className="text-xs sm:text-sm text-muted-foreground mt-1 sm:mt-2">AI Systems</div>
+                <div className="text-xs sm:text-sm text-muted-foreground mt-1 sm:mt-2">{t.hero.systemsLabel}</div>
               </div>
             </motion.div>
 
@@ -421,8 +486,8 @@ export default function Home() {
             transition={{ duration: 0.8 }}
             className="mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Featured AI & Agentic Projects</h2>
-            <p className="text-muted-foreground text-lg">Cutting-edge solutions in AI automation, RAG systems, and intelligent workflows</p>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">{t.projects.title}</h2>
+            <p className="text-muted-foreground text-lg">{t.projects.subtitle}</p>
           </motion.div>
 
           {/* Featured Projects Grid */}
@@ -511,8 +576,8 @@ export default function Home() {
             transition={{ duration: 0.8 }}
             className="mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Technical Expertise</h2>
-            <p className="text-muted-foreground text-lg">20+ years of experience across full-stack development, AI/ML, and cloud architecture</p>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">{t.skills.title}</h2>
+            <p className="text-muted-foreground text-lg">{t.skills.subtitle}</p>
           </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -529,14 +594,14 @@ export default function Home() {
                     {skillGroup.items.map((item, i) => (
                       <div key={i} className="space-y-1">
                         <div className="flex justify-between items-center">
-                          <span className="text-sm">{item}</span>
-                          <span className="text-xs text-muted-foreground">{skillGroup.level}%</span>
+                          <span className="text-sm">{item.name}</span>
+                          <span className="text-xs text-muted-foreground">{item.level}%</span>
                         </div>
                         <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
                           <motion.div
                             className="bg-gradient-to-r from-accent to-secondary h-full rounded-full"
                             initial={{ width: 0 }}
-                            whileInView={{ width: `${skillGroup.level}%` }}
+                            whileInView={{ width: `${item.level}%` }}
                             transition={{ duration: 1, delay: i * 0.1 }}
                           />
                         </div>
@@ -559,8 +624,8 @@ export default function Home() {
             transition={{ duration: 0.8 }}
             className="mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Professional Experience</h2>
-            <p className="text-muted-foreground text-lg">Building enterprise solutions across startups and Fortune 500 companies</p>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">{t.experience.title}</h2>
+            <p className="text-muted-foreground text-lg">{t.experience.subtitle}</p>
           </motion.div>
 
           <div className="space-y-8">
@@ -603,8 +668,8 @@ export default function Home() {
             transition={{ duration: 0.8 }}
             className="mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Resources & Documentation</h2>
-            <p className="text-muted-foreground text-lg">Technical documentation and training materials</p>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">{t.documents.title}</h2>
+            <p className="text-muted-foreground text-lg">{t.documents.subtitle}</p>
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-6">
@@ -677,8 +742,8 @@ export default function Home() {
             className="space-y-6"
           >
             <div className="mb-8">
-              <h2 className="text-4xl md:text-5xl font-bold mb-2">Get in Touch</h2>
-              <p className="text-lg text-accent">Let's Build Something Extraordinary</p>
+              <h2 className="text-4xl md:text-5xl font-bold mb-2">{t.contact.title}</h2>
+              <p className="text-lg text-accent">{t.contact.subtitle}</p>
             </div>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Whether you need AI-driven automation, full-stack development, or enterprise digital transformation, I'm ready to help.
@@ -687,22 +752,22 @@ export default function Home() {
             <div className="flex gap-4 justify-center pt-8 flex-wrap">
               <Button className="bg-accent text-accent-foreground hover:bg-accent/90 glow-cyan">
                 <a href="mailto:jxjwilliam@gmail.com" className="flex items-center gap-2">
-                  <Mail size={16} /> Email Me
+                  <Mail size={16} /> {t.contact.emailMe}
                 </a>
               </Button>
               <Button variant="outline" className="border-accent text-accent hover:bg-accent/10">
                 <a href="tel:+12369923846" className="flex items-center gap-2">
-                  <Phone size={16} /> 236.992.3846
+                  <Phone size={16} /> {t.contact.phone}
                 </a>
               </Button>
               <Button variant="outline" className="border-accent text-accent hover:bg-accent/10">
                 <a href="https://www.linkedin.com/in/william-jiang-226a7616/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                  <Linkedin size={16} /> LinkedIn
+                  <Linkedin size={16} /> {t.contact.linkedin}
                 </a>
               </Button>
               <Button variant="outline" className="border-accent text-accent hover:bg-accent/10">
-                <a href="https://github.com/williamjxj" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                  <Github size={16} /> GitHub
+                <a href="https://github.com/williamjxj?tab=repositories" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                  <Github size={16} /> {t.contact.github}
                 </a>
               </Button>
             </div>
@@ -713,10 +778,10 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t border-border py-8 bg-card/50">
         <div className="container mx-auto px-4 text-center text-muted-foreground">
-          <p>© 2026 William Jiang. Senior Full-Stack & AI Engineer. Built with Next.js, React, and Tailwind CSS.</p>
+          <p>{t.footer.copyright}</p>
           <p className="text-sm mt-2">
             <a href="https://www.bestitconsulting.ca/" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-accent/80">
-              Best IT Consulting
+              {t.footer.companyLink}
             </a>
             {" "} | {" "}
             <a href="https://www.bestitconsultants.ca/" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-accent/80">

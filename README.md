@@ -159,7 +159,7 @@ MIT License - feel free to use this as inspiration for your own portfolio!
 
 ## 🤝 Connect
 
-- **GitHub**: [@williamjxj](https://github.com/williamjxj)
+- **GitHub**: [@williamjxj](https://github.com/williamjxj?tab=repositories)
 - **LinkedIn**: [William Jiang](https://www.linkedin.com/in/william-jiang-226a7616/)
 - **Website**: [Best IT Consulting](https://www.bestitconsulting.ca/)
 - **Email**: Available on request
