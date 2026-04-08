@@ -195,7 +195,7 @@ export const translations: Record<Language, Translations> = {
       xperi: {
         title: "Senior Full-stack Engineer",
         company: "Xperi",
-        period: "Mar 2021 - Sep 2024",
+        period: "Mar 2021 - Sep 2025",
         highlight1: "ML Data Pipelines",
         highlight2: "Microservices architecture",
         highlight3: "Kubernetes deployment",
@@ -309,7 +309,7 @@ export const translations: Record<Language, Translations> = {
       xperi: {
         title: "高级全栈工程师",
         company: "Xperi",
-        period: "2021年3月 - 2024年9月",
+        period: "2021年3月 - 2025年9月",
         highlight1: "机器学习数据管道",
         highlight2: "微服务架构",
         highlight3: "Kubernetes部署",
