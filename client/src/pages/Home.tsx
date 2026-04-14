@@ -720,6 +720,30 @@ export default function Home() {
                 </a>
               </Card>
             </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <Card className="bg-background border-glow hover:glow-pulse p-6 h-full transition-all hover:scale-105 cursor-pointer">
+                <a href="/docs/frontend-animation-reference.html" target="_blank" rel="noopener noreferrer" className="block">
+                  <div className="flex items-start gap-4 mb-3">
+                    <div className="p-3 bg-accent/10 rounded-lg border border-accent/30">
+                      <ScrollText className="text-accent" size={24} />
+                    </div>
+                    <h3 className="text-xl font-bold text-accent flex-1 pt-2">Frontend Animation Reference</h3>
+                  </div>
+                  <p className="text-muted-foreground mb-4">
+                    Opens the frontend animation reference as a standalone HTML page.
+                  </p>
+                  <div className="flex items-center gap-2 text-accent hover:text-accent/80">
+                    <ExternalLink size={16} />
+                    <span>Open Reference Page</span>
+                  </div>
+                </a>
+              </Card>
+            </motion.div>
           </div>
         </div>
       </section>

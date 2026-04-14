@@ -1,0 +1,2291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frontend Animation & UX/UI Reference 2026</title>
+<style>
+  :root {
+    --bg: #0d0d0f;
+    --bg2: #141417;
+    --bg3: #1a1a1e;
+    --surface: #1e1e24;
+    --surface2: #252530;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text: #f0f0f4;
+    --text2: #a0a0b0;
+    --text3: #6a6a80;
+    --accent: #7c6ff7;
+    --accent2: #a89cff;
+    --green: #3ecf8e;
+    --amber: #f5a524;
+    --red: #f44;
+    --pink: #e879a0;
+    --teal: #22d3ee;
+    --blue: #60a5fa;
+    --mono: 'Fira Code', 'Cascadia Code', 'JetBrains Mono', monospace;
+    --sans: -apple-system, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.7;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* ── HEADER ── */
+  .doc-header {
+    border-bottom: 1px solid var(--border2);
+    padding-bottom: 32px;
+    margin-bottom: 48px;
+  }
+  .doc-header h1 {
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, #fff 0%, #a89cff 60%, #7c6ff7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+  .doc-header p {
+    color: var(--text2);
+    font-size: 16px;
+    max-width: 640px;
+  }
+  .meta-badges {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border: 1px solid;
+  }
+  .badge-purple { color: #a89cff; border-color: rgba(168,156,255,0.25); background: rgba(124,111,247,0.1); }
+  .badge-green  { color: #3ecf8e; border-color: rgba(62,207,142,0.25); background: rgba(62,207,142,0.1); }
+  .badge-amber  { color: #f5a524; border-color: rgba(245,165,36,0.25); background: rgba(245,165,36,0.1); }
+  .badge-teal   { color: #22d3ee; border-color: rgba(34,211,238,0.25); background: rgba(34,211,238,0.1); }
+
+  /* ── TOC ── */
+  .toc {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px 32px;
+    margin-bottom: 56px;
+  }
+  .toc h2 {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text3);
+    margin-bottom: 16px;
+  }
+  .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 6px 24px;
+  }
+  .toc a {
+    color: var(--text2);
+    text-decoration: none;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 0;
+    transition: color 0.15s;
+  }
+  .toc a:hover { color: var(--accent2); }
+  .toc-num {
+    font-variant-numeric: tabular-nums;
+    font-size: 11px;
+    color: var(--text3);
+    min-width: 18px;
+  }
+
+  /* ── SECTIONS ── */
+  .section {
+    margin-bottom: 64px;
+    scroll-margin-top: 24px;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    flex-shrink: 0;
+  }
+  .si-purple { background: rgba(124,111,247,0.15); }
+  .si-green  { background: rgba(62,207,142,0.12); }
+  .si-amber  { background: rgba(245,165,36,0.12); }
+  .si-teal   { background: rgba(34,211,238,0.12); }
+  .si-pink   { background: rgba(232,121,160,0.12); }
+  .si-blue   { background: rgba(96,165,250,0.12); }
+  .si-red    { background: rgba(255,68,68,0.12); }
+
+  .section-header h2 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .section-num {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--text3);
+    text-transform: uppercase;
+  }
+
+  /* ── CARDS ── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: var(--border2); }
+  .card h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  .card p {
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.6;
+  }
+  .card-accent-top {
+    height: 3px;
+    border-radius: 3px;
+    margin-bottom: 14px;
+  }
+  .cat-purple { background: var(--accent); }
+  .cat-green  { background: var(--green); }
+  .cat-amber  { background: var(--amber); }
+  .cat-teal   { background: var(--teal); }
+  .cat-pink   { background: var(--pink); }
+  .cat-blue   { background: var(--blue); }
+
+  /* ── CODE BLOCKS ── */
+  .code-block {
+    background: #0a0a0d;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin: 16px 0;
+    overflow: hidden;
+  }
+  .code-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text3);
+  }
+  .code-lang {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .lang-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+  }
+  pre {
+    padding: 18px 20px;
+    overflow-x: auto;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: #c9d1d9;
+    tab-size: 2;
+  }
+  .kw  { color: #ff79c6; }
+  .str { color: #f1fa8c; }
+  .fn  { color: #8be9fd; }
+  .cm  { color: #6272a4; }
+  .num { color: #bd93f9; }
+  .prop{ color: #50fa7b; }
+
+  /* ── TABLES ── */
+  .ref-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 16px 0;
+  }
+  .ref-table th {
+    text-align: left;
+    padding: 8px 14px;
+    background: var(--surface2);
+    color: var(--text2);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border-bottom: 1px solid var(--border);
+  }
+  .ref-table td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text2);
+    vertical-align: top;
+  }
+  .ref-table tr:last-child td { border-bottom: none; }
+  .ref-table td:first-child { color: var(--text); font-weight: 500; }
+  .ref-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .table-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 16px 0;
+  }
+
+  /* ── CALLOUTS ── */
+  .callout {
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 13.5px;
+    margin: 16px 0;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    line-height: 1.6;
+  }
+  .callout-icon { font-size: 15px; flex-shrink: 0; margin-top: 2px; }
+  .callout-tip     { background: rgba(62,207,142,0.08);  border: 1px solid rgba(62,207,142,0.2);  color: #7fe8b8; }
+  .callout-warn    { background: rgba(245,165,36,0.08);  border: 1px solid rgba(245,165,36,0.2);  color: #f8c97a; }
+  .callout-info    { background: rgba(96,165,250,0.08);  border: 1px solid rgba(96,165,250,0.2);  color: #93c5fd; }
+  .callout-danger  { background: rgba(255,68,68,0.08);   border: 1px solid rgba(255,68,68,0.2);   color: #ff9999; }
+  .callout-purple  { background: rgba(124,111,247,0.08); border: 1px solid rgba(124,111,247,0.2); color: #a89cff; }
+
+  /* ── TAGS ── */
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    vertical-align: middle;
+  }
+  .tag-easy   { background: rgba(62,207,142,0.12);  color: #3ecf8e; }
+  .tag-medium { background: rgba(245,165,36,0.12);  color: #f5a524; }
+  .tag-hard   { background: rgba(255,68,68,0.12);   color: #ff7777; }
+  .tag-perf   { background: rgba(34,211,238,0.12);  color: #22d3ee; }
+  .tag-react  { background: rgba(96,165,250,0.12);  color: #60a5fa; }
+  .tag-css    { background: rgba(232,121,160,0.12); color: #e879a0; }
+  .tag-gsap   { background: rgba(62,207,142,0.12);  color: #3ecf8e; }
+  .tag-new    { background: rgba(124,111,247,0.15); color: #a89cff; }
+
+  /* ── SUBSECTION ── */
+  .subsection {
+    margin: 32px 0;
+  }
+  .subsection h3 {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+  .subsection h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text2);
+    margin: 16px 0 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 12px;
+  }
+  p.body-text {
+    color: var(--text2);
+    font-size: 14px;
+    line-height: 1.75;
+    margin-bottom: 12px;
+  }
+
+  /* ── LIBRARY CARDS ── */
+  .lib-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 12px 0;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    align-items: start;
+  }
+  .lib-card h3 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .lib-card p {
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.6;
+  }
+  .lib-card a {
+    color: var(--accent2);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .lib-card a:hover { text-decoration: underline; }
+  .lib-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+  }
+  .lib-size {
+    font-size: 11px;
+    color: var(--text3);
+    font-family: var(--mono);
+    font-weight: 600;
+  }
+
+  /* ── DO/DON'T ── */
+  .do-dont {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 16px 0;
+  }
+  .do-box, .dont-box {
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .do-box   { background: rgba(62,207,142,0.06);  border: 1px solid rgba(62,207,142,0.2); }
+  .dont-box { background: rgba(255,68,68,0.06);   border: 1px solid rgba(255,68,68,0.2); }
+  .do-box h4   { color: #3ecf8e; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 10px; }
+  .dont-box h4 { color: #ff7777; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 10px; }
+  .do-box ul, .dont-box ul { padding-left: 14px; }
+  .do-box li, .dont-box li { font-size: 13px; color: var(--text2); margin-bottom: 6px; line-height: 1.5; }
+
+  /* ── DIVIDER ── */
+  hr.section-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 48px 0;
+  }
+
+  /* ── INLINE CODE ── */
+  code {
+    font-family: var(--mono);
+    font-size: 12px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 1px 6px;
+    border-radius: 4px;
+    color: #c9d1d9;
+  }
+
+  /* ── LINK LIST ── */
+  .link-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .link-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--text2);
+    font-size: 13px;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .link-item:hover { border-color: var(--border2); color: var(--accent2); }
+  .link-item .link-name { font-weight: 600; color: var(--text); }
+  .link-item .link-desc { color: var(--text3); font-size: 12px; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    .card-grid { grid-template-columns: 1fr; }
+    .do-dont { grid-template-columns: 1fr; }
+    .toc-grid { grid-template-columns: 1fr; }
+    .lib-card { grid-template-columns: 1fr; }
+    .lib-meta { align-items: flex-start; flex-direction: row; }
+  }
+
+  /* ── MOTION SCALE VISUAL ── */
+  .motion-scale {
+    display: flex;
+    gap: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    margin: 16px 0;
+  }
+  .ms-item {
+    flex: 1;
+    padding: 14px 10px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1.4;
+  }
+  .ms-item span {
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 3px;
+    letter-spacing: -0.02em;
+  }
+
+  /* print */
+  @media print {
+    body { background: #fff; color: #111; }
+    .code-block { border: 1px solid #ddd; }
+    pre { background: #f6f8fa; color: #333; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════
+     HEADER
+═══════════════════════════════════════════════════ -->
+<header class="doc-header">
+  <h1>Frontend Animation &amp; UX/UI Reference</h1>
+  <p>A complete personal reference for CSS animations, Motion/GSAP, component libraries, typography, spatial design, and performance — curated and organized for daily use.</p>
+  <div class="meta-badges">
+    <span class="badge badge-purple">Updated April 2026</span>
+    <span class="badge badge-green">Motion v12</span>
+    <span class="badge badge-amber">GSAP 3</span>
+    <span class="badge badge-teal">React + Next.js</span>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════════
+     TABLE OF CONTENTS
+═══════════════════════════════════════════════════ -->
+<nav class="toc">
+  <h2>Contents</h2>
+  <div class="toc-grid">
+    <a href="#s1"><span class="toc-num">01</span> Library Ecosystem</a>
+    <a href="#s2"><span class="toc-num">02</span> CSS Animations</a>
+    <a href="#s3"><span class="toc-num">03</span> Motion (Framer Motion)</a>
+    <a href="#s4"><span class="toc-num">04</span> GSAP &amp; ScrollTrigger</a>
+    <a href="#s5"><span class="toc-num">05</span> Hero Section Patterns</a>
+    <a href="#s6"><span class="toc-num">06</span> Card &amp; Box Animations</a>
+    <a href="#s7"><span class="toc-num">07</span> Background &amp; Gradients</a>
+    <a href="#s8"><span class="toc-num">08</span> Typography &amp; Font Animations</a>
+    <a href="#s9"><span class="toc-num">09</span> Typography &amp; Color System</a>
+    <a href="#s10"><span class="toc-num">10</span> Spatial Composition</a>
+    <a href="#s11"><span class="toc-num">11</span> Scale-up &amp; Micro-interactions</a>
+    <a href="#s12"><span class="toc-num">12</span> Performance Rules</a>
+    <a href="#s13"><span class="toc-num">13</span> Component Libraries</a>
+    <a href="#s14"><span class="toc-num">14</span> Motion Design Principles</a>
+    <a href="#s15"><span class="toc-num">15</span> Resources &amp; Links</a>
+  </div>
+</nav>
+
+
+<!-- ═══════════════════════════════════════════════════
+     01 · LIBRARY ECOSYSTEM
+═══════════════════════════════════════════════════ -->
+<section class="section" id="s1">
+  <div class="section-header">
+    <div class="section-icon si-purple">📦</div>
+    <div>
+      <div class="section-num">Section 01</div>
+      <h2>Library Ecosystem</h2>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table class="ref-table">
+      <thead>
+        <tr>
+          <th>Library</th>
+          <th>What It Does</th>
+          <th>Bundle</th>
+          <th>Best For</th>
+          <th>Stack</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Pure CSS</td>
+          <td>Keyframes, transitions, scroll-timeline</td>
+          <td><span class="tag tag-perf">0 KB</span></td>
+          <td>Hover, flip, entrance reveals</td>
+          <td><span class="tag tag-css">CSS</span></td>
+        </tr>
+        <tr>
+          <td>Motion (v12)</td>
+          <td>React/JS animation engine, gestures, layout</td>
+          <td>34 KB / 4.6 KB lazy</td>
+          <td>React apps, physics-based motion</td>
+          <td><span class="tag tag-react">React</span></td>
+        </tr>
+        <tr>
+          <td>GSAP 3</td>
+          <td>Timeline orchestration, ScrollTrigger, SplitText</td>
+          <td>~60 KB</td>
+          <td>Complex timelines, scroll cinema</td>
+          <td><span class="tag tag-gsap">Any</span></td>
+        </tr>
+        <tr>
+          <td>Lenis</td>
+          <td>Smooth scroll replacement</td>
+          <td>~5 KB</td>
+          <td>Cinematic smooth scroll</td>
+          <td><span class="tag tag-gsap">Any</span></td>
+        </tr>
+        <tr>
+          <td>Three.js / R3F</td>
+          <td>WebGL 3D scenes</td>
+          <td>~600 KB</td>
+          <td>3D hero, particle fields</td>
+          <td><span class="tag tag-react">React</span></td>
+        </tr>
+        <tr>
+          <td>react-spring</td>
+          <td>Physics spring animations</td>
+          <td>~30 KB</td>
+          <td>Gestural, drag UIs</td>
+          <td><span class="tag tag-react">React</span></td>
+        </tr>
+        <tr>
+          <td>anime.js</td>
+          <td>Lightweight JS animation</td>
+          <td>~14 KB</td>
+          <td>SVG paths, DOM animations</td>
+          <td><span class="tag tag-gsap">Any</span></td>
+        </tr>
+        <tr>
+          <td>Motion One</td>
+          <td>Tiny WAAPI wrapper (Motion vanilla)</td>
+          <td>~3 KB</td>
+          <td>Vanilla JS, micro-animations</td>
+          <td><span class="tag tag-gsap">Any</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-info">
+    <span class="callout-icon">ℹ</span>
+    <div><strong>Framer Motion → Motion:</strong> In 2025, Framer Motion became an independent project renamed <strong>Motion</strong>. Import from <code>motion/react</code> instead of <code>framer-motion</code>. v12 adds hardware-accelerated scroll, <code>layout="x"</code> axis lock, and new color types (oklch, color-mix).</div>
+  </div>
+
+  <div class="subsection">
+    <h3>Decision flowchart</h3>
+    <div class="table-wrap">
+      <table class="ref-table">
+        <thead><tr><th>Situation</th><th>Use</th></tr></thead>
+        <tbody>
+          <tr><td>Hover feedback only, no JS</td><td>CSS transition</td></tr>
+          <tr><td>Entrance reveal on scroll, no JS</td><td>CSS @keyframes + animation-timeline: view()</td></tr>
+          <tr><td>React component animation</td><td>Motion (motion/react)</td></tr>
+          <tr><td>Complex multi-step timeline</td><td>GSAP Timeline</td></tr>
+          <tr><td>Scroll-sync to animation</td><td>GSAP ScrollTrigger</td></tr>
+          <tr><td>Smooth scroll + scroll animation</td><td>Lenis + GSAP ScrollTrigger</td></tr>
+          <tr><td>3D scene / particles</td><td>Three.js + R3F + GSAP</td></tr>
+          <tr><td>Copy-paste animated component</td><td>Magic UI / Aceternity UI / react-bits</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ═══════════════════════════════════════════════════
+     02 · CSS ANIMATIONS
+═══════════════════════════════════════════════════ -->
+<section class="section" id="s2">
+  <div class="section-header">
+    <div class="section-icon si-pink">🎨</div>
+    <div>
+      <div class="section-num">Section 02</div>
+      <h2>CSS Animations</h2>
+    </div>
+  </div>
+
+  <!-- Transitions -->
+  <div class="subsection">
+    <h3>Transitions — the golden rule</h3>
+    <p class="body-text">Only animate <code>transform</code> and <code>opacity</code>. These run on the GPU compositor and never cause layout recalculation (reflow). Animating <code>width</code>, <code>top</code>, <code>margin</code>, or <code>background-color</code> triggers expensive reflow every frame.</p>
+
+    <div class="do-dont">
+      <div class="do-box">
+        <h4>✓ Do</h4>
+        <ul>
+          <li>Animate <code>transform: translate / scale / rotate</code></li>
+          <li>Animate <code>opacity</code></li>
+          <li>Use <code>will-change: transform</code> sparingly on animated elements</li>
+          <li>Add <code>transform: translateZ(0)</code> to promote to GPU layer</li>
+          <li>Use <code>transition-timing-function: cubic-bezier()</code> for custom easing</li>
+        </ul>
+      </div>
+      <div class="dont-box">
+        <h4>✗ Don't</h4>
+        <ul>
+          <li>Animate <code>width</code>, <code>height</code>, <code>top</code>, <code>left</code></li>
+          <li>Animate <code>margin</code>, <code>padding</code>, <code>border-width</code></li>
+          <li>Animate <code>background-color</code> frequently (cheap but blocks compositor)</li>
+          <li>Use <code>setInterval</code> for animations — use <code>requestAnimationFrame</code></li>
+          <li>Apply <code>will-change</code> to every element (wastes VRAM)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Keyframe patterns -->
+  <div class="subsection">
+    <h3>Essential @keyframe patterns</h3>
+
+    <div class="code-block">
+      <div class="code-label">
+        <div class="code-lang"><div class="lang-dot" style="background:#e879a0"></div>CSS Keyframes — Reusable Entry Animations</div>
+      </div>
+      <pre><span class="cm">/* Fade up — most versatile entrance */</span>
+<span class="kw">@keyframes</span> fadeUp {
+  <span class="prop">from</span> { opacity: <span class="num">0</span>; transform: translateY(<span class="num">24px</span>); }
+  <span class="prop">to</span>   { opacity: <span class="num">1</span>; transform: translateY(<span class="num">0</span>); }
+}
+
+<span class="cm">/* Fade in with scale — premium card feel */</span>
+<span class="kw">@keyframes</span> scaleFade {
+  <span class="prop">from</span> { opacity: <span class="num">0</span>; transform: scale(<span class="num">0.94</span>); }
+  <span class="prop">to</span>   { opacity: <span class="num">1</span>; transform: scale(<span class="num">1</span>); }
+}
+
+<span class="cm">/* Slide in from left */</span>
+<span class="kw">@keyframes</span> slideLeft {
+  <span class="prop">from</span> { opacity: <span class="num">0</span>; transform: translateX(<span class="num">-32px</span>); }
+  <span class="prop">to</span>   { opacity: <span class="num">1</span>; transform: translateX(<span class="num">0</span>); }
+}
+
+<span class="cm">/* Blur reveal — editorial text */</span>
+<span class="kw">@keyframes</span> blurIn {
+  <span class="prop">from</span> { opacity: <span class="num">0</span>; filter: blur(<span class="num">12px</span>); transform: translateY(<span class="num">8px</span>); }
+  <span class="prop">to</span>   { opacity: <span class="num">1</span>; filter: blur(<span class="num">0</span>);  transform: translateY(<span class="num">0</span>); }
+}
+
+<span class="cm">/* Stagger application */</span>
+<span class="fn">.card</span>:nth-child(1) { animation: fadeUp <span class="num">0.6s</span> ease <span class="num">0s</span>    both; }
+<span class="fn">.card</span>:nth-child(2) { animation: fadeUp <span class="num">0.6s</span> ease <span class="num">0.1s</span>  both; }
+<span class="fn">.card</span>:nth-child(3) { animation: fadeUp <span class="num">0.6s</span> ease <span class="num">0.2s</span>  both; }
+<span class="fn">.card</span>:nth-child(4) { animation: fadeUp <span class="num">0.6s</span> ease <span class="num">0.3s</span>  both; }</pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label">
+        <div class="code-lang"><div class="lang-dot" style="background:#e879a0"></div>CSS Scroll-Driven Animation (Native — No JS)</div>
+        <span class="tag tag-new">Modern</span>
+      </div>
+      <pre><span class="cm">/* Native scroll-triggered reveal — Chrome 115+, FF 110+ */</span>
+<span class="fn">.reveal</span> {
+  animation: fadeUp linear both;
+  animation-timeline: view();          <span class="cm">/* ties to element in viewport */</span>
+  animation-range: entry <span class="num">10%</span> cover <span class="num">35%</span>; <span class="cm">/* 10% in → 35% covered */</span>
+}
+
+<span class="cm">/* Parallax image on scroll */</span>
+<span class="fn">.hero-img</span> {
+  animation: parallaxDrift linear both;
+  animation-timeline: scroll();
+  animation-range: <span class="num">0%</span> <span class="num">100%</span>;
+}
+<span class="kw">@keyframes</span> parallaxDrift {
+  <span class="prop">from</span> { transform: translateY(<span class="num">0</span>); }
+  <span class="prop">to</span>   { transform: translateY(<span class="num">-80px</span>); }
+}
+
+<span class="cm">/* Progress bar tied to page scroll */</span>
+<span class="fn">.progress-bar</span> {
+  position: fixed; top: <span class="num">0</span>; left: <span class="num">0</span>; height: <span class="num">3px</span>;
+  background: #7c6ff7;
+  transform-origin: left;
+  animation: scaleX linear;
+  animation-timeline: scroll(root);
+}
+<span class="kw">@keyframes</span> scaleX {
+  <span class="prop">from</span> { transform: scaleX(<span class="num">0</span>); }
+  <span class="prop">to</span>   { transform: scaleX(<span class="num">1</span>); }
+}</pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label">
+        <div class="code-lang"><div class="lang-dot" style="background:#e879a0"></div>CSS — Intersection Observer Fallback</div>
+      </div>
+      <pre><span class="cm">/* CSS — initial hidden state */</span>
+<span class="fn">.reveal</span> {
+  opacity: <span class="num">0</span>;
+  transform: translateY(<span class="num">30px</span>);
+  transition: opacity <span class="num">0.65s</span> ease, transform <span class="num">0.65s</span> cubic-bezier(<span class="num">0.16</span>,<span class="num">1</span>,<span class="num">0.3</span>,<span class="num">1</span>);
+}
+<span class="fn">.reveal.visible</span> { opacity: <span class="num">1</span>; transform: translateY(<span class="num">0</span>); }
+
+<span class="cm">/* JS — Intersection Observer */</span>
+<span class="kw">const</span> io = <span class="kw">new</span> <span class="fn">IntersectionObserver</span>(
+  entries => entries.forEach(e => e.isIntersecting && e.target.classList.add(<span class="str">'visible'</span>)),
+  { threshold: <span class="num">0.12</span> }
+);
+document.querySelectorAll(<span class="str">'.reveal'</span>).forEach(el => io.observe(el));</pre>
+    </div>
+  </div>
+
+  <!-- Hover patterns -->
+  <div class="subsection">
+    <h3>Hover state patterns</h3>
+    <div class="code-block">
+      <div class="code-label">
+        <div class="code-lang"><div class="lang-dot" style="background:#e879a0"></div>CSS — Hover Effects Catalog</div>
+      </div>
+      <pre><span class="cm">/* Lift + shadow */</span>
+<span class="fn">.card</span> { transition: transform <span class="num">0.3s</span> ease, box-shadow <span class="num">0.3s</span> ease; }
+<span class="fn">.card:hover</span> {
+  transform: translateY(<span class="num">-8px</span>) scale(<span class="num">1.015</span>);
+  box-shadow: <span class="num">0 20px 40px</span> rgba(<span class="num">0,0,0,0.2</span>), <span class="num">0 6px 12px</span> rgba(<span class="num">0,0,0,0.12</span>);
+}
+
+<span class="cm">/* Glow border */</span>
+<span class="fn">.card</span> { transition: box-shadow <span class="num">0.3s</span>; }
+<span class="fn">.card:hover</span> { box-shadow: <span class="num">0 0 0 1px</span> #7c6ff7, <span class="num">0 0 24px</span> rgba(<span class="num">124,111,247,0.35</span>); }
+
+<span class="cm">/* Underline slide — nav links */</span>
+<span class="fn">.nav-link</span> {
+  position: relative;
+}
+<span class="fn">.nav-link::after</span> {
+  content: <span class="str">''</span>;
+  position: absolute; bottom: <span class="num">-2px</span>; left: <span class="num">0</span>; right: <span class="num">100%</span>; height: <span class="num">1px</span>;
+  background: currentColor;
+  transition: right <span class="num">0.3s</span> cubic-bezier(<span class="num">0.4</span>,<span class="num">0</span>,<span class="num">0.2</span>,<span class="num">1</span>);
+}
+<span class="fn">.nav-link:hover::after</span> { right: <span class="num">0</span>; }
+
+<span class="cm">/* Button ripple (no JS) */</span>
+<span class="fn">.btn</span> { overflow: hidden; position: relative; }
+<span class="fn">.btn::before</span> {
+  content: <span class="str">''</span>;
+  position: absolute; inset: <span class="num">0</span>;
+  background: radial-gradient(circle, rgba(<span class="num">255,255,255,0.12</span>) <span class="num">0%</span>, transparent <span class="num">70%</span>);
+  transform: scale(<span class="num">0</span>);
+  transition: transform <span class="num">0.5s</span>;
+}
+<span class="fn">.btn:hover::before</span> { transform: scale(<span class="num">2</span>); }
+
+<span class="cm">/* Shine sweep */</span>
+<span class="fn">.shine</span> { position: relative; overflow: hidden; }
+<span class="fn">.shine::after</span> {
+  content: <span class="str">''</span>;
+  position: absolute; top: <span class="num">0</span>; left: <span class="num">-100%</span>; width: <span class="num">60%</span>; height: <span class="num">100%</span>;
+  background: linear-gradient(<span class="num">90deg</span>, transparent, rgba(<span class="num">255,255,255,0.18</span>), transparent);
+  transform: skewX(<span class="num">-15deg</span>);
+  transition: left <span class="num">0.6s</span>;
+}
+<span class="fn">.shine:hover::after</span> { left: <span class="num">150%</span>; }</pre>
+    </div>
+  </div>
+
+  <!-- 3D Flip -->
+  <div class="subsection">
+    <h3>3D flip card</h3>
+    <div class="code-block">
+      <div class="code-label">
+        <div class="code-lang"><div class="lang-dot" style="background:#e879a0"></div>HTML + CSS — 3D Flip Card</div>
+        <span class="tag tag-medium">Medium</span>
+      </div>
+      <pre><span class="cm">/* HTML */</span>
+&lt;div <span class="prop">class</span>=<span class="str">"flip-card"</span>&gt;
+  &lt;div <span class="prop">class</span>=<span class="str">"flip-inner"</span>&gt;
+    &lt;div <span class="prop">class</span>=<span class="str">"flip-front"</span>&gt;Front&lt;/div&gt;
+    &lt;div <span class="prop">class</span>=<span class="str">"flip-back"</span>&gt;Back&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+<span class="cm">/* CSS */</span>
+<span class="fn">.flip-card</span>  { perspective: <span class="num">1000px</span>; }
+<span class="fn">.flip-inner</span> {
+  transition: transform <span class="num">0.65s</span> cubic-bezier(<span class="num">0.4</span>,<span class="num">0</span>,<span class="num">0.2</span>,<span class="num">1</span>);
+  transform-style: preserve-3d;
+  position: relative; height: <span class="num">100%</span>;
+}
+<span class="fn">.flip-card:hover .flip-inner</span> { transform: rotateY(<span class="num">180deg</span>); }
+
+<span class="fn">.flip-front</span>, <span class="fn">.flip-back</span> {
+  position: absolute; inset: <span class="num">0</span>;
+  backface-visibility: hidden;
+  border-radius: <span class="num">12px</span>;
+}
+<span class="fn">.flip-back</span> { transform: rotateY(<span class="num">180deg</span>); }</pre>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ═══════════════════════════════════════════════════
+     03 · MOTION (FRAMER MOTION v12)
+═══════════════════════════════════════════════════ -->
+<section class="section" id="s3">
+  <div class="section-header">
+    <div class="section-icon si-blue">⚡</div>
+    <div>
+      <div class="section-num">Section 03</div>
+      <h2>Motion — React Animation (formerly Framer Motion)</h2>
+    </div>
+  </div>
+
+  <div class="callout callout-purple">
+    <span class="callout-icon">★</span>
+    <div>Import from <code>motion/react</code> (v12+). The old <code>framer-motion</code> package still works but is no longer actively developed. API is identical.</div>
+  </div>
+
+  <div class="subsection">
+    <h3>Core API cheatsheet</h3>
+    <div class="code-block">
+      <div class="code-label">
+        <div class="code-lang"><div class="lang-dot" style="background:#60a5fa"></div>motion/react — Core Patterns</div>
+        <span class="tag tag-react">React</span>
+      </div>
+      <pre><span class="kw">import</span> {
+  motion, AnimatePresence, LayoutGroup,
+  useScroll, useTransform, useSpring,
+  useMotionValue, useAnimation, useInView,
+  LazyMotion, domAnimation, m
+} <span class="kw">from</span> <span class="str">'motion/react'</span>
+
+<span class="cm">/* Basic animation */</span>
+&lt;motion.div
+  initial={{ opacity: <span class="num">0</span>, y: <span class="num">20</span> }}
+  animate={{ opacity: <span class="num">1</span>, y: <span class="num">0</span> }}
+  exit={{ opacity: <span class="num">0</span>, y: <span class="num">-10</span> }}
+  transition={{ duration: <span class="num">0.5</span>, ease: <span class="str">'easeOut'</span> }}
+/&gt;
+
+<span class="cm">/* whileInView — trigger on scroll entry */</span>
+&lt;motion.div
+  initial={{ opacity: <span class="num">0</span>, y: <span class="num">30</span> }}
+  whileInView={{ opacity: <span class="num">1</span>, y: <span class="num">0</span> }}
+  viewport={{ once: <span class="kw">true</span>, margin: <span class="str">'-80px'</span> }}
+  transition={{ duration: <span class="num">0.6</span>, ease: [<span class="num">0.16</span>,<span class="num">1</span>,<span class="num">0.3</span>,<span class="num">1</span>] }}
+/&gt;
+
+<span class="cm">/* Hover + tap */</span>
+&lt;motion.button
+  whileHover={{ scale: <span class="num">1.04</span>, y: <span class="num">-2</span> }}
+  whileTap={{ scale: <span class="num">0.97</span> }}
+  transition={{ type: <span class="str">'spring'</span>, stiffness: <span class="num">400</span>, damping: <span class="num">20</span> }}
+/&gt;
+
+<span class="cm">/* AnimatePresence — exit animations */</span>
+&lt;AnimatePresence mode=<span class="str">"wait"</span>&gt;
+  {isVisible &amp;&amp; (
+    &lt;motion.div
+      key=<span class="str">"modal"</span>
+      initial={{ opacity: <span class="num">0</span>, scale: <span class="num">0.95</span> }}
+      animate={{ opacity: <span class="num">1</span>, scale: <span class="num">1</span> }}
+      exit={{ opacity: <span class="num">0</span>, scale: <span class="num">0.95</span> }}
+    /&gt;
+  )}
+&lt;/AnimatePresence&gt;</pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label">
+        <div class="code-lang"><div class="lang-dot" style="background:#60a5fa"></div>Variants — Stagger Children</div>
+        <span class="tag tag-react">React</span>
+      </div>
+      <pre><span class="kw">const</span> container = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: <span class="num">0.1</span>,
+      delayChildren: <span class="num">0.15</span>,
+    },
+  },
+}
+
+<span class="kw">const</span> item = {
+  hidden: { opacity: <span class="num">0</span>, y: <span class="num">24</span> },
+  show:   { opacity: <span class="num">1</span>, y: <span class="num">0</span>, transition: { ease: [<span class="num">0.16</span>,<span class="num">1</span>,<span class="num">0.3</span>,<span class="num">1</span>], duration: <span class="num">0.6</span> } },
+}
+
+<span class="cm">// JSX</span>
+&lt;motion.ul variants={container} initial=<span class="str">"hidden"</span> animate=<span class="str">"show"</span>&gt;
+  {items.map(i => (
+    &lt;motion.li key={i.id} variants={item}&gt;{i.label}&lt;/motion.li&gt;
+  ))}
+&lt;/motion.ul&gt;</pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label">
+        <div class="code-lang"><div class="lang-dot" style="background:#60a5fa"></div>Scroll — useScroll + useTransform</div>
+        <span class="tag tag-react">React</span>
+      </div>
+      <pre><span class="kw">import</span> { useScroll, useTransform, useSpring } <span class="kw">from</span> <span class="str">'motion/react'</span>
+
+<span class="kw">function</span> <span class="fn">HeroParallax</span>() {
+  <span class="kw">const</span> { scrollYProgress } = <span class="fn">useScroll</span>()
+  <span class="kw">const</span> y     = <span class="fn">useTransform</span>(scrollYProgress, [<span class="num">0</span>,<span class="num">1</span>], [<span class="str">'0%'</span>, <span class="str">'40%'</span>])
+  <span class="kw">const</span> scale = <span class="fn">useTransform</span>(scrollYProgress, [<span class="num">0</span>, <span class="num">0.5</span>], [<span class="num">1</span>, <span class="num">1.15</span>])
+  <span class="kw">const</span> opacity = <span class="fn">useTransform</span>(scrollYProgress, [<span class="num">0</span>, <span class="num">0.4</span>], [<span class="num">1</span>, <span class="num">0</span>])
+  <span class="kw">const</span> smoothY = <span class="fn">useSpring</span>(y, { stiffness: <span class="num">80</span>, damping: <span class="num">20</span> })
+
+  <span class="kw">return</span> &lt;motion.div style={{ y: smoothY, scale, opacity }} /&gt;
+}
+
+<span class="cm">/* Element-level scroll progress */</span>
+<span class="kw">const</span> ref = <span class="fn">useRef</span>(null)
+<span class="kw">const</span> { scrollYProgress } = <span class="fn">useScroll</span>({ target: ref, offset: [<span class="str">'start end'</span>, <span class="str">'end start'</span>] })</pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label">
+        <div class="code-lang"><div class="lang-dot" style="background:#60a5fa"></div>3D Tilt — Mouse Tracking</div>
+        <span class="tag tag-hard">Advanced</span>
+      </div>
+      <pre><span class="kw">import</span> { motion, useMotionValue, useSpring, useTransform } <span class="kw">from</span> <span class="str">'motion/react'</span>
+
+<span class="kw">function</span> <span class="fn">TiltCard</span>({ children }) {
+  <span class="kw">const</span> x = <span class="fn">useMotionValue</span>(<span class="num">0</span>)
+  <span class="kw">const</span> y = <span class="fn">useMotionValue</span>(<span class="num">0</span>)
+  <span class="kw">const</span> rotX = <span class="fn">useSpring</span>(<span class="fn">useTransform</span>(y, [-<span class="num">0.5</span>, <span class="num">0.5</span>], [<span class="num">12</span>, -<span class="num">12</span>]), { stiffness: <span class="num">200</span>, damping: <span class="num">25</span> })
+  <span class="kw">const</span> rotY = <span class="fn">useSpring</span>(<span class="fn">useTransform</span>(x, [-<span class="num">0.5</span>, <span class="num">0.5</span>], [-<span class="num">12</span>, <span class="num">12</span>]), { stiffness: <span class="num">200</span>, damping: <span class="num">25</span> })
+
+  <span class="kw">const</span> <span class="fn">onMouseMove</span> = (e) => {
+    <span class="kw">const</span> r = e.currentTarget.getBoundingClientRect()
+    x.set((e.clientX - r.left) / r.width  - <span class="num">0.5</span>)
+    y.set((e.clientY - r.top)  / r.height - <span class="num">0.5</span>)
+  }
+
+  <span class="kw">return</span> (
+    &lt;motion.div
+      onMouseMove={onMouseMove}
+      onMouseLeave={() => { x.set(<span class="num">0</span>); y.set(<span class="num">0</span>) }}
+      style={{ rotateX: rotX, rotateY: rotY, transformPerspective: <span class="num">800</span> }}
+    &gt;
+      {children}
+    &lt;/motion.div&gt;
+  )
+}
+
+<span class="cm">/* Layout animations — animate element repositioning automatically */</span>
+&lt;motion.div layout /&gt;
+&lt;motion.div layout=<span class="str">"position"</span> /&gt;   <span class="cm">// only position</span>
+&lt;motion.div layout=<span class="str">"x"</span> /&gt;         <span class="cm">// v12: axis-locked layout anim</span></pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label">
+        <div class="code-lang"><div class="lang-dot" style="background:#60a5fa"></div>Accessibility — Respect Reduced Motion</div>
+      </div>
+      <pre><span class="kw">import</span> { useReducedMotion } <span class="kw">from</span> <span class="str">'motion/react'</span>
+
+<span class="kw">function</span> <span class="fn">AnimatedCard</span>() {
+  <span class="kw">const</span> reduce = <span class="fn">useReducedMotion</span>()
+  <span class="kw">const</span> variants = {
+    hidden:  { opacity: <span class="num">0</span>, y: reduce ? <span class="num">0</span> : <span class="num">24</span> },
+    visible: { opacity: <span class="num">1</span>, y: <span class="num">0</span> },
+  }
+  <span class="kw">return</span> &lt;motion.div variants={variants} initial=<span class="str">"hidden"</span> animate=<span class="str">"visible"</span> /&gt;
+}
+
+<span class="cm">/* Or via MotionConfig globally */</span>
+&lt;MotionConfig reducedMotion=<span class="str">"user"</span>&gt;  <span class="cm">/* auto-detect from OS */</span>
+  &lt;App /&gt;
+&lt;/MotionConfig&gt;</pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label">
+        <div class="code-lang"><div class="lang-dot" style="background:#60a5fa"></div>LazyMotion — Bundle Optimization</div>
+      </div>
+      <pre><span class="cm">/* Drops bundle from 34KB → 4.6KB for simple cases */</span>
+<span class="kw">import</span> { LazyMotion, domAnimation, m } <span class="kw">from</span> <span class="str">'motion/react'</span>
+
+<span class="kw">function</span> <span class="fn">App</span>() {
+  <span class="kw">return</span> (
+    &lt;LazyMotion features={domAnimation}&gt;
+      &lt;m.div animate={{ opacity: <span class="num">1</span> }} /&gt;  <span class="cm">/* m instead of motion */</span>
+    &lt;/LazyMotion&gt;
+  )
+}</pre>
+    </div>
+  </div>
+
+  <!-- Easing reference -->
+  <div class="subsection">
+    <h3>Easing quick reference</h3>
+    <div class="table-wrap">
+      <table class="ref-table">
+        <thead><tr><th>Name</th><th>Curve</th><th>Use Case</th></tr></thead>
+        <tbody>
+          <tr><td><code>easeOut</code></td><td><code>[0, 0, 0.58, 1]</code></td><td>Element entering screen</td></tr>
+          <tr><td><code>easeIn</code></td><td><code>[0.42, 0, 1, 1]</code></td><td>Element leaving screen</td></tr>
+          <tr><td><code>easeInOut</code></td><td><code>[0.42, 0, 0.58, 1]</code></td><td>State transitions, modals</td></tr>
+          <tr><td>Spring gentle</td><td><code>{stiffness:120, damping:20}</code></td><td>Cards, tooltips</td></tr>
+          <tr><td>Spring snappy</td><td><code>{stiffness:400, damping:25}</code></td><td>Buttons, toggles</td></tr>
+          <tr><td>Expo out</td><td><code>[0.16, 1, 0.3, 1]</code></td><td>Hero entrance, dramatic reveals</td></tr>
+          <tr><td>Back out</td><td><code>[0.34, 1.56, 0.64, 1]</code></td><td>Playful bounce entries</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ═══════════════════════════════════════════════════
+     04 · GSAP & ScrollTrigger
+═══════════════════════════════════════════════════ -->
+<section class="section" id="s4">
+  <div class="section-header">
+    <div class="section-icon si-green">🟢</div>
+    <div>
+      <div class="section-num">Section 04</div>
+      <h2>GSAP &amp; ScrollTrigger</h2>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3>GSAP fundamentals</h3>
+    <div class="code-block">
+      <div class="code-label">
+        <div class="code-lang"><div class="lang-dot" style="background:#3ecf8e"></div>GSAP — Setup &amp; Core API</div>
+      </div>
+      <pre><span class="kw">import</span> gsap <span class="kw">from</span> <span class="str">'gsap'</span>
+<span class="kw">import</span> { ScrollTrigger } <span class="kw">from</span> <span class="str">'gsap/ScrollTrigger'</span>
+<span class="kw">import</span> { SplitText }    <span class="kw">from</span> <span class="str">'gsap/SplitText'</span>     <span class="cm">// Club plugin</span>
+<span class="kw">import</span> { ScrollSmoother } <span class="kw">from</span> <span class="str">'gsap/ScrollSmoother'</span> <span class="cm">// Club plugin</span>
+
+gsap.registerPlugin(ScrollTrigger, SplitText, ScrollSmoother)
+
+<span class="cm">/* gsap.to — animate TO values */</span>
+gsap.to(<span class="str">'.box'</span>, { x: <span class="num">200</span>, duration: <span class="num">1</span>, ease: <span class="str">'power2.out'</span> })
+
+<span class="cm">/* gsap.from — animate FROM values */</span>
+gsap.from(<span class="str">'.hero-text'</span>, { y: <span class="num">60</span>, opacity: <span class="num">0</span>, duration: <span class="num">0.8</span>, ease: <span class="str">'expo.out'</span> })
+
+<span class="cm">/* gsap.fromTo — full control */</span>
+gsap.fromTo(<span class="str">'.card'</span>,
+  { opacity: <span class="num">0</span>, scale: <span class="num">0.9</span> },
+  { opacity: <span class="num">1</span>, scale: <span class="num">1</span>, duration: <span class="num">0.6</span>, stagger: <span class="num">0.1</span> }
+)
+
+<span class="cm">/* Timeline — sequential / overlapping */</span>
+<span class="kw">const</span> tl = gsap.timeline({ defaults: { ease: <span class="str">'expo.out'</span>, duration: <span class="num">0.7</span> } })
+tl.from(<span class="str">'.hero-badge'</span>, { y: <span class="num">20</span>, opacity: <span class="num">0</span> })
+  .from(<span class="str">'.hero-h1'</span>,   { y: <span class="num">40</span>, opacity: <span class="num">0</span> }, <span class="str">'-=0.4'</span>)   <span class="cm">// overlap 0.4s</span>
+  .from(<span class="str">'.hero-sub'</span>,  { y: <span class="num">20</span>, opacity: <span class="num">0</span> }, <span class="str">'-=0.3'</span>)
+  .from(<span class="str">'.hero-cta'</span>,  { y: <span class="num">20</span>, opacity: <span class="num">0</span> }, <span class="str">'-=0.25'</span>)</pre>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3>ScrollTrigger patterns</h3>
+    <div class="code-block">
+      <div class="code-label">
+        <div class="code-lang"><div class="lang-dot" style="background:#3ecf8e"></div>ScrollTrigger — All Key Options</div>
+        <span class="tag tag-hard">Advanced</span>
+      </div>
+      <pre"><span class="kw">const</span> tl = gsap.timeline({
+  scrollTrigger: {
+    trigger:  <span class="str">'.section'</span>,         <span class="cm">// element that triggers</span>
+    start:    <span class="str">'top 80%'</span>,           <span class="cm">// [trigger pos] [viewport pos]</span>
+    end:      <span class="str">'bottom top'</span>,        <span class="cm">// or '+=400' for pixel offset</span>
+    scrub:    <span class="num">1</span>,                    <span class="cm">// true = instant, num = smoothing seconds</span>
+    pin:      <span class="kw">true</span>,                 <span class="cm">// pin trigger while animating</span>
+    pinSpacing: <span class="kw">true</span>,              <span class="cm">// keep space after pin</span>
+    markers:  <span class="kw">false</span>,               <span class="cm">// set true for DEV debug</span>
+    anticipatePin: <span class="num">1</span>,              <span class="cm">// smooths pin jump</span>
+    invalidateOnRefresh: <span class="kw">true</span>,     <span class="cm">// recalc on resize</span>
+    toggleClass: <span class="str">'active'</span>,         <span class="cm">// add class while active</span>
+    once: <span class="kw">false</span>,                    <span class="cm">// trigger only once</span>
+    onEnter:     () => {},
+    onLeave:     () => {},
+    onEnterBack: () => {},
+    onLeaveBack: () => {},
+    onUpdate:    (self) => console.log(self.progress),
+  }
+})
+
+<span class="cm">/* Pinned horizontal scroll */</span>
+gsap.to(<span class="str">'.track'</span>, {
+  xPercent: -<span class="num">100</span> * (panels.length - <span class="num">1</span>),
+  ease: <span class="str">'none'</span>,
+  scrollTrigger: {
+    trigger: <span class="str">'.container'</span>,
+    pin: <span class="kw">true</span>, scrub: <span class="num">1</span>,
+    end: () => <span class="str">'+='</span> + document.querySelector(<span class="str">'.track'</span>).offsetWidth,
+  }
+})</pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label">
+        <div class="code-lang"><div class="lang-dot" style="background:#3ecf8e"></div>ScrollTrigger — Stagger Grid Reveal</div>
+      </div>
+      <pre>gsap.from(<span class="str">'.card'</span>, {
+  scrollTrigger: {
+    trigger: <span class="str">'.card-grid'</span>,
+    start:   <span class="str">'top 80%'</span>,
+    once:    <span class="kw">true</span>,
+  },
+  y: <span class="num">50</span>, opacity: <span class="num">0</span>, duration: <span class="num">0.8</span>,
+  stagger: { amount: <span class="num">0.6</span>, from: <span class="str">'start'</span> },   <span class="cm">// or 'center', 'edges', 'random'</span>
+  ease: <span class="str">'power2.out'</span>,
+})
+
+<span class="cm">/* Text SplitText reveal */</span>
+<span class="kw">const</span> split = <span class="kw">new</span> <span class="fn">SplitText</span>(<span class="str">'.headline'</span>, { type: <span class="str">'words,chars'</span> })
+gsap.from(split.chars, {
+  scrollTrigger: { trigger: <span class="str">'.headline'</span>, start: <span class="str">'top 85%'</span>, once: <span class="kw">true</span> },
+  y: <span class="str">'110%'</span>, opacity: <span class="num">0</span>, duration: <span class="num">0.7</span>,
+  stagger: <span class="num">0.025</span>, ease: <span class="str">'expo.out'</span>,
+})</pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label">
+        <div class="code-lang"><div class="lang-dot" style="background:#3ecf8e"></div>Lenis + GSAP Smooth Scroll Setup</div>
+      </div>
+      <pre><span class="kw">import</span> Lenis <span class="kw">from</span> <span class="str">'@studio-freight/lenis'</span>
+
+<span class="kw">const</span> lenis = <span class="kw">new</span> <span class="fn">Lenis</span>({
+  duration: <span class="num">1.2</span>,
+  easing: t => Math.min(<span class="num">1</span>, <span class="num">1.001</span> - Math.pow(<span class="num">2</span>, -<span class="num">10</span> * t)),
+  smoothWheel: <span class="kw">true</span>,
+})
+
+<span class="cm">/* Sync Lenis with GSAP ticker */</span>
+gsap.ticker.add(time => lenis.raf(time * <span class="num">1000</span>))
+gsap.ticker.lagSmoothing(<span class="num">0</span>)
+
+<span class="cm">/* Also call ScrollTrigger.refresh after Lenis setup */</span>
+lenis.on(<span class="str">'scroll'</span>, ScrollTrigger.update)
+ScrollTrigger.defaults({ scroller: lenis.wrapper })</pre>
+    </div>
+  </div>
+
+  <!-- GSAP easing reference -->
+  <div class="subsection">
+    <h3>GSAP easing quick picks</h3>
+    <div class="table-wrap">
+      <table class="ref-table">
+        <thead><tr><th>Ease</th><th>Effect</th><th>Use</th></tr></thead>
+        <tbody>
+          <tr><td><code>power1.out</code></td><td>Gentle deceleration</td><td>Subtle reveals</td></tr>
+          <tr><td><code>power2.out</code></td><td>Standard deceleration</td><td>Most cases</td></tr>
+          <tr><td><code>power4.out</code></td><td>Strong initial velocity</td><td>Dramatic entries</td></tr>
+          <tr><td><code>expo.out</code></td><td>Explosive then settled</td><td>Hero headline</td></tr>
+          <tr><td><code>back.out(1.5)</code></td><td>Slight overshoot</td><td>Playful UI</td></tr>
+          <tr><td><code>elastic.out(1, 0.4)</code></td><td>Spring bounce</td><td>Notification</td></tr>
+          <tr><td><code>none</code></td><td>Linear</td><td>Scrub animations</td></tr>
+          <tr><td><code>CustomEase.create(...)</code></td><td>Bezier curve</td><td>Brand motion</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ═══════════════════════════════════════════════════
+     05 · HERO SECTION PATTERNS
+═══════════════════════════════════════════════════ -->
+<section class="section" id="s5">
+  <div class="section-header">
+    <div class="section-icon si-amber">🦸</div>
+    <div>
+      <div class="section-num">Section 05</div>
+      <h2>Hero Section Patterns</h2>
+    </div>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-accent-top cat-purple"></div>
+      <h3>Staggered entrance</h3>
+      <p>Badge → H1 words → subtext → CTA, each offset by 80–120ms. The most reliable premium feel. Use expo.out or spring easing.</p>
+    </div>
+    <div class="card">
+      <div class="card-accent-top cat-teal"></div>
+      <h3>Parallax split</h3>
+      <p>Background image moves at 0.4× scroll speed. Text moves at 1×. Creates depth without 3D. Pure CSS with scroll-timeline or GSAP scrub.</p>
+    </div>
+    <div class="card">
+      <div class="card-accent-top cat-amber"></div>
+      <h3>Cinematic pin</h3>
+      <p>Hero section is pinned. As user scrolls, content animates in and out. Reveals product/feature behind the hero text. GSAP ScrollTrigger.</p>
+    </div>
+    <div class="card">
+      <div class="card-accent-top cat-pink"></div>
+      <h3>Blur reveal</h3>
+      <p>Words start blurred, sharpen on entry. Combine <code>filter: blur()</code> + opacity transition. Creates cinematic focus-pull effect.</p>
+    </div>
+    <div class="card">
+      <div class="card-accent-top cat-green"></div>
+      <h3>SVG path draw</h3>
+      <p>SVG lines, arrows, or outlines "draw" themselves on page load using <code>stroke-dashoffset</code> + GSAP or Motion animation.</p>
+    </div>
+    <div class="card">
+      <div class="card-accent-top cat-blue"></div>
+      <h3>3D scroll scene</h3>
+      <p>Three.js/R3F canvas behind hero. Camera moves as user scrolls via GSAP ScrollTrigger scrub. GPU-heavy, use wisely.</p>
+    </div>
+  </div>
+
+  <div class="code-block">
+    <div class="code-label">
+      <div class="code-lang"><div class="lang-dot" style="background:#f5a524"></div>GSAP — Hero Entrance Sequence</div>
+    </div>
+    <pre><span class="kw">function</span> <span class="fn">heroEntrance</span>() {
+  <span class="kw">const</span> tl = gsap.timeline({ defaults: { ease: <span class="str">'expo.out'</span>, duration: <span class="num">0.9</span> } })
+
+  tl.from(<span class="str">'.hero-eyebrow'</span>, { y: <span class="num">20</span>,  opacity: <span class="num">0</span>, duration: <span class="num">0.6</span> })
+    .from(<span class="str">'.hero-h1 .word'</span>, { y: <span class="str">'120%'</span>, opacity: <span class="num">0</span>, stagger: <span class="num">0.07</span> }, <span class="str">'-=0.3'</span>)
+    .from(<span class="str">'.hero-sub'</span>,     { y: <span class="num">20</span>,  opacity: <span class="num">0</span>, duration: <span class="num">0.7</span> }, <span class="str">'-=0.4'</span>)
+    .from(<span class="str">'.hero-cta'</span>,     { y: <span class="num">15</span>,  opacity: <span class="num">0</span>, stagger: <span class="num">0.1</span> }, <span class="str">'-=0.3'</span>)
+    .from(<span class="str">'.hero-visual'</span>,  { scale: <span class="num">0.92</span>, opacity: <span class="num">0</span>, duration: <span class="num">1.2</span> }, <span class="str">'-=0.8'</span>)
+
+  <span class="kw">return</span> tl
+}</pre>
+  </div>
+
+  <div class="code-block">
+    <div class="code-label">
+      <div class="code-lang"><div class="lang-dot" style="background:#60a5fa"></div>Motion — Hero with Variants (React)</div>
+    </div>
+    <pre"><span class="kw">const</span> heroVariants = {
+  hidden: {},
+  show: { transition: { staggerChildren: <span class="num">0.1</span>, delayChildren: <span class="num">0.2</span> } }
+}
+<span class="kw">const</span> item = {
+  hidden: { opacity: <span class="num">0</span>, y: <span class="num">30</span> },
+  show:   { opacity: <span class="num">1</span>, y: <span class="num">0</span>, transition: { ease: [<span class="num">0.16</span>,<span class="num">1</span>,<span class="num">0.3</span>,<span class="num">1</span>], duration: <span class="num">0.7</span> } }
+}
+
+<span class="kw">function</span> <span class="fn">Hero</span>() {
+  <span class="kw">return</span> (
+    &lt;motion.section variants={heroVariants} initial=<span class="str">"hidden"</span> animate=<span class="str">"show"</span>&gt;
+      &lt;motion.p variants={item} className=<span class="str">"eyebrow"</span>&gt;Tagline&lt;/motion.p&gt;
+      &lt;motion.h1 variants={item}&gt;Big headline&lt;/motion.h1&gt;
+      &lt;motion.p variants={item} className=<span class="str">"sub"</span>&gt;Subtext&lt;/motion.p&gt;
+      &lt;motion.div variants={item} className=<span class="str">"cta-group"</span>&gt;
+        &lt;Button /&gt;&lt;Link /&gt;
+      &lt;/motion.div&gt;
+    &lt;/motion.section&gt;
+  )
+}</pre>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ═══════════════════════════════════════════════════
+     06 · CARD & BOX ANIMATIONS
+═══════════════════════════════════════════════════ -->
+<section class="section" id="s6">
+  <div class="section-header">
+    <div class="section-icon si-teal">🃏</div>
+    <div>
+      <div class="section-num">Section 06</div>
+      <h2>Card &amp; Box Animations</h2>
+    </div>
+  </div>
+
+  <div class="code-block">
+    <div class="code-label">
+      <div class="code-lang"><div class="lang-dot" style="background:#22d3ee"></div>CSS — Card Effect Catalog</div>
+    </div>
+    <pre><span class="cm">/* 1. Lift + layered shadow */</span>
+<span class="fn">.card</span> {
+  transition: transform <span class="num">0.3s</span> ease, box-shadow <span class="num">0.3s</span> ease;
+  will-change: transform;
+}
+<span class="fn">.card:hover</span> {
+  transform: translateY(-<span class="num">8px</span>) scale(<span class="num">1.015</span>);
+  box-shadow:
+    <span class="num">0 2px 4px</span> rgba(<span class="num">0,0,0,0.04</span>),
+    <span class="num">0 8px 16px</span> rgba(<span class="num">0,0,0,0.08</span>),
+    <span class="num">0 24px 48px</span> rgba(<span class="num">0,0,0,0.12</span>);
+}
+
+<span class="cm">/* 2. Border glow on hover */</span>
+<span class="fn">.card-glow</span> {
+  border: <span class="num">1px</span> solid transparent;
+  background-clip: padding-box;
+  transition: border-color <span class="num">0.3s</span>, box-shadow <span class="num">0.3s</span>;
+}
+<span class="fn">.card-glow:hover</span> {
+  border-color: rgba(<span class="num">124,111,247,0.5</span>);
+  box-shadow: <span class="num">0 0 0 1px</span> rgba(<span class="num">124,111,247,0.15</span>),
+              <span class="num">0 0 32px</span> rgba(<span class="num">124,111,247,0.2</span>);
+}
+
+<span class="cm">/* 3. Gradient border (no JS) */</span>
+<span class="fn">.card-gradient-border</span> {
+  background:
+    linear-gradient(var(--bg), var(--bg)) padding-box,
+    linear-gradient(<span class="num">135deg</span>, #7c6ff7, #22d3ee) border-box;
+  border: <span class="num">1.5px</span> solid transparent;
+}
+
+<span class="cm">/* 4. Mouse-spotlight (needs JS for --x, --y custom props) */</span>
+<span class="fn">.card-spotlight</span> {
+  background: radial-gradient(
+    <span class="num">300px</span> circle at var(--x) var(--y),
+    rgba(<span class="num">255,255,255,0.06</span>) <span class="num">0%</span>,
+    transparent <span class="num">80%</span>
+  );
+}
+
+<span class="cm">/* JS for spotlight */</span>
+el.addEventListener(<span class="str">'mousemove'</span>, e => {
+  <span class="kw">const</span> r = el.getBoundingClientRect()
+  el.style.setProperty(<span class="str">'--x'</span>, `${e.clientX - r.left}px`)
+  el.style.setProperty(<span class="str">'--y'</span>, `${e.clientY - r.top}px`)
+})</pre>
+  </div>
+
+  <div class="code-block">
+    <div class="code-label">
+      <div class="code-lang"><div class="lang-dot" style="background:#60a5fa"></div>Motion — Card Interaction Suite (React)</div>
+    </div>
+    <pre"><span class="kw">function</span> <span class="fn">AnimatedCard</span>({ children }) {
+  <span class="kw">return</span> (
+    &lt;motion.div
+      className=<span class="str">"card"</span>
+      initial={{ opacity: <span class="num">0</span>, y: <span class="num">20</span> }}
+      whileInView={{ opacity: <span class="num">1</span>, y: <span class="num">0</span> }}
+      whileHover={{ y: -<span class="num">6</span>, scale: <span class="num">1.02</span> }}
+      whileTap={{ scale: <span class="num">0.98</span> }}
+      viewport={{ once: <span class="kw">true</span>, margin: <span class="str">'-40px'</span> }}
+      transition={{ type: <span class="str">'spring'</span>, stiffness: <span class="num">300</span>, damping: <span class="num">24</span> }}
+    &gt;
+      {children}
+    &lt;/motion.div&gt;
+  )
+}
+
+<span class="cm">/* Bento grid with stagger */</span>
+<span class="kw">const</span> containerV = {
+  hidden: {},
+  show: { transition: { staggerChildren: <span class="num">0.08</span> } }
+}
+<span class="kw">const</span> itemV = {
+  hidden: { opacity: <span class="num">0</span>, scale: <span class="num">0.95</span> },
+  show:   { opacity: <span class="num">1</span>, scale: <span class="num">1</span>, transition: { ease: [<span class="num">0.16</span>,<span class="num">1</span>,<span class="num">0.3</span>,<span class="num">1</span>], duration: <span class="num">0.5</span> } }
+}
+
+&lt;motion.div className=<span class="str">"bento-grid"</span> variants={containerV} initial=<span class="str">"hidden"</span> whileInView=<span class="str">"show"</span>&gt;
+  {cells.map(c => &lt;motion.div key={c.id} variants={itemV} /&gt;)}
+&lt;/motion.div&gt;</pre>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ═══════════════════════════════════════════════════
+     07 · BACKGROUNDS & GRADIENTS
+═══════════════════════════════════════════════════ -->
+<section class="section" id="s7">
+  <div class="section-header">
+    <div class="section-icon si-purple">🌈</div>
+    <div>
+      <div class="section-num">Section 07</div>
+      <h2>Backgrounds &amp; Gradients</h2>
+    </div>
+  </div>
+
+  <div class="code-block">
+    <div class="code-label">
+      <div class="code-lang"><div class="lang-dot" style="background:#e879a0"></div>CSS — Background Effects Catalog</div>
+    </div>
+    <pre><span class="cm">/* 1. Mesh gradient background */</span>
+<span class="fn">.bg-mesh</span> {
+  background:
+    radial-gradient(at <span class="num">20% 30%</span>, hsl(<span class="num">250</span>,<span class="num">80%</span>,<span class="num">60%</span>, <span class="num">0.4</span>) <span class="num">0</span>, transparent <span class="num">60%</span>),
+    radial-gradient(at <span class="num">80% 70%</span>, hsl(<span class="num">190</span>,<span class="num">80%</span>,<span class="num">55%</span>, <span class="num">0.35</span>) <span class="num">0</span>, transparent <span class="num">60%</span>),
+    radial-gradient(at <span class="num">50% 10%</span>, hsl(<span class="num">310</span>,<span class="num">70%</span>,<span class="num">60%</span>, <span class="num">0.3</span>) <span class="num">0</span>, transparent <span class="num">50%</span>),
+    #0d0d0f;
+}
+
+<span class="cm">/* 2. Animated gradient orb */</span>
+<span class="kw">@keyframes</span> orbFloat {
+  <span class="num">0%</span>,<span class="num">100%</span> { transform: translate(<span class="num">0</span>,<span class="num">0</span>)   scale(<span class="num">1</span>); }
+  <span class="num">33%</span>     { transform: translate(<span class="num">40px</span>,-<span class="num">30px</span>) scale(<span class="num">1.1</span>); }
+  <span class="num">66%</span>     { transform: translate(-<span class="num">20px</span>,<span class="num">20px</span>) scale(<span class="num">0.9</span>); }
+}
+<span class="fn">.orb</span> {
+  position: absolute;
+  width: <span class="num">600px</span>; height: <span class="num">600px</span>;
+  border-radius: <span class="num">50%</span>;
+  background: radial-gradient(circle, rgba(<span class="num">124,111,247,0.3</span>), transparent <span class="num">70%</span>);
+  filter: blur(<span class="num">80px</span>);
+  animation: orbFloat <span class="num">12s</span> ease-in-out infinite;
+}
+
+<span class="cm">/* 3. Noise texture overlay */</span>
+<span class="fn">.noise</span>::before {
+  content: <span class="str">''</span>;
+  position: absolute; inset: <span class="num">0</span>;
+  background-image: url(<span class="str">"data:image/svg+xml,..."</span>); <span class="cm">/* SVG noise */</span>
+  opacity: <span class="num">0.04</span>;
+  pointer-events: none;
+}
+
+<span class="cm">/* 4. Grid lines background */</span>
+<span class="fn">.bg-grid</span> {
+  background-image:
+    linear-gradient(rgba(<span class="num">255,255,255,0.04</span>) <span class="num">1px</span>, transparent <span class="num">1px</span>),
+    linear-gradient(<span class="num">90deg</span>, rgba(<span class="num">255,255,255,0.04</span>) <span class="num">1px</span>, transparent <span class="num">1px</span>);
+  background-size: <span class="num">60px 60px</span>;
+}
+
+<span class="cm">/* 5. Dot pattern */</span>
+<span class="fn">.bg-dots</span> {
+  background-image: radial-gradient(circle, rgba(<span class="num">255,255,255,0.12</span>) <span class="num">1px</span>, transparent <span class="num">1px</span>);
+  background-size: <span class="num">28px 28px</span>;
+}
+
+<span class="cm">/* 6. Animated gradient text */</span>
+<span class="fn">.gradient-text</span> {
+  background: linear-gradient(<span class="num">90deg</span>, #7c6ff7, #22d3ee, #e879a0, #7c6ff7);
+  background-size: <span class="num">300%</span>;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift <span class="num">6s</span> linear infinite;
+}
+<span class="kw">@keyframes</span> gradientShift {
+  <span class="num">0%</span>   { background-position: <span class="num">0%</span>; }
+  <span class="num">100%</span> { background-position: <span class="num">300%</span>; }
+}</pre>
+  </div>
+
+  <div class="callout callout-warn">
+    <span class="callout-icon">⚠</span>
+    <div>Use <code>filter: blur()</code> sparingly — it requires GPU compositing and creates new stacking contexts. Heavy blur on large elements can tank performance. Prefer pre-blurred assets for static backgrounds.</div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ═══════════════════════════════════════════════════
+     08 · TYPOGRAPHY ANIMATIONS
+═══════════════════════════════════════════════════ -->
+<section class="section" id="s8">
+  <div class="section-header">
+    <div class="section-icon si-amber">✍️</div>
+    <div>
+      <div class="section-num">Section 08</div>
+      <h2>Typography &amp; Font Animations</h2>
+    </div>
+  </div>
+
+  <div class="code-block">
+    <div class="code-label">
+      <div class="code-lang"><div class="lang-dot" style="background:#f5a524"></div>CSS — Text Animation Techniques</div>
+    </div>
+    <pre><span class="cm">/* 1. Word reveal with clip — most impactful */</span>
+<span class="fn">.word-wrap</span>  { display: inline-block; overflow: hidden; }
+<span class="fn">.word</span>       { display: inline-block; animation: wordUp <span class="num">0.7s</span> expo.out both; }
+
+<span class="kw">@keyframes</span> wordUp {
+  <span class="prop">from</span> { transform: translateY(<span class="num">110%</span>); }
+  <span class="prop">to</span>   { transform: translateY(<span class="num">0</span>); }
+}
+
+<span class="cm">/* 2. Letter cascade */</span>
+<span class="fn">.letter</span> { display: inline-block; animation: letterFall <span class="num">0.5s</span> both; }
+<span class="fn">.letter:nth-child(n)</span> { animation-delay: calc(n * <span class="num">0.03s</span>); }  <span class="cm">/* set via JS */</span>
+
+<span class="kw">@keyframes</span> letterFall {
+  <span class="prop">from</span> { opacity: <span class="num">0</span>; transform: translateY(-<span class="num">20px</span>) rotate(<span class="num">5deg</span>); }
+  <span class="prop">to</span>   { opacity: <span class="num">1</span>; transform: translateY(<span class="num">0</span>) rotate(<span class="num">0</span>); }
+}
+
+<span class="cm">/* 3. Typewriter cursor */</span>
+<span class="fn">.typewriter</span> {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: <span class="num">2px</span> solid currentColor;
+  animation: type <span class="num">2s</span> steps(<span class="num">30</span>) both, blink <span class="num">0.75s</span> step-end infinite;
+}
+<span class="kw">@keyframes</span> type  { <span class="prop">from</span> { width: <span class="num">0</span>; } }
+<span class="kw">@keyframes</span> blink { <span class="num">50%</span> { border-color: transparent; } }
+
+<span class="cm">/* 4. Counter animation */</span>
+<span class="kw">@property</span> --num { syntax: <span class="str">'&lt;integer&gt;'</span>; initial-value: <span class="num">0</span>; inherits: <span class="kw">false</span>; }
+<span class="fn">.counter</span> {
+  animation: countUp <span class="num">2s</span> ease-out;
+  counter-reset: count var(--num);
+}
+<span class="fn">.counter</span>::after { content: counter(count); }
+<span class="kw">@keyframes</span> countUp { <span class="prop">from</span> { --num: <span class="num">0</span>; } <span class="prop">to</span> { --num: <span class="num">1000</span>; } }
+
+<span class="cm">/* 5. Text shimmer (loading state) */</span>
+<span class="fn">.shimmer</span> {
+  background: linear-gradient(<span class="num">90deg</span>, #333 <span class="num">25%</span>, #555 <span class="num">50%</span>, #333 <span class="num">75%</span>);
+  background-size: <span class="num">200%</span>;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer <span class="num">2s</span> linear infinite;
+}
+<span class="kw">@keyframes</span> shimmer { <span class="prop">to</span> { background-position: -<span class="num">200%</span>; } }</pre>
+  </div>
+
+  <div class="code-block">
+    <div class="code-label">
+      <div class="code-lang"><div class="lang-dot" style="background:#60a5fa"></div>GSAP SplitText — Word / Char Reveal</div>
+      <span class="tag tag-gsap">GSAP Club</span>
+    </div>
+    <pre"><span class="cm">/* Word-by-word masked reveal */</span>
+gsap.registerPlugin(SplitText)
+
+<span class="kw">const</span> split = <span class="kw">new</span> <span class="fn">SplitText</span>(<span class="str">'.headline'</span>, {
+  type: <span class="str">'words'</span>,
+  mask: <span class="str">'words'</span>,        <span class="cm">// auto wraps in overflow:hidden container</span>
+})
+
+gsap.from(split.words, {
+  y: <span class="str">'120%'</span>,
+  opacity: <span class="num">0</span>,
+  duration: <span class="num">0.8</span>,
+  ease: <span class="str">'expo.out'</span>,
+  stagger: <span class="num">0.07</span>,
+  scrollTrigger: { trigger: <span class="str">'.headline'</span>, start: <span class="str">'top 85%'</span>, once: <span class="kw">true</span> }
+})
+
+<span class="cm">/* Char scramble effect */</span>
+<span class="kw">const</span> chars = <span class="str">'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'</span>
+<span class="kw">function</span> <span class="fn">scramble</span>(el, finalText, duration = <span class="num">800</span>) {
+  <span class="kw">let</span> start = null
+  requestAnimationFrame(<span class="kw">function</span> <span class="fn">step</span>(ts) {
+    <span class="kw">if</span> (!start) start = ts
+    <span class="kw">const</span> progress = Math.min((ts - start) / duration, <span class="num">1</span>)
+    <span class="kw">const</span> reveal = Math.floor(progress * finalText.length)
+    el.textContent =
+      finalText.slice(<span class="num">0</span>, reveal) +
+      Array.from({ length: finalText.length - reveal },
+        () => chars[Math.floor(Math.random() * chars.length)]).join(<span class="str">''</span>)
+    <span class="kw">if</span> (progress &lt; <span class="num">1</span>) requestAnimationFrame(step)
+  })
+}</pre>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ═══════════════════════════════════════════════════
+     09 · TYPOGRAPHY & COLOR SYSTEM
+═══════════════════════════════════════════════════ -->
+<section class="section" id="s9">
+  <div class="section-header">
+    <div class="section-icon si-pink">🎨</div>
+    <div>
+      <div class="section-num">Section 09</div>
+      <h2>Typography &amp; Color System</h2>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3>Typography principles</h3>
+    <div class="table-wrap">
+      <table class="ref-table">
+        <thead><tr><th>Element</th><th>Scale</th><th>Weight</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Display / Hero H1</td><td>clamp(48px, 7vw, 96px)</td><td>700–900</td><td>Tight tracking: -0.04em to -0.06em</td></tr>
+          <tr><td>Section H2</td><td>clamp(32px, 4vw, 52px)</td><td>600–700</td><td>-0.02em to -0.03em</td></tr>
+          <tr><td>Subsection H3</td><td>20–28px</td><td>600</td><td>-0.01em</td></tr>
+          <tr><td>Body / Prose</td><td>16–18px</td><td>400</td><td>line-height: 1.7–1.85</td></tr>
+          <tr><td>Caption / Label</td><td>12–13px</td><td>500</td><td>+0.04em tracking, uppercase</td></tr>
+          <tr><td>Mono / Code</td><td>13–14px</td><td>400</td><td>Fira Code, JetBrains Mono</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-tip">
+      <span class="callout-icon">✓</span>
+      <div>Use <code>clamp(min, preferred, max)</code> for fluid type. Pair a distinctive display font with a refined body font. Never use Inter, Roboto, or Arial — choose type with character.</div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-label">
+        <div class="code-lang"><div class="lang-dot" style="background:#e879a0"></div>CSS — Fluid Type + Distinctive Font Pairings</div>
+      </div>
+      <pre"><span class="cm">/* Import distinctive fonts */</span>
+<span class="kw">@import url</span>(<span class="str">'https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;700;900&family=Instrument+Serif:ital@0;1&display=swap'</span>);
+
+<span class="fn">:root</span> {
+  <span class="cm">/* Option 1: Editorial */</span>
+  --font-display: <span class="str">'Cabinet Grotesk'</span>, sans-serif;    <span class="cm">/* punchy sans */</span>
+  --font-body:    <span class="str">'Instrument Serif'</span>, serif;         <span class="cm">/* literary body */</span>
+
+  <span class="cm">/* Option 2: Futuristic */</span>
+  --font-display: <span class="str">'Space Grotesk'</span>, sans-serif;
+  --font-body:    <span class="str">'DM Sans'</span>, sans-serif;
+
+  <span class="cm">/* Option 3: Luxury */</span>
+  --font-display: <span class="str">'Cormorant Garamond'</span>, serif;
+  --font-body:    <span class="str">'Neue Montreal'</span>, sans-serif;
+
+  <span class="cm">/* Option 4: Technical */</span>
+  --font-display: <span class="str">'Geist'</span>, sans-serif;
+  --font-body:    <span class="str">'Geist Mono'</span>, monospace;
+
+  <span class="cm">/* Fluid type scale */</span>
+  --text-hero:  clamp(<span class="num">3rem</span>, <span class="num">7vw + 0.5rem</span>, <span class="num">7rem</span>);
+  --text-h1:    clamp(<span class="num">2rem</span>, <span class="num">4vw + 0.5rem</span>, <span class="num">3.5rem</span>);
+  --text-h2:    clamp(<span class="num">1.5rem</span>, <span class="num">2.5vw + 0.25rem</span>, <span class="num">2.5rem</span>);
+  --text-h3:    clamp(<span class="num">1.1rem</span>, <span class="num">1.5vw + 0.1rem</span>, <span class="num">1.5rem</span>);
+  --text-body:  clamp(<span class="num">1rem</span>, <span class="num">1vw + 0.25rem</span>, <span class="num">1.125rem</span>);
+}</pre>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3>CSS custom property theming</h3>
+    <div class="code-block">
+      <div class="code-label">
+        <div class="code-lang"><div class="lang-dot" style="background:#e879a0"></div>CSS — Full Token System</div>
+      </div>
+      <pre><span class="fn">:root</span> {
+  <span class="cm">/* ── Brand palette ── */</span>
+  --color-primary:    hsl(<span class="num">247</span>, <span class="num">91%</span>, <span class="num">70%</span>);
+  --color-primary-dim: hsl(<span class="num">247</span>, <span class="num">60%</span>, <span class="num">55%</span>);
+  --color-accent:     hsl(<span class="num">185</span>, <span class="num">85%</span>, <span class="num">60%</span>);
+
+  <span class="cm">/* ── Semantic ── */</span>
+  --color-bg:         hsl(<span class="num">240</span>, <span class="num">10%</span>, <span class="num">6%</span>);
+  --color-surface:    hsl(<span class="num">240</span>, <span class="num">10%</span>, <span class="num">10%</span>);
+  --color-surface-2:  hsl(<span class="num">240</span>, <span class="num">8%</span>, <span class="num">14%</span>);
+  --color-border:     rgba(<span class="num">255</span>,<span class="num">255</span>,<span class="num">255</span>, <span class="num">0.08</span>);
+  --color-border-2:   rgba(<span class="num">255</span>,<span class="num">255</span>,<span class="num">255</span>, <span class="num">0.15</span>);
+  --color-text:       hsl(<span class="num">240</span>, <span class="num">20%</span>, <span class="num">96%</span>);
+  --color-muted:      hsl(<span class="num">240</span>, <span class="num">15%</span>, <span class="num">65%</span>);
+  --color-subtle:     hsl(<span class="num">240</span>, <span class="num">10%</span>, <span class="num">45%</span>);
+
+  <span class="cm">/* ── Motion tokens ── */</span>
+  --ease-out:   cubic-bezier(<span class="num">0</span>, <span class="num">0</span>, <span class="num">0.2</span>, <span class="num">1</span>);
+  --ease-in:    cubic-bezier(<span class="num">0.4</span>, <span class="num">0</span>, <span class="num">1</span>, <span class="num">1</span>);
+  --ease-expo:  cubic-bezier(<span class="num">0.16</span>, <span class="num">1</span>, <span class="num">0.3</span>, <span class="num">1</span>);
+  --ease-bounce: cubic-bezier(<span class="num">0.34</span>, <span class="num">1.56</span>, <span class="num">0.64</span>, <span class="num">1</span>);
+  --dur-fast:   <span class="num">150ms</span>;
+  --dur-base:   <span class="num">300ms</span>;
+  --dur-slow:   <span class="num">600ms</span>;
+
+  <span class="cm">/* ── Spacing scale (4px base) ── */</span>
+  --space-1: <span class="num">4px</span>; --space-2: <span class="num">8px</span>;  --space-3: <span class="num">12px</span>; --space-4: <span class="num">16px</span>;
+  --space-5: <span class="num">24px</span>; --space-6: <span class="num">32px</span>; --space-7: <span class="num">48px</span>; --space-8: <span class="num">64px</span>;
+
+  <span class="cm">/* ── Radius ── */</span>
+  --radius-sm: <span class="num">4px</span>; --radius-md: <span class="num">8px</span>;
+  --radius-lg: <span class="num">12px</span>; --radius-xl: <span class="num">20px</span>; --radius-full: <span class="num">9999px</span>;
+}</pre>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ═══════════════════════════════════════════════════
+     10 · SPATIAL COMPOSITION
+═══════════════════════════════════════════════════ -->
+<section class="section" id="s10">
+  <div class="section-header">
+    <div class="section-icon si-teal">📐</div>
+    <div>
+      <div class="section-num">Section 10</div>
+      <h2>Spatial Composition</h2>
+    </div>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-accent-top cat-teal"></div>
+      <h3>Asymmetric layouts</h3>
+      <p>Break out of centered columns. Use <code>grid-template-columns: 2fr 1fr</code> or odd splits. Offset elements across the grid boundary with negative margins or absolute positioning.</p>
+    </div>
+    <div class="card">
+      <div class="card-accent-top cat-purple"></div>
+      <h3>Overlapping elements</h3>
+      <p>Layer cards, images, and text with <code>z-index</code> and <code>margin-top: -40px</code>. Creates depth and visual tension. Common in bento grids and modern SaaS landing pages.</p>
+    </div>
+    <div class="card">
+      <div class="card-accent-top cat-amber"></div>
+      <h3>Diagonal flow</h3>
+      <p>Use <code>clip-path: polygon()</code> or <code>transform: skewY(-3deg)</code> on section separators for directional energy instead of flat horizontal bands.</p>
+    </div>
+    <div class="card">
+      <div class="card-accent-top cat-pink"></div>
+      <h3>Negative space</h3>
+      <p>Generous padding lets content breathe. Rule: if unsure, double your padding. Whitespace is not empty — it directs eye movement and signals premium quality.</p>
+    </div>
+    <div class="card">
+      <div class="card-accent-top cat-green"></div>
+      <h3>Bento grid</h3>
+      <p>CSS Grid with mixed-size cells. Use <code>grid-row: span 2</code> and <code>grid-column: span 2</code> for feature tiles. Each cell tells one story.</p>
+    </div>
+    <div class="card">
+      <div class="card-accent-top cat-blue"></div>
+      <h3>Sticky storytelling</h3>
+      <p>Fix narrative text with <code>position: sticky</code> while content scrolls past. Reveals product screenshots, features, or illustrations frame-by-frame.</p>
+    </div>
+  </div>
+
+  <div class="code-block">
+    <div class="code-label">
+      <div class="code-lang"><div class="lang-dot" style="background:#22d3ee"></div>CSS — Bento Grid + Overlapping Layout</div>
+    </div>
+    <pre"><span class="fn">.bento</span> {
+  display: grid;
+  grid-template-columns: repeat(<span class="num">12</span>, <span class="num">1fr</span>);
+  grid-auto-rows: <span class="num">80px</span>;
+  gap: <span class="num">16px</span>;
+}
+
+<span class="fn">.bento-hero</span>  { grid-column: span <span class="num">8</span>;  grid-row: span <span class="num">4</span>; }
+<span class="fn">.bento-tall</span>  { grid-column: span <span class="num">4</span>;  grid-row: span <span class="num">5</span>; }
+<span class="fn">.bento-wide</span>  { grid-column: span <span class="num">6</span>;  grid-row: span <span class="num">2</span>; }
+<span class="fn">.bento-small</span> { grid-column: span <span class="num">3</span>;  grid-row: span <span class="num">2</span>; }
+
+<span class="cm">/* Diagonal section divider */</span>
+<span class="fn">.section-clip</span> {
+  clip-path: polygon(<span class="num">0 0</span>, <span class="num">100% 4vw</span>, <span class="num">100% 100%</span>, <span class="num">0 100%</span>);
+  padding-top: calc(<span class="num">4vw + 64px</span>);
+}
+
+<span class="cm">/* Sticky feature reveal */</span>
+<span class="fn">.sticky-text</span>  {
+  position: sticky;
+  top: <span class="num">30vh</span>;
+  align-self: start;
+}
+<span class="fn">.scroll-images</span> { display: flex; flex-direction: column; gap: <span class="num">100px</span>; }</pre>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ═══════════════════════════════════════════════════
+     11 · SCALE-UP & MICRO-INTERACTIONS
+═══════════════════════════════════════════════════ -->
+<section class="section" id="s11">
+  <div class="section-header">
+    <div class="section-icon si-red">✨</div>
+    <div>
+      <div class="section-num">Section 11</div>
+      <h2>Scale-up &amp; Micro-interactions</h2>
+    </div>
+  </div>
+
+  <div class="motion-scale">
+    <div class="ms-item" style="background:rgba(62,207,142,0.12); color:#3ecf8e;">
+      <span>0.97×</span>tap
+    </div>
+    <div class="ms-item" style="background:rgba(96,165,250,0.12); color:#60a5fa;">
+      <span>1.02×</span>hover lift
+    </div>
+    <div class="ms-item" style="background:rgba(124,111,247,0.12); color:#a89cff;">
+      <span>1.05×</span>feature card
+    </div>
+    <div class="ms-item" style="background:rgba(245,165,36,0.12); color:#f5a524;">
+      <span>1.08×</span>CTA button
+    </div>
+    <div class="ms-item" style="background:rgba(232,121,160,0.12); color:#e879a0;">
+      <span>1.15×</span>icon bounce
+    </div>
+    <div class="ms-item" style="background:rgba(255,68,68,0.12); color:#ff7777;">
+      <span>>1.2×</span>avoid ⚠
+    </div>
+  </div>
+
+  <div class="code-block">
+    <div class="code-label">
+      <div class="code-lang"><div class="lang-dot" style="background:#f5a524"></div>Micro-interaction Patterns</div>
+    </div>
+    <pre><span class="cm">/* Button: scale + color shift */</span>
+<span class="fn">.btn</span> {
+  transition: transform <span class="num">120ms</span> ease, background <span class="num">150ms</span> ease, box-shadow <span class="num">150ms</span> ease;
+}
+<span class="fn">.btn:hover</span>  { transform: translateY(-<span class="num">1px</span>) scale(<span class="num">1.02</span>); box-shadow: <span class="num">0 4px 16px</span> rgba(<span class="num">124,111,247,0.4</span>); }
+<span class="fn">.btn:active</span> { transform: translateY(<span class="num">0</span>) scale(<span class="num">0.97</span>); }
+
+<span class="cm">/* Icon: spin on hover */</span>
+<span class="fn">.icon-arrow</span> { transition: transform <span class="num">0.2s</span> var(--ease-bounce); }
+<span class="fn">.btn:hover .icon-arrow</span> { transform: translateX(<span class="num">4px</span>); }
+
+<span class="cm">/* Toggle switch */</span>
+<span class="kw">@keyframes</span> toggleOn {
+  <span class="num">0%</span>  { transform: translateX(<span class="num">0</span>); }
+  <span class="num">50%</span> { transform: translateX(<span class="num">26px</span>) scale(<span class="num">1.15</span>); }
+  <span class="num">100%</span> { transform: translateX(<span class="num">24px</span>) scale(<span class="num">1</span>); }
+}
+
+<span class="cm">/* Checkbox checkmark draw */</span>
+<span class="kw">@keyframes</span> checkDraw {
+  <span class="prop">from</span> { stroke-dashoffset: <span class="num">20</span>; }
+  <span class="prop">to</span>   { stroke-dashoffset: <span class="num">0</span>; }
+}
+<span class="fn">.checkmark path</span> { stroke-dasharray: <span class="num">20</span>; animation: checkDraw <span class="num">0.25s</span> ease-out; }
+
+<span class="cm">/* Skeleton loading */</span>
+<span class="kw">@keyframes</span> skeleton {
+  <span class="prop">from</span> { background-position: <span class="num">200%</span>; }
+  <span class="prop">to</span>   { background-position: -<span class="num">200%</span>; }
+}
+<span class="fn">.skeleton</span> {
+  background: linear-gradient(<span class="num">90deg</span>, #1a1a1e <span class="num">25%</span>, #252530 <span class="num">50%</span>, #1a1a1e <span class="num">75%</span>);
+  background-size: <span class="num">400%</span>;
+  animation: skeleton <span class="num">2s</span> ease infinite;
+  border-radius: <span class="num">6px</span>;
+}
+
+<span class="cm">/* Input: focus ring grow */</span>
+<span class="fn">input</span> {
+  outline: <span class="num">2px</span> solid transparent;
+  outline-offset: <span class="num">0</span>;
+  transition: outline-color <span class="num">0.15s</span>, outline-offset <span class="num">0.15s</span>;
+}
+<span class="fn">input:focus</span> {
+  outline-color: #7c6ff7;
+  outline-offset: <span class="num">2px</span>;
+}</pre>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ═══════════════════════════════════════════════════
+     12 · PERFORMANCE RULES
+═══════════════════════════════════════════════════ -->
+<section class="section" id="s12">
+  <div class="section-header">
+    <div class="section-icon si-green">⚡</div>
+    <div>
+      <div class="section-num">Section 12</div>
+      <h2>Performance Rules</h2>
+    </div>
+  </div>
+
+  <div class="do-dont">
+    <div class="do-box">
+      <h4>✓ Do — GPU compositor path</h4>
+      <ul>
+        <li>Animate <code>transform</code> (translate, scale, rotate, skew)</li>
+        <li>Animate <code>opacity</code></li>
+        <li>Use <code>will-change: transform</code> on elements that will animate</li>
+        <li>Add <code>contain: layout style</code> on isolated components</li>
+        <li>Use <code>requestAnimationFrame</code> for JS animations</li>
+        <li>Batch DOM reads before writes (avoid layout thrashing)</li>
+        <li>Lazy load heavy libraries (GSAP plugins, Three.js)</li>
+        <li>Use <code>LazyMotion</code> from motion/react to reduce bundle</li>
+        <li>Respect <code>prefers-reduced-motion</code> media query</li>
+        <li>Test at CPU 6× throttle in DevTools</li>
+      </ul>
+    </div>
+    <div class="dont-box">
+      <h4>✗ Don't — triggers layout/paint</h4>
+      <ul>
+        <li>Animate <code>width</code>, <code>height</code>, <code>top</code>, <code>left</code></li>
+        <li>Animate <code>margin</code>, <code>padding</code>, <code>border-width</code></li>
+        <li>Read layout inside animation loop (<code>offsetWidth</code>, <code>getBoundingClientRect</code>)</li>
+        <li>Apply <code>will-change</code> to every element</li>
+        <li>Use heavy <code>filter: blur()</code> on animating elements</li>
+        <li>Fire scroll/resize events without debounce</li>
+        <li>Load Three.js or GSAP on every page route</li>
+        <li>Stack multiple <code>box-shadow</code> layers on hover</li>
+        <li>Use <code>setInterval</code> for frame-by-frame animation</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="code-block">
+    <div class="code-label">
+      <div class="code-lang"><div class="lang-dot" style="background:#3ecf8e"></div>CSS — Respect Reduced Motion</div>
+    </div>
+    <pre"><span class="kw">@media</span> (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration:   <span class="num">0.01ms</span> !important;
+    animation-iteration-count: <span class="num">1</span>   !important;
+    transition-duration:  <span class="num">0.01ms</span> !important;
+    scroll-behavior:      auto !important;
+  }
+}
+
+<span class="cm">/* Safe pattern: define animations only in no-preference */</span>
+<span class="kw">@media</span> (prefers-reduced-motion: no-preference) {
+  <span class="fn">.hero</span> { animation: fadeUp <span class="num">0.8s</span> var(--ease-expo) both; }
+}</pre>
+  </div>
+
+  <div class="table-wrap">
+    <table class="ref-table">
+      <thead><tr><th>Property</th><th>Compositor layer?</th><th>Cost</th></tr></thead>
+      <tbody>
+        <tr><td><code>transform</code></td><td>✓ Yes</td><td>Free — GPU handles</td></tr>
+        <tr><td><code>opacity</code></td><td>✓ Yes</td><td>Free — GPU handles</td></tr>
+        <tr><td><code>filter</code></td><td>Partial</td><td>Medium — depends on type</td></tr>
+        <tr><td><code>background-color</code></td><td>No</td><td>Low — paint only, no layout</td></tr>
+        <tr><td><code>width / height</code></td><td>No</td><td>HIGH — triggers full layout</td></tr>
+        <tr><td><code>top / left / margin</code></td><td>No</td><td>HIGH — triggers full layout</td></tr>
+        <tr><td><code>box-shadow</code></td><td>No</td><td>Medium — paint, not layout</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ═══════════════════════════════════════════════════
+     13 · COMPONENT LIBRARIES
+═══════════════════════════════════════════════════ -->
+<section class="section" id="s13">
+  <div class="section-header">
+    <div class="section-icon si-purple">🧩</div>
+    <div>
+      <div class="section-num">Section 13</div>
+      <h2>Component Libraries</h2>
+    </div>
+  </div>
+
+  <div class="lib-card">
+    <div>
+      <h3>shadcn/ui</h3>
+      <p>Not a package — code you own. Radix primitives + Tailwind CSS. Accessible, composable, customizable. Install components via CLI (<code>npx shadcn@latest add button</code>). The industry standard foundation for React apps.</p>
+      <a href="https://ui.shadcn.com" target="_blank">ui.shadcn.com ↗</a>
+    </div>
+    <div class="lib-meta">
+      <span class="tag tag-react">React</span>
+      <span class="lib-size">0 KB runtime</span>
+    </div>
+  </div>
+
+  <div class="lib-card">
+    <div>
+      <h3>Magic UI</h3>
+      <p>150+ animated components built on shadcn/ui + Motion (Framer Motion). Marquees, animated cards, sparkles, shimmer, word fade-in, bento grids. Perfect companion for marketing pages and SaaS landing pages. Used on Langfuse, Million.dev.</p>
+      <a href="https://magicui.design" target="_blank">magicui.design ↗</a>
+    </div>
+    <div class="lib-meta">
+      <span class="tag tag-react">React</span>
+      <span class="lib-size">+Motion</span>
+    </div>
+  </div>
+
+  <div class="lib-card">
+    <div>
+      <h3>Aceternity UI</h3>
+      <p>200+ stunning animated components. Spotlight cards, moving borders, hero sections, Macbook scroll, 3D card, aurora backgrounds, beam effects. Built on Tailwind + Motion. The go-to for SaaS landing pages. Copy-paste into your codebase.</p>
+      <a href="https://ui.aceternity.com" target="_blank">ui.aceternity.com ↗</a>
+    </div>
+    <div class="lib-meta">
+      <span class="tag tag-react">React</span>
+      <span class="lib-size">+Motion</span>
+    </div>
+  </div>
+
+  <div class="lib-card">
+    <div>
+      <h3>react-bits</h3>
+      <p><span class="tag tag-new">#2 JS Rising Stars 2025</span> 110+ components. No Framer Motion dependency — uses CSS animations by default, pulls in GSAP/Three.js only when needed. Best-in-class text effects: BlurText, SplitText, GradientText. Lighter bundle than Aceternity.</p>
+      <a href="https://reactbits.dev" target="_blank">reactbits.dev ↗</a>
+    </div>
+    <div class="lib-meta">
+      <span class="tag tag-react">React</span>
+      <span class="lib-size">CSS-first</span>
+    </div>
+  </div>
+
+  <div class="lib-card">
+    <div>
+      <h3>21st.dev</h3>
+      <p>Open-source npm for shadcn/ui components. Like Dribbble for design engineers — install any community component directly via shadcn CLI. Publish your own. Growing library of production-ready animated components.</p>
+      <a href="https://21st.dev" target="_blank">21st.dev ↗</a>
+    </div>
+    <div class="lib-meta">
+      <span class="tag tag-react">React</span>
+      <span class="lib-size">CLI install</span>
+    </div>
+  </div>
+
+  <div class="lib-card">
+    <div>
+      <h3>Motion Primitives</h3>
+      <p>Simple, beautiful animations in the spirit of shadcn/ui. More minimal than Magic UI or Aceternity. Text blur, slide, fade, disclosure, cursor. Good for integrating into existing codebases without heavy animation libraries.</p>
+      <a href="https://motion-primitives.com" target="_blank">motion-primitives.com ↗</a>
+    </div>
+    <div class="lib-meta">
+      <span class="tag tag-react">React</span>
+      <span class="lib-size">+Motion</span>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3>When to use which</h3>
+    <div class="table-wrap">
+      <table class="ref-table">
+        <thead><tr><th>Project Type</th><th>Recommended Stack</th></tr></thead>
+        <tbody>
+          <tr><td>SaaS marketing / landing page</td><td>shadcn/ui + Aceternity UI or Magic UI</td></tr>
+          <tr><td>Product dashboard / app</td><td>shadcn/ui + Motion for transitions</td></tr>
+          <tr><td>Portfolio / creative site</td><td>react-bits + GSAP + Lenis</td></tr>
+          <tr><td>E-commerce</td><td>shadcn/ui + Motion (lightweight)</td></tr>
+          <tr><td>Cinematic scrollytelling</td><td>GSAP + ScrollTrigger + Three.js/R3F</td></tr>
+          <tr><td>Component library / design system</td><td>shadcn/ui + Motion Primitives</td></tr>
+          <tr><td>Vanilla HTML/no framework</td><td>Pure CSS + GSAP + anime.js</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ═══════════════════════════════════════════════════
+     14 · MOTION DESIGN PRINCIPLES
+═══════════════════════════════════════════════════ -->
+<section class="section" id="s14">
+  <div class="section-header">
+    <div class="section-icon si-amber">🎬</div>
+    <div>
+      <div class="section-num">Section 14</div>
+      <h2>Motion Design Principles</h2>
+    </div>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-accent-top cat-purple"></div>
+      <h3>Purpose over decoration</h3>
+      <p>Every animation should communicate something: state change, spatial relationship, system feedback, or brand character. If you can't explain why an animation exists, remove it.</p>
+    </div>
+    <div class="card">
+      <div class="card-accent-top cat-teal"></div>
+      <h3>Direction = metaphor</h3>
+      <p>Things entering from the bottom feel like growth. Top = importance. Right = forward/next. Left = back. Be consistent — spatial metaphors build intuitive navigation.</p>
+    </div>
+    <div class="card">
+      <div class="card-accent-top cat-green"></div>
+      <h3>One choreographed moment</h3>
+      <p>One well-orchestrated entrance sequence (staggered hero reveal) creates more delight than 20 scattered micro-interactions. Focus your animation budget on high-impact moments.</p>
+    </div>
+    <div class="card">
+      <div class="card-accent-top cat-amber"></div>
+      <h3>Duration hierarchy</h3>
+      <p>Micro: 80–150ms. Element transitions: 200–400ms. Page transitions: 300–600ms. Cinematic reveals: 800–1200ms. Never exceed 1500ms for any routine interaction.</p>
+    </div>
+    <div class="card">
+      <div class="card-accent-top cat-pink"></div>
+      <h3>Easing = personality</h3>
+      <p>Ease-out = natural, energetic. Spring = playful, alive. Linear = mechanical. Custom cubic-bezier = branded. Your easing choices are your brand's motion signature.</p>
+    </div>
+    <div class="card">
+      <div class="card-accent-top cat-blue"></div>
+      <h3>Exit matters</h3>
+      <p>Entering animations get all the attention. But smooth exits (AnimatePresence) make the UI feel cohesive. Toast → slide out. Modal → scale down. Nav → fade out.</p>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3>Motion tokens — duration scale</h3>
+    <div class="table-wrap">
+      <table class="ref-table">
+        <thead><tr><th>Token</th><th>Duration</th><th>When to use</th></tr></thead>
+        <tbody>
+          <tr><td><code>--dur-instant</code></td><td>0ms</td><td>Reduced motion mode</td></tr>
+          <tr><td><code>--dur-micro</code></td><td>80ms</td><td>Tooltip show, icon state</td></tr>
+          <tr><td><code>--dur-fast</code></td><td>150ms</td><td>Button hover/tap feedback</td></tr>
+          <tr><td><code>--dur-base</code></td><td>300ms</td><td>Most hover effects</td></tr>
+          <tr><td><code>--dur-slow</code></td><td>500ms</td><td>Modal open, panel slide</td></tr>
+          <tr><td><code>--dur-enter</code></td><td>700ms</td><td>Page entrance animations</td></tr>
+          <tr><td><code>--dur-cinematic</code></td><td>1000–1200ms</td><td>Hero reveal, dramatic moments</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="callout callout-tip">
+    <span class="callout-icon">✓</span>
+    <div><strong>Choreography rule:</strong> stagger delays should total ≤ 400ms for the full set. If you have 8 cards at 100ms each = 800ms wait — the last card never gets seen. Use <code>stagger: { amount: 0.5 }</code> in GSAP to spread the total stagger across the set.</div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ═══════════════════════════════════════════════════
+     15 · RESOURCES
+═══════════════════════════════════════════════════ -->
+<section class="section" id="s15">
+  <div class="section-header">
+    <div class="section-icon si-blue">🔗</div>
+    <div>
+      <div class="section-num">Section 15</div>
+      <h2>Resources &amp; Links</h2>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3>Documentation</h3>
+    <div class="link-list">
+      <a class="link-item" href="https://motion.dev/docs" target="_blank">
+        <div>
+          <div class="link-name">Motion (Framer Motion) Docs</div>
+          <div class="link-desc">motion.dev/docs — Official docs for Motion v12, React + Vanilla JS</div>
+        </div>
+      </a>
+      <a class="link-item" href="https://gsap.com/docs/v3" target="_blank">
+        <div>
+          <div class="link-name">GSAP 3 Docs</div>
+          <div class="link-desc">gsap.com/docs/v3 — Full GSAP API, plugins, ScrollTrigger reference</div>
+        </div>
+      </a>
+      <a class="link-item" href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_scroll-driven_animations" target="_blank">
+        <div>
+          <div class="link-name">MDN — CSS Scroll-Driven Animations</div>
+          <div class="link-desc">Native animation-timeline, view(), scroll() API</div>
+        </div>
+      </a>
+      <a class="link-item" href="https://ui.shadcn.com" target="_blank">
+        <div>
+          <div class="link-name">shadcn/ui</div>
+          <div class="link-desc">ui.shadcn.com — Copy-paste accessible React components</div>
+        </div>
+      </a>
+      <a class="link-item" href="https://ui.aceternity.com/components" target="_blank">
+        <div>
+          <div class="link-name">Aceternity UI Components</div>
+          <div class="link-desc">200+ animated components — spotlight, aurora, 3D tilt, beam</div>
+        </div>
+      </a>
+      <a class="link-item" href="https://magicui.design" target="_blank">
+        <div>
+          <div class="link-name">Magic UI</div>
+          <div class="link-desc">150+ animated components — marquee, word fade, shimmer, bento</div>
+        </div>
+      </a>
+      <a class="link-item" href="https://reactbits.dev" target="_blank">
+        <div>
+          <div class="link-name">react-bits</div>
+          <div class="link-desc">CSS-first animated components — #2 JS Rising Stars 2025</div>
+        </div>
+      </a>
+      <a class="link-item" href="https://21st.dev" target="_blank">
+        <div>
+          <div class="link-name">21st.dev</div>
+          <div class="link-desc">Open-source npm for shadcn/ui components — CLI installable</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3>Tools &amp; playgrounds</h3>
+    <div class="link-list">
+      <a class="link-item" href="https://cubic-bezier.com" target="_blank">
+        <div>
+          <div class="link-name">cubic-bezier.com</div>
+          <div class="link-desc">Visual easing curve generator for CSS transitions</div>
+        </div>
+      </a>
+      <a class="link-item" href="https://gsap.com/resources/easing/" target="_blank">
+        <div>
+          <div class="link-name">GSAP Ease Visualizer</div>
+          <div class="link-desc">Interactive GSAP easing curve editor</div>
+        </div>
+      </a>
+      <a class="link-item" href="https://animista.net" target="_blank">
+        <div>
+          <div class="link-name">Animista</div>
+          <div class="link-desc">CSS animation playground — copy generated @keyframes</div>
+        </div>
+      </a>
+      <a class="link-item" href="https://www.gradient.style" target="_blank">
+        <div>
+          <div class="link-name">gradient.style</div>
+          <div class="link-desc">CSS gradient builder with conic, mesh, and layered gradients</div>
+        </div>
+      </a>
+      <a class="link-item" href="https://scroll-driven-animations.style" target="_blank">
+        <div>
+          <div class="link-name">scroll-driven-animations.style</div>
+          <div class="link-desc">Chrome's CSS scroll-driven animation demos and explainer</div>
+        </div>
+      </a>
+      <a class="link-item" href="https://tympanus.net/codrops" target="_blank">
+        <div>
+          <div class="link-name">Codrops</div>
+          <div class="link-desc">Advanced animation tutorials — GSAP, WebGL, CSS</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer style="border-top: 1px solid var(--border); padding-top: 24px; margin-top: 48px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+  <span style="color:var(--text3); font-size:13px;">Frontend Animation &amp; UX/UI Reference · Updated April 2026</span>
+  <div style="display:flex; gap:12px; font-size:12px; color:var(--text3);">
+    <span>Motion v12 &middot; GSAP 3 &middot; shadcn/ui &middot; React 19+</span>
+  </div>
+</footer>
+
+</body>
+</html>
