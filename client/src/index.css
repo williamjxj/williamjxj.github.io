@@ -43,126 +43,112 @@
 }
 
 :root {
-  /* Neural Networks Design Theme - Tech-Forward Minimalism */
-  /* Primary: Electric Cyan (#00d9ff), Secondary: Vibrant Purple (#7c3aed) */
-  --primary: oklch(0.65 0.22 200); /* Electric Cyan */
-  --primary-foreground: oklch(0.05 0.01 0); /* Deep Charcoal */
-  --sidebar-primary: oklch(0.60 0.20 200); /* Cyan variant */
-  --sidebar-primary-foreground: oklch(0.05 0.01 0);
-  --chart-1: oklch(0.65 0.22 200); /* Cyan */
-  --chart-2: oklch(0.55 0.18 270); /* Purple */
-  --chart-3: oklch(0.60 0.20 200); /* Cyan variant */
-  --chart-4: oklch(0.50 0.15 270); /* Dark Purple */
-  --chart-5: oklch(0.45 0.12 270); /* Darker Purple */
-  --radius: 0.5rem;
-  --background: oklch(0.08 0.01 0); /* Deep Charcoal */
-  --foreground: oklch(0.95 0.01 0); /* Light Text */
-  --card: oklch(0.12 0.02 270); /* Dark Blue-Gray */
-  --card-foreground: oklch(0.95 0.01 0);
-  --popover: oklch(0.12 0.02 270);
-  --popover-foreground: oklch(0.95 0.01 0);
-  --secondary: oklch(0.55 0.18 270); /* Vibrant Purple */
-  --secondary-foreground: oklch(0.95 0.01 0);
-  --muted: oklch(0.25 0.03 270); /* Muted Purple-Gray */
-  --muted-foreground: oklch(0.70 0.05 200); /* Muted Cyan */
-  --accent: oklch(0.65 0.22 200); /* Electric Cyan */
-  --accent-foreground: oklch(0.08 0.01 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.20 0.03 270); /* Subtle border */
-  --input: oklch(0.15 0.02 270);
-  --ring: oklch(0.65 0.22 200); /* Cyan glow */
-  --sidebar: oklch(0.10 0.01 0);
-  --sidebar-foreground: oklch(0.95 0.01 0);
-  --sidebar-accent: oklch(0.65 0.22 200);
-  --sidebar-accent-foreground: oklch(0.08 0.01 0);
-  --sidebar-border: oklch(0.20 0.03 270);
-  --sidebar-ring: oklch(0.65 0.22 200);
+  /* William Jiang Brand — "Ship Production-Grade" Dark Theme */
+  /* Background: GitHub-dark #0B0F19 · Accents: Violet #8B5CF6, Teal #3ECF8E, Orange #D97757 */
+  --primary: #8b5cf6; /* Violet */
+  --primary-foreground: #ffffff;
+  --sidebar-primary: #a78bfa;
+  --sidebar-primary-foreground: #0b0f19;
+  --chart-1: #8b5cf6; /* Violet */
+  --chart-2: #3ecf8e; /* Teal */
+  --chart-3: #d97757; /* Orange */
+  --chart-4: #58a6ff; /* Blue */
+  --chart-5: #f472b6; /* Pink */
+  --radius: 0.75rem;
+  --background: #0b0f19; /* Deep space */
+  --foreground: #e6edf3; /* Soft white */
+  --card: #111827; /* Card surface */
+  --card-foreground: #e6edf3;
+  --popover: #111827;
+  --popover-foreground: #e6edf3;
+  --secondary: #d97757; /* Warm orange */
+  --secondary-foreground: #ffffff;
+  --muted: #1b2230; /* Muted surface */
+  --muted-foreground: #8b95a5; /* Muted text */
+  --accent: #3ecf8e; /* Teal */
+  --accent-foreground: #0b0f19;
+  --destructive: #f87171;
+  --destructive-foreground: #ffffff;
+  --border: #232b3b;
+  --input: #161d2b;
+  --ring: #8b5cf6;
+  --sidebar: #0d1117;
+  --sidebar-foreground: #e6edf3;
+  --sidebar-accent: #3ecf8e;
+  --sidebar-accent-foreground: #0b0f19;
+  --sidebar-border: #232b3b;
+  --sidebar-ring: #8b5cf6;
 }
 
 .dark {
-  /* Neural Networks Design - Dark mode is primary */
-  --primary: oklch(0.65 0.22 200); /* Electric Cyan */
-  --primary-foreground: oklch(0.05 0.01 0);
-  --sidebar-primary: oklch(0.60 0.20 200);
-  --sidebar-primary-foreground: oklch(0.05 0.01 0);
-  --background: oklch(0.08 0.01 0); /* Deep Charcoal */
-  --foreground: oklch(0.95 0.01 0);
-  --card: oklch(0.12 0.02 270);
-  --card-foreground: oklch(0.95 0.01 0);
-  --popover: oklch(0.12 0.02 270);
-  --popover-foreground: oklch(0.95 0.01 0);
-  --secondary: oklch(0.55 0.18 270); /* Vibrant Purple */
-  --secondary-foreground: oklch(0.95 0.01 0);
-  --muted: oklch(0.25 0.03 270);
-  --muted-foreground: oklch(0.70 0.05 200);
-  --accent: oklch(0.65 0.22 200);
-  --accent-foreground: oklch(0.08 0.01 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.20 0.03 270);
-  --input: oklch(0.15 0.02 270);
-  --ring: oklch(0.65 0.22 200);
-  --chart-1: oklch(0.65 0.22 200);
-  --chart-2: oklch(0.55 0.18 270);
-  --chart-3: oklch(0.60 0.20 200);
-  --chart-4: oklch(0.50 0.15 270);
-  --chart-5: oklch(0.45 0.12 270);
-  --sidebar: oklch(0.10 0.01 0);
-  --sidebar-foreground: oklch(0.95 0.01 0);
-  --sidebar-accent: oklch(0.65 0.22 200);
-  --sidebar-accent-foreground: oklch(0.08 0.01 0);
-  --sidebar-border: oklch(0.20 0.03 270);
-  --sidebar-ring: oklch(0.65 0.22 200);
+  --primary: #8b5cf6;
+  --primary-foreground: #ffffff;
+  --sidebar-primary: #a78bfa;
+  --sidebar-primary-foreground: #0b0f19;
+  --chart-1: #8b5cf6;
+  --chart-2: #3ecf8e;
+  --chart-3: #d97757;
+  --chart-4: #58a6ff;
+  --chart-5: #f472b6;
+  --background: #0b0f19;
+  --foreground: #e6edf3;
+  --card: #111827;
+  --card-foreground: #e6edf3;
+  --popover: #111827;
+  --popover-foreground: #e6edf3;
+  --secondary: #d97757;
+  --secondary-foreground: #ffffff;
+  --muted: #1b2230;
+  --muted-foreground: #8b95a5;
+  --accent: #3ecf8e;
+  --accent-foreground: #0b0f19;
+  --destructive: #f87171;
+  --destructive-foreground: #ffffff;
+  --border: #232b3b;
+  --input: #161d2b;
+  --ring: #8b5cf6;
+  --sidebar: #0d1117;
+  --sidebar-foreground: #e6edf3;
+  --sidebar-accent: #3ecf8e;
+  --sidebar-accent-foreground: #0b0f19;
+  --sidebar-border: #232b3b;
+  --sidebar-ring: #8b5cf6;
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    scroll-behavior: smooth;
+  }
   body {
-    @apply bg-background text-foreground;
-    font-family: 'Inter', sans-serif;
+    @apply bg-background text-foreground antialiased;
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
   }
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Sora', sans-serif;
+    font-family: "Sora", system-ui, sans-serif;
     font-weight: 700;
+    letter-spacing: -0.02em;
   }
-  code, pre {
-    font-family: 'IBM Plex Mono', monospace;
+  code, pre, .font-mono {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
   }
-  button:not(:disabled),
-  [role="button"]:not([aria-disabled="true"]),
-  [type="button"]:not(:disabled),
-  [type="submit"]:not(:disabled),
-  [type="reset"]:not(:disabled),
-  a[href],
-  select:not(:disabled),
-  input[type="checkbox"]:not(:disabled),
-  input[type="radio"]:not(:disabled) {
-    @apply cursor-pointer;
+  section[id] {
+    scroll-margin-top: 84px;
+  }
+  ::selection {
+    background: rgba(139, 92, 246, 0.35);
+    color: #ffffff;
   }
 }
 
 @layer components {
-  /**
-   * Custom container utility that centers content and adds responsive padding.
-   *
-   * This overrides Tailwind's default container behavior to:
-   * - Auto-center content (mx-auto)
-   * - Add responsive horizontal padding
-   * - Set max-width for large screens
-   *
-   * Usage: <div className="container">...</div>
-   *
-   * For custom widths, use max-w-* utilities directly:
-   * <div className="max-w-6xl mx-auto px-4">...</div>
-   */
   .container {
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-    padding-left: 1rem; /* 16px - mobile padding */
+    padding-left: 1rem;
     padding-right: 1rem;
   }
 
@@ -171,86 +157,101 @@
     min-width: 0;
   }
 
-  /* Neural Networks Design - Custom Components */
-  .glow-cyan {
-    box-shadow: 0 0 20px rgba(0, 217, 255, 0.3), 0 0 40px rgba(0, 217, 255, 0.1);
+  /* Gradient headline text — violet → teal → orange */
+  .text-gradient {
+    background: linear-gradient(100deg, #a78bfa 0%, #3ecf8e 52%, #d97757 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
   }
 
-  .glow-purple {
-    box-shadow: 0 0 20px rgba(124, 58, 237, 0.3), 0 0 40px rgba(124, 58, 237, 0.1);
+  /* Subtle blueprint grid */
+  .bg-grid {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 90% 80% at 50% 20%, black 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 20%, black 30%, transparent 75%);
+  }
+
+  .glass {
+    background: rgba(13, 17, 23, 0.72);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .glow-violet {
+    box-shadow: 0 0 24px rgba(139, 92, 246, 0.28), 0 0 64px rgba(139, 92, 246, 0.12);
+  }
+
+  .glow-teal {
+    box-shadow: 0 0 24px rgba(62, 207, 142, 0.25), 0 0 64px rgba(62, 207, 142, 0.1);
   }
 
   .border-glow {
-    border: 1px solid rgba(0, 217, 255, 0.3);
-    box-shadow: inset 0 0 20px rgba(0, 217, 255, 0.05);
+    border: 1px solid rgba(139, 92, 246, 0.22);
+    box-shadow: inset 0 0 24px rgba(139, 92, 246, 0.05);
   }
 
-  .gradient-text {
-    background: linear-gradient(135deg, #00d9ff 0%, #7c3aed 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .logo-ai-effect {
-    position: relative;
-    display: inline-block;
-    transition: all 0.3s ease;
-  }
-
-  .logo-ai-effect:hover {
-    filter: drop-shadow(0 0 8px rgba(0, 217, 255, 0.6));
-  }
-
-  @keyframes logo-pulse {
-    0%, 100% { 
-      text-shadow: 0 0 5px rgba(0, 217, 255, 0.3);
-    }
-    50% { 
-      text-shadow: 0 0 10px rgba(0, 217, 255, 0.5), 0 0 20px rgba(124, 58, 237, 0.3);
-    }
-  }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-  }
-
-  .float-animation {
-    animation: float 3s ease-in-out infinite;
-  }
-
-  @keyframes glow-pulse {
-    0%, 100% { box-shadow: 0 0 20px rgba(0, 217, 255, 0.3), 0 0 40px rgba(0, 217, 255, 0.1); }
-    50% { box-shadow: 0 0 30px rgba(0, 217, 255, 0.5), 0 0 60px rgba(0, 217, 255, 0.2); }
-  }
-
-  .glow-pulse {
-    animation: glow-pulse 2s ease-in-out infinite;
-  }
-
-  /* Hide scrollbar for mobile navigation */
   .scrollbar-hide {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 
   .scrollbar-hide::-webkit-scrollbar {
-    display: none;  /* Chrome, Safari, Opera */
+    display: none;
+  }
+
+  @keyframes float-y {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-12px); }
+  }
+
+  .float-animation {
+    animation: float-y 6s ease-in-out infinite;
+  }
+
+  @keyframes blink-cursor {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
+
+  .blink-cursor {
+    animation: blink-cursor 1.15s steps(1) infinite;
+  }
+
+  @keyframes particle-drift {
+    0%, 100% { transform: translateY(0); opacity: 0.15; }
+    50% { transform: translateY(-18px); opacity: 0.75; }
+  }
+
+  .particle {
+    animation: particle-drift 8s ease-in-out infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.72); }
+  }
+
+  .pulse-dot {
+    animation: pulse-dot 2.2s ease-in-out infinite;
   }
 
   @media (min-width: 640px) {
     .container {
-      padding-left: 1.5rem; /* 24px - tablet padding */
+      padding-left: 1.5rem;
       padding-right: 1.5rem;
     }
   }
 
   @media (min-width: 1024px) {
     .container {
-      padding-left: 2rem; /* 32px - desktop padding */
+      padding-left: 2rem;
       padding-right: 2rem;
-      max-width: 1280px; /* Standard content width */
+      max-width: 1280px;
     }
   }
 }
