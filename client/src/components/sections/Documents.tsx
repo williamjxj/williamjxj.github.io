@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { BookOpen, Download, ScrollText, Wand2 } from "lucide-react";
+import { BookOpen, Download, Network, ScrollText, Wand2, Workflow } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslations } from "@/lib/translations";
 import { SectionHeading } from "@/components/sections/SectionHeading";
@@ -33,6 +33,22 @@ export default function Documents() {
       download: false,
       action: t.documents.open,
     },
+    {
+      icon: Workflow,
+      title: t.documents.workflowTitle,
+      description: t.documents.workflowDesc,
+      href: "/docs/llm-workflow.html",
+      download: false,
+      action: t.documents.open,
+    },
+    {
+      icon: Network,
+      title: t.documents.ragTitle,
+      description: t.documents.ragDesc,
+      href: "/docs/rag-pipelines-animation.html",
+      download: false,
+      action: t.documents.open,
+    },
   ];
 
   return (
@@ -44,7 +60,7 @@ export default function Documents() {
           subtitle={t.documents.subtitle}
         />
 
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {docs.map((doc, i) => {
             const Icon = doc.icon;
             const isDownload = doc.download;

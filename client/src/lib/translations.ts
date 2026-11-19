@@ -96,6 +96,10 @@ export interface Translations {
     detailsDesc: string;
     animationTitle: string;
     animationDesc: string;
+    workflowTitle: string;
+    workflowDesc: string;
+    ragTitle: string;
+    ragDesc: string;
     download: string;
     open: string;
   };
@@ -243,6 +247,12 @@ export const translations: Record<Language, Translations> = {
       animationTitle: "Frontend Animation Reference",
       animationDesc:
         "A standalone interactive reference page for frontend animation techniques.",
+      workflowTitle: "LLM Workflow Handbook",
+      workflowDesc:
+        "An interactive handbook covering RAG, LoRA, SFT/RL and LLM-wiki workflows.",
+      ragTitle: "RAG Pipelines (Animated)",
+      ragDesc:
+        "An animated walkthrough of the offline indexing and online retrieval pipelines behind RAG.",
       download: "Download Document",
       open: "Open Reference Page",
     },
@@ -388,6 +398,12 @@ export const translations: Record<Language, Translations> = {
       animationTitle: "前端动画参考",
       animationDesc:
         "独立交互式前端动画技术参考页面。",
+      workflowTitle: "LLM 工作流手册",
+      workflowDesc:
+        "涵盖 RAG、LoRA、SFT/RL 与 LLM-Wiki 工作流的交互式手册。",
+      ragTitle: "RAG 离线与在线 Pipeline（动画）",
+      ragDesc:
+        "以动画演示 RAG 的离线建库与在线检索完整流程。",
       download: "下载文档",
       open: "打开参考页面",
     },

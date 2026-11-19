@@ -100,7 +100,7 @@ npm run preview
 williamjxj.github.io/
 ├── client/                 # Frontend React application
 │   ├── public/            # Static assets
-│   │   ├── docs/          # Downloadable documents
+│   │   ├── docs/          # Downloadable documents & interactive HTML references
 │   │   ├── github-io.png  # Portfolio banner
 │   │   └── favicon.svg    # Site favicon
 │   └── src/
