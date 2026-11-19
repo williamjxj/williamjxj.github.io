@@ -1,0 +1,241 @@
+/* Docs shell — shared light navigation for the standalone documents in /docs/.
+   Loaded after each document's own styles; every rule here is prefixed docs-
+   and none of them restyle document content. */
+
+:root {
+  --docs-shell-h: 44px;
+  --docs-shell-bg: #f8f9fb;
+  --docs-shell-line: #e3e7ee;
+  --docs-shell-ink: #17202c;
+  --docs-shell-muted: #5c6676;
+  --docs-shell-hover: #eef1f6;
+  --docs-shell-violet: #6d4bd8;
+  --docs-font: "IBM Plex Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --docs-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+html.docs-shelled {
+  overflow-x: clip;
+  scroll-padding-top: calc(env(safe-area-inset-top, 0px) + var(--docs-shell-h) + 8px);
+}
+body.docs-shelled { overflow-x: clip; }
+
+/* ── top bar ─────────────────────────────────────────────────────────────── */
+
+.docs-shell {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  height: var(--docs-shell-h);
+  background: var(--docs-shell-bg);
+  border-bottom: 1px solid var(--docs-shell-line);
+  color: var(--docs-shell-ink);
+  font-family: var(--docs-font);
+  -webkit-font-smoothing: antialiased;
+}
+@media (min-width: 760px) {
+  .docs-shell { position: sticky; top: 0; z-index: 60; }
+}
+
+.docs-shell-in {
+  max-width: 1280px;
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 max(16px, env(safe-area-inset-left, 0px));
+}
+
+.docs-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: inherit;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.docs-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  background: linear-gradient(135deg, #8b5cf6, #3ecf8e 55%, #d97757);
+  color: #0b0f19;
+  font: 700 11px/1 var(--docs-mono);
+  letter-spacing: .02em;
+  transition: transform .16s ease;
+}
+.docs-brand:hover .docs-mark { transform: scale(1.06); }
+.docs-brand:hover .docs-brand-text { color: var(--docs-shell-violet); }
+
+.docs-kicker {
+  padding-left: 10px;
+  border-left: 1px solid var(--docs-shell-line);
+  color: var(--docs-shell-muted);
+  font: 500 11px/1 var(--docs-mono);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ── document menu ───────────────────────────────────────────────────────── */
+
+.docs-menu { position: relative; margin-left: auto; }
+
+.docs-menu-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid var(--docs-shell-line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--docs-shell-ink);
+  font: 500 12.5px/1 var(--docs-font);
+  white-space: nowrap;
+  cursor: pointer;
+  list-style: none;
+}
+.docs-menu-btn::-webkit-details-marker { display: none; }
+.docs-menu-btn-short { display: none; }
+.docs-menu-btn::after {
+  content: "▾";
+  font-size: 9px;
+  line-height: 1;
+  color: var(--docs-shell-muted);
+}
+.docs-menu[open] .docs-menu-btn::after { content: "▴"; }
+.docs-menu-btn:hover { background: var(--docs-shell-hover); }
+
+.docs-menu-panel {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  z-index: 70;
+  min-width: 330px;
+  max-width: calc(100vw - 32px);
+  display: grid;
+  gap: 2px;
+  padding: 6px;
+  background: #fff;
+  border: 1px solid var(--docs-shell-line);
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgba(16, 22, 38, .14);
+}
+
+.docs-menu-link {
+  display: grid;
+  gap: 2px;
+  padding: 8px 10px;
+  border-left: 2px solid transparent;
+  border-radius: 6px;
+  color: var(--docs-shell-ink);
+  text-decoration: none;
+}
+.docs-menu-link:hover { background: var(--docs-shell-hover); }
+.docs-menu-link[aria-current="page"] {
+  border-left-color: var(--docs-shell-violet);
+  background: var(--docs-shell-hover);
+}
+.docs-menu-title { font-size: 13px; font-weight: 600; line-height: 1.3; }
+.docs-menu-sub { color: var(--docs-shell-muted); font: 400 11.5px/1.4 var(--docs-mono); }
+
+.docs-home {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--docs-shell-ink);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.docs-home:hover { color: var(--docs-shell-violet); }
+.docs-home-long { display: inline; }
+.docs-home-short { display: none; }
+
+/* ── footer nav ──────────────────────────────────────────────────────────── */
+
+.docs-foot {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-top: 48px;
+  background: #fff;
+  border-top: 1px solid var(--docs-shell-line);
+  color: var(--docs-shell-ink);
+  font-family: var(--docs-font);
+  -webkit-font-smoothing: antialiased;
+}
+.docs-foot-in {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 18px max(16px, env(safe-area-inset-left, 0px)) 36px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.docs-foot-link {
+  display: grid;
+  gap: 3px;
+  max-width: 44ch;
+  color: var(--docs-shell-ink);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+.docs-foot-link:hover .docs-foot-title {
+  text-decoration: underline;
+  text-decoration-color: var(--docs-shell-violet);
+  text-underline-offset: 3px;
+}
+.docs-foot-dir {
+  color: var(--docs-shell-muted);
+  font: 500 11px/1 var(--docs-mono);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.docs-foot-next { justify-items: end; text-align: right; }
+.docs-foot-all { justify-items: center; text-align: center; font-weight: 500; padding-top: 12px; }
+
+/* ── focus ───────────────────────────────────────────────────────────────── */
+
+.docs-shell a:focus-visible,
+.docs-shell summary:focus-visible,
+.docs-foot a:focus-visible {
+  outline: 2px solid var(--docs-shell-violet);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* ── offset the documents' own sticky chrome ─────────────────────────────── */
+
+@media (min-width: 760px) {
+  body.docs-shelled .bar { top: var(--docs-shell-h); }
+  body.docs-shelled .side {
+    top: calc(env(safe-area-inset-top, 0px) + var(--docs-shell-h) + var(--bar-h));
+  }
+}
+
+/* ── phones ──────────────────────────────────────────────────────────────── */
+
+@media (max-width: 700px) {
+  .docs-shell-in { gap: 8px; }
+  .docs-kicker,
+  .docs-brand-text { display: none; }
+  .docs-home-long,
+  .docs-menu-btn-long { display: none; }
+  .docs-home-short,
+  .docs-menu-btn-short { display: inline; }
+  .docs-menu-btn { padding: 0 9px; }
+  .docs-foot-in { flex-direction: column; gap: 14px; }
+  .docs-foot-next,
+  .docs-foot-all { justify-items: start; text-align: left; }
+  .docs-foot-all { padding-top: 0; }
+}

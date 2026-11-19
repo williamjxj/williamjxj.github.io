@@ -1,0 +1,99 @@
+/* Docs shell — injects the shared bar and footer into every document in /docs/.
+   Order here is the reading order used by the menu, the prev/next footer and
+   the index page. Add a new document by adding one entry. */
+(function () {
+  var DOCS = [
+    { file: "frontend-animation-reference.html", en: "Frontend Animation Reference", zh: "前端动画参考" },
+    { file: "llm-workflow.html", en: "LLM Workflow Handbook", zh: "LLM 工作流手册" },
+    { file: "rag-pipelines-animation.html", en: "RAG Pipelines", zh: "RAG 流水线 (动画)" },
+    { file: "genai-handbook.html", en: "GenAI Multimedia Handbook", zh: "GenAI 多媒体手册" }
+  ];
+  var HOME = "/";
+
+  document.documentElement.classList.add("docs-shelled");
+  document.body.classList.add("docs-shelled");
+
+  if (document.querySelector("[data-docs-shell]")) return;
+
+  var file = (window.location.pathname.split("/").pop() || "").toLowerCase();
+  var current = null;
+  for (var i = 0; i < DOCS.length; i++) {
+    if (DOCS[i].file === file) current = DOCS[i];
+  }
+  var index = current ? DOCS.indexOf(current) : -1;
+
+  function esc(value) {
+    return String(value).replace(/[&<>"]/g, function (ch) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch];
+    });
+  }
+
+  function menuItem(doc) {
+    return '<a class="docs-menu-link" href="' + doc.file + '"' +
+      (doc === current ? ' aria-current="page"' : "") + ">" +
+      '<span class="docs-menu-title">' + esc(doc.en) + "</span>" +
+      '<span class="docs-menu-sub">' + esc(doc.zh) + "</span>" +
+      "</a>";
+  }
+
+  function footLink(doc, direction) {
+    return '<a class="docs-foot-link docs-foot-' + direction + '" href="' + doc.file + '">' +
+      '<span class="docs-foot-dir">' + (direction === "prev" ? "← Previous" : "Next →") + "</span>" +
+      '<span class="docs-foot-title">' + esc(doc.en) + "</span>" +
+      "</a>";
+  }
+
+  var shell = document.createElement("div");
+  shell.className = "docs-shell";
+  shell.setAttribute("data-docs-shell", "");
+  shell.innerHTML =
+    '<div class="docs-shell-in">' +
+      '<a class="docs-brand" href="' + HOME + '">' +
+        '<span class="docs-mark" aria-hidden="true">WJ</span>' +
+        '<span class="docs-brand-text">William Jiang</span>' +
+      "</a>" +
+      '<span class="docs-kicker">Docs · 文档</span>' +
+      '<details class="docs-menu">' +
+        '<summary class="docs-menu-btn">' +
+          '<span class="docs-menu-btn-long">All documents · 全部文档</span>' +
+          '<span class="docs-menu-btn-short">Docs · 文档</span>' +
+        "</summary>" +
+        '<nav class="docs-menu-panel" aria-label="Documents · 文档">' +
+          DOCS.map(menuItem).join("") +
+        "</nav>" +
+      "</details>" +
+      '<a class="docs-home" href="' + HOME + '">' +
+        '<span aria-hidden="true">←</span>' +
+        '<span class="docs-home-long">Portfolio · 返回作品集</span>' +
+        '<span class="docs-home-short">Home · 主页</span>' +
+      "</a>" +
+    "</div>";
+  document.body.insertBefore(shell, document.body.firstChild);
+
+  var foot = document.createElement("nav");
+  foot.className = "docs-foot";
+  foot.setAttribute("aria-label", "Document navigation · 文档导航");
+  foot.innerHTML =
+    '<div class="docs-foot-in">' +
+      (index > 0 ? footLink(DOCS[index - 1], "prev") : "<span></span>") +
+      '<a class="docs-foot-link docs-foot-all" href="index.html">All documents · 全部文档</a>' +
+      (index > -1 && index < DOCS.length - 1 ? footLink(DOCS[index + 1], "next") : "<span></span>") +
+    "</div>";
+  document.body.appendChild(foot);
+
+  document.addEventListener("click", function (event) {
+    var open = document.querySelectorAll("details.docs-menu[open]");
+    for (var i = 0; i < open.length; i++) {
+      if (!open[i].contains(event.target)) open[i].removeAttribute("open");
+    }
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key !== "Escape") return;
+    var open = document.querySelector("details.docs-menu[open]");
+    if (!open) return;
+    open.removeAttribute("open");
+    var summary = open.querySelector("summary");
+    if (summary) summary.focus();
+  });
+})();
