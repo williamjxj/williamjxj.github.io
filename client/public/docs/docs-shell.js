@@ -12,6 +12,7 @@
 
   document.documentElement.classList.add("docs-shelled");
   document.body.classList.add("docs-shelled");
+  bindMenu();
 
   if (document.querySelector("[data-docs-shell]")) return;
 
@@ -81,19 +82,21 @@
     "</div>";
   document.body.appendChild(foot);
 
-  document.addEventListener("click", function (event) {
-    var open = document.querySelectorAll("details.docs-menu[open]");
-    for (var i = 0; i < open.length; i++) {
-      if (!open[i].contains(event.target)) open[i].removeAttribute("open");
-    }
-  });
+  function bindMenu() {
+    document.addEventListener("click", function (event) {
+      var open = document.querySelectorAll("details.docs-menu[open]");
+      for (var i = 0; i < open.length; i++) {
+        if (!open[i].contains(event.target)) open[i].removeAttribute("open");
+      }
+    });
 
-  document.addEventListener("keydown", function (event) {
-    if (event.key !== "Escape") return;
-    var open = document.querySelector("details.docs-menu[open]");
-    if (!open) return;
-    open.removeAttribute("open");
-    var summary = open.querySelector("summary");
-    if (summary) summary.focus();
-  });
+    document.addEventListener("keydown", function (event) {
+      if (event.key !== "Escape") return;
+      var open = document.querySelector("details.docs-menu[open]");
+      if (!open) return;
+      open.removeAttribute("open");
+      var summary = open.querySelector("summary");
+      if (summary) summary.focus();
+    });
+  }
 })();
