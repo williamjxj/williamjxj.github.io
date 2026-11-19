@@ -1,0 +1,430 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>LLM 工作流手册</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout concept: sticky top bar (menu, search, theme) + collapsible chapter sidebar + single reading column.
+   Chapter colors encode the four workflows: 1 RAG, 2 LoRA, 3 SFT/RL, 4 LLM-Wiki. */
+:root {
+  --bg: #f4f6f9;
+  --surface: #ffffff;
+  --surface-2: #eaeef4;
+  --fg: #17202c;
+  --muted: #566274;
+  --line: #d9dfe8;
+  --accent: #1d5c8f;
+  --code-bg: #edf0f5;
+  --code-fg: #17202c;
+  --mark: #ffe08a;
+  --c0: #566274;
+  --c1: #0b7285;
+  --c2: #a8660f;
+  --c3: #6d3fb2;
+  --c4: #2b7a4b;
+  --bar-bg: #f4f6f9;
+  --bar-h: 56px;
+  --sans: "IBM Plex Sans", "PingFang SC", "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, "PingFang SC", "Noto Sans SC", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #10151c; --surface: #171e27; --surface-2: #1f2833; --fg: #e3e8ef; --muted: #9aa6b8;
+    --line: #2a3441; --accent: #7db7ee; --code-bg: #0c1117; --code-fg: #dbe3ee; --mark: #6b5a14;
+    --c0: #9aa6b8; --c1: #4fc3d6; --c2: #e3ab4f; --c3: #b99af0; --c4: #5fd197; --bar-bg: #10151c;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #10151c; --surface: #171e27; --surface-2: #1f2833; --fg: #e3e8ef; --muted: #9aa6b8;
+  --line: #2a3441; --accent: #7db7ee; --code-bg: #0c1117; --code-fg: #dbe3ee; --mark: #6b5a14;
+  --c0: #9aa6b8; --c1: #4fc3d6; --c2: #e3ab4f; --c3: #b99af0; --c4: #5fd197; --bar-bg: #10151c;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+body {
+  background: var(--bg); color: var(--fg); font-family: var(--sans); font-size: 15px; line-height: 1.75;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 48px;
+  overflow-wrap: break-word;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bar-bg); }
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+
+/* top bar */
+.bar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; height: var(--bar-h);
+  margin: 0 calc(-1 * max(16px, env(safe-area-inset-left, 0px))) 0 calc(-1 * max(16px, env(safe-area-inset-left, 0px)));
+  padding: 0 max(16px, env(safe-area-inset-right, 0px)) 0 max(16px, env(safe-area-inset-left, 0px));
+  background: var(--bar-bg); border-bottom: 1px solid var(--line);
+}
+.bar-in { max-width: 1280px; margin: 0 auto; height: 100%; display: flex; align-items: center; gap: 12px; position: relative; }
+.brand { font-weight: 600; letter-spacing: .01em; white-space: nowrap; }
+.btn {
+  font: inherit; font-size: 13px; color: var(--fg); background: var(--surface); border: 1px solid var(--line);
+  border-radius: 6px; padding: 6px 10px; cursor: pointer; line-height: 1.2; white-space: nowrap;
+}
+.btn:hover { border-color: var(--accent); }
+.menu-btn { display: none; }
+.search { flex: 1; min-width: 0; max-width: 520px; margin-left: auto; position: relative; }
+.search input {
+  width: 100%; font: inherit; font-size: 14px; color: var(--fg); background: var(--surface);
+  border: 1px solid var(--line); border-radius: 6px; padding: 7px 36px 7px 12px;
+}
+.search kbd {
+  position: absolute; right: 8px; top: 50%; transform: translateY(-50%); font: 12px var(--mono); color: var(--muted);
+  border: 1px solid var(--line); border-radius: 4px; padding: 0 5px; pointer-events: none; background: var(--bg);
+}
+.results {
+  position: absolute; top: calc(100% + 6px); right: 0; width: min(640px, calc(100vw - 32px)); max-height: min(70vh, 560px);
+  overflow-y: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
+  box-shadow: 0 12px 32px rgba(10, 20, 35, .18); z-index: 40;
+}
+.results[hidden] { display: none; }
+.res { display: block; padding: 10px 14px; border-bottom: 1px solid var(--line); color: var(--fg); text-decoration: none; }
+.res:last-child { border-bottom: 0; }
+.res:hover, .res.sel { background: var(--surface-2); }
+.res-t { font-weight: 600; font-size: 14px; display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+.res-ch { font-size: 11.5px; font-weight: 500; color: var(--chc, var(--muted)); border: 1px solid currentColor; border-radius: 10px; padding: 0 7px; line-height: 1.6; }
+.res-s { font-size: 12.5px; color: var(--muted); line-height: 1.55; margin-top: 3px; }
+.res-empty, .res-count { padding: 12px 14px; font-size: 13px; color: var(--muted); }
+.res-count { border-bottom: 1px solid var(--line); padding: 8px 14px; font-size: 12px; }
+mark { background: var(--mark); color: inherit; border-radius: 2px; padding: 0 1px; }
+
+/* shell */
+.shell { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 276px minmax(0, 1fr); gap: 44px; padding-top: 24px; }
+.side {
+  position: sticky; top: calc(env(safe-area-inset-top, 0px) + var(--bar-h) + 20px);
+  align-self: start; max-height: calc(100vh - var(--bar-h) - env(safe-area-inset-top, 0px) - 36px);
+  overflow-y: auto; padding-right: 8px; font-size: 13.5px; line-height: 1.45; scrollbar-width: thin;
+}
+.nav-label { font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px; }
+.grp { margin: 0 0 4px; }
+.grp > summary, .grp-plain {
+  list-style: none; cursor: pointer; display: flex; align-items: center; gap: 8px; padding: 6px 6px; border-radius: 6px;
+  font-weight: 600; color: var(--fg); text-decoration: none;
+}
+.grp > summary::-webkit-details-marker { display: none; }
+.grp > summary::before, .grp-plain::before {
+  content: ""; width: 9px; height: 9px; border-radius: 2px; background: var(--chc, var(--c0)); flex: none;
+}
+.grp > summary:hover, .grp-plain:hover { background: var(--surface-2); }
+.grp > summary a { color: inherit; text-decoration: none; flex: 1; min-width: 0; }
+.grp ul { list-style: none; margin: 2px 0 8px 14px; padding: 0 0 0 10px; border-left: 1px solid var(--line); }
+.grp li a { display: block; padding: 3px 8px; color: var(--muted); text-decoration: none; border-radius: 4px; }
+.grp li a:hover { color: var(--fg); background: var(--surface-2); }
+.grp li a.on { color: var(--fg); background: var(--surface-2); font-weight: 500; box-shadow: inset 2px 0 0 var(--chc, var(--accent)); }
+
+/* hero */
+.hero { padding: 8px 0 28px; border-bottom: 1px solid var(--line); margin-bottom: 8px; }
+.hero h1 { font-size: clamp(26px, 4vw, 36px); line-height: 1.25; margin: 0 0 12px; letter-spacing: -.01em; text-wrap: balance; }
+.hero blockquote { margin: 0 0 18px; padding: 0; border: 0; color: var(--muted); font-size: 14px; max-width: 70ch; }
+.hero blockquote p { margin: 0 0 4px; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+.card { display: block; padding: 12px 14px; background: var(--surface); border: 1px solid var(--line); border-top: 3px solid var(--chc); text-decoration: none; color: var(--fg); border-radius: 4px; }
+.card:hover { border-color: var(--chc); }
+.card b { display: block; font-size: 14.5px; color: var(--chc); }
+.card span { display: block; font-size: 12.5px; color: var(--muted); line-height: 1.5; margin-top: 3px; }
+
+/* content */
+.content { min-width: 0; }
+.content h1, .content h2, .content h3, .content h4 { scroll-margin-top: calc(env(safe-area-inset-top, 0px) + var(--bar-h) + 14px); line-height: 1.35; text-wrap: balance; }
+.content h1 { font-size: 28px; margin: 56px 0 16px; padding-top: 18px; border-top: 4px solid var(--chc, var(--c0)); }
+.content h2 { font-size: 21px; margin: 44px 0 12px; padding-top: 16px; border-top: 1px solid var(--line); }
+.content h3 { font-size: 16.5px; margin: 28px 0 8px; color: var(--fg); }
+.content h4 { font-size: 14.5px; margin: 20px 0 6px; color: var(--muted); }
+.content p { margin: 0 0 12px; max-width: 78ch; }
+.content ul, .content ol { margin: 0 0 14px; padding-left: 1.4em; max-width: 78ch; }
+.content li { margin: 3px 0; }
+.content hr { border: 0; border-top: 1px solid var(--line); margin: 36px 0 0; }
+.content blockquote { margin: 0 0 16px; padding: 8px 14px; background: var(--surface); border-left: 3px solid var(--chc, var(--c0)); color: var(--muted); max-width: 78ch; }
+.content blockquote p { margin: 0 0 4px; }
+.content code { font-family: var(--mono); font-size: .88em; background: var(--code-bg); padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }
+.codewrap { position: relative; margin: 0 0 16px; }
+.content pre { margin: 0; padding: 14px 16px; background: var(--code-bg); color: var(--code-fg); border: 1px solid var(--line); border-radius: 6px; overflow-x: auto; font-size: 12.5px; line-height: 1.55; tab-size: 2; }
+.content pre code { background: none; padding: 0; font-size: inherit; overflow-wrap: normal; white-space: pre; }
+.copy { position: absolute; top: 6px; right: 6px; font: 11.5px var(--sans); padding: 2px 8px; opacity: 0; transition: opacity .15s; }
+.codewrap:hover .copy, .copy:focus-visible { opacity: 1; }
+@media (hover: none) { .copy { opacity: 1; } }
+.tablewrap { overflow-x: auto; margin: 0 0 18px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+.content table { border-collapse: collapse; width: 100%; font-size: 13.5px; line-height: 1.55; }
+.content th, .content td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--line); min-width: 90px; }
+.content th { background: var(--surface-2); font-weight: 600; white-space: nowrap; position: sticky; top: 0; }
+.content tr:last-child td { border-bottom: 0; }
+.content td code { font-size: .85em; }
+.content input[type="checkbox"] { margin-right: 6px; }
+.content li:has(> input[type="checkbox"]) { list-style: none; margin-left: -1.2em; }
+.flash { animation: flash 1.6s ease-out; }
+@keyframes flash { from { background: var(--mark); } to { background: transparent; } }
+.foot { margin-top: 56px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12.5px; }
+.scrim { display: none; }
+
+@media (max-width: 900px) {
+  .shell { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .menu-btn { display: inline-block; }
+  .side {
+    position: fixed; z-index: 25; left: 0; bottom: 0; top: calc(env(safe-area-inset-top, 0px) + var(--bar-h));
+    width: min(86vw, 340px); max-height: none; background: var(--bg); border-right: 1px solid var(--line);
+    padding: 16px 12px 24px max(16px, env(safe-area-inset-left, 0px)); transform: translateX(-105%); transition: transform .2s ease; visibility: hidden;
+  }
+  .side.open { transform: none; visibility: visible; }
+  .scrim.open { display: block; position: fixed; inset: 0; z-index: 22; background: rgba(8, 14, 22, .45); }
+}
+@media (max-width: 640px) {
+  .brand { display: none; }
+  .search { max-width: none; margin-left: 0; }
+  .search kbd { display: none; }
+  .content h1 { font-size: 24px; }
+  .content h2 { font-size: 19px; }
+}
+</style>
+
+<div class="bar"><div class="bar-in">
+  <button class="btn menu-btn" id="menuBtn" aria-controls="side" aria-expanded="false">目录</button>
+  <span class="brand">LLM 工作流手册</span>
+  <div class="search">
+    <input id="q" type="search" placeholder="搜索全文，如 RRF、KV-cache、GRPO" autocomplete="off" aria-label="搜索手册">
+    <kbd id="kbd">/</kbd>
+    <div class="results" id="results" hidden role="listbox"></div>
+  </div>
+  <button class="btn" id="themeBtn" aria-label="切换明暗主题">主题</button>
+</div></div>
+
+<div class="shell">
+  <nav class="side" id="side" aria-label="章节目录"><p class="nav-label">章节</p><div id="nav"></div></nav>
+  <main class="content" id="content">
+    <header class="hero" id="hero">
+      <div class="cards">
+        <a class="card" href="#s1" style="--chc:var(--c1)"><b>1 · RAG</b><span>收集、分拣、标识、分块、混合检索、重排、KV-cache、评估</span></a>
+        <a class="card" href="#s2" style="--chc:var(--c2)"><b>2 · LoRA</b><span>数据、超参、QLoRA、训练代码、合并与多 adapter 部署</span></a>
+        <a class="card" href="#s3" style="--chc:var(--c3)"><b>3 · SFT + RL</b><span>SFT、偏好数据、DPO、GRPO/RLVR、监控与排障</span></a>
+        <a class="card" href="#s4" style="--chc:var(--c4)"><b>4 · LLM-Wiki</b><span>三层架构、ingest / query / lint、schema 模板</span></a>
+      </div>
+    </header>
+  </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script>
+(function () {
+  var MD = "# LLM 工作流手册：RAG · LoRA · SFT/RL · LLM-Wiki\n\n> 用途：作为日后查询的标准参考。每章结构一致：**目标 → 流程总览 → 分阶段详解（输入/动作/输出/工具/参数/坑）→ 评估 → 故障排查 → 检查清单**。\n> 版本说明：数值（chunk 大小、学习率等）是经验起点，不是定律；必须用自己的评估集验证。具体库版本、模型名随时间变化，落地前核对官方文档。\n\n## 0. 总览与选型\n\n### 0.1 四条工作流的关系\n\n```\n            知识（事实、时效性强、需溯源）            行为/风格/技能（格式、语气、推理）\n                      │                                        │\n          ┌───────────┴───────────┐              ┌─────────────┴─────────────┐\n          │ RAG（检索增强，§1）     │              │ SFT（§3.2）→ 偏好/RL（§3.3+）│\n          │ LLM-Wiki（编译式知识库，§4）│            │ 实现载体：全参 or LoRA（§2）  │\n          └───────────────────────┘              └───────────────────────────┘\n```\n\n### 0.2 决策矩阵\n\n| 需求 | 首选 | 原因 | 不选什么 |\n|---|---|---|---|\n| 回答依赖私有/频繁变化的文档 | RAG | 更新=重新索引，无需训练，可溯源 | 微调灌事实（易幻觉、难更新） |\n| 小规模、高价值、需要跨文档综合的知识（个人/团队） | LLM-Wiki | 综合在写入时完成，查询时成本低，知识累积 | 每次查询临时拼接 |\n| 输出格式/语气/领域术语/工具调用习惯 | SFT（LoRA 起步） | 改变行为分布 | 只靠长 prompt（成本高、不稳定） |\n| 可自动验证的任务（数学、代码、结构化抽取）需要提升上限 | RLVR（GRPO 等） | 奖励可程序化验证 | 人工偏好打分（贵、噪声大） |\n| 对齐人类偏好（有用性、安全、风格） | DPO / RLHF | 偏好对数据驱动 | 单纯加 SFT 数据 |\n| 单卡/小预算适配多个任务 | LoRA / QLoRA + 多 adapter 服务 | 参数少、可热切换 | 每任务全参微调一份模型 |\n\n### 0.3 通用原则（四条工作流都适用）\n\n1. **先建评估，再建系统**：评估集（golden set）先于任何优化。没有评估集的调参等于盲飞。\n2. **每一步可观测、可回放**：记录输入、中间产物、版本号（数据版本、模型版本、prompt 版本、索引版本）。\n3. **一次只改一个变量**：消融实验（ablation）才能得出因果结论。\n4. **数据质量 > 数据数量 > 算法技巧**：RAG 的解析质量、SFT 的数据质量、RL 的奖励质量决定上限。\n5. **版本化一切**：数据集（DVC/LakeFS/HF Datasets）、配置（YAML + git）、模型权重（registry）、prompt（git）。\n6. **成本-延迟-质量三角**：每个优化都要标注对三者的影响。\n\n---\n\n# 1. RAG 工作流\n\n## 1.1 目标与架构总览\n\n目标：让 LLM 基于**外部、可更新、可溯源**的知识回答问题，降低幻觉。\n\n```\n【离线 Ingestion Pipeline】\n 数据源 → 收集/同步 → 分拣(Triage) → 解析 → 清洗/去重 → 标识(Metadata) → 分块(Chunk)\n        → 增强(Contextual/摘要/问题) → Embedding(dense + sparse) → 索引(Vector DB + BM25) \n                                                                       │\n【在线 Query Pipeline】                                                  ▼\n 用户问题 → 安全/意图识别 → 查询改写(Rewrite/Decompose/HyDE) → 混合检索(Hybrid: dense+BM25, 元数据过滤)\n        → 融合(RRF) → 重排(Rerank) → 上下文组装(去重/排序/压缩/引用) → 生成(LLM, 利用 KV/Prefix Cache)\n        → 后处理(引用校验/拒答/格式) → 返回 + 日志\n                                                                       │\n【评估/运维】  离线评估集 + 在线反馈 + 追踪 → 回流到 Ingestion/Chunking/Prompt 调优\n```\n\n## 1.2 阶段 0：需求与评估集\n\n| 项 | 内容 |\n|---|---|\n| 输入 | 用户场景、问题类型分布、文档样本 |\n| 动作 | 1) 收集真实问题（日志/访谈）并分类：事实查询、多跳、对比、汇总、表格/数值、否定/拒答。2) 为每类构造 50–200 条 golden 问答，标注 **应命中的 chunk/文档** 与 **参考答案**。3) 定义 SLO：P95 延迟、单次成本、准确率门槛。 |\n| 输出 | `eval/golden.jsonl`，字段：`qid, question, type, gold_doc_ids, gold_chunk_ids, reference_answer, must_refuse(bool)` |\n| 坑 | 只用合成问题（偏向文本字面匹配）；没有“应拒答”样本，导致无法测幻觉。 |\n\n## 1.3 阶段 1：数据收集（Collection）\n\n### 1.3.1 数据源与连接方式\n\n| 源类型 | 接入方式 | 增量同步 | 注意 |\n|---|---|---|---|\n| 文件系统/对象存储（S3、GCS、NAS） | 列表 + mtime/etag/hash 比对；事件通知（S3 Event） | etag/hash 变更触发 | 保留原始文件不可变副本（raw zone） |\n| 网页/文档站 | 爬虫（Scrapy/Playwright）、sitemap | ETag/Last-Modified、内容哈希 | 遵守 robots/许可；去掉导航/页脚模板 |\n| SaaS（Confluence、Notion、Slack、Drive、Jira、GitHub） | 官方 API / 连接器（LlamaHub、Airbyte、Unstructured connectors） | 游标/updated_since，Webhook | **同步权限（ACL）**；限流与重试 |\n| 数据库/数仓 | SQL 导出 / CDC（Debezium） | CDC 日志 | 结构化数据常应走 Text-to-SQL，而非向量化 |\n| 邮件/工单/聊天 | IMAP/API | 增量游标 | 线程化（thread）后再分块；PII 重点 |\n| 音视频 | ASR（Whisper 类）+ 说话人分离 | 文件级 | 保留时间戳以便溯源跳转 |\n\n### 1.3.2 数据湖分层（建议）\n\n```\nraw/        原始文件，不可变，按 source/date/hash 命名\nparsed/     解析后的结构化文本（JSON：blocks, tables, images, layout）\ncurated/    清洗、去重、打标后的文档\nchunks/     分块结果（与向量库同源，可重建索引）\n```\n\n收集阶段必须记录的**溯源字段**：`source_system, source_uri, fetched_at, source_modified_at, content_hash(sha256), raw_path, connector_version, acl_snapshot`。\n\n## 1.4 阶段 2：分拣（Triage / Sorting）\n\n分拣 = 决定“每个文档走哪条处理路径，或被丢弃”。目标是在昂贵的解析/向量化之前过滤和路由。\n\n### 1.4.1 分拣步骤\n\n1. **格式识别**：用魔数（magic bytes）而不是扩展名（`python-magic`、Apache Tika）。\n2. **完整性检查**：文件是否损坏、加密（需密码）、空文件、超大文件（阈值拆分或跳过）。\n3. **PDF 类型判定**：文本型（可直接抽取）/ 扫描型（需 OCR）/ 混合型（逐页判断：文字层字符数 / 页面面积低于阈值 → OCR）。\n4. **语言识别**：`fastText lid`、`lingua`；多语言文档按语言路由到不同 tokenizer/embedding。\n5. **质量过滤**：字符熵异常、乱码比例、重复行占比、过短文本（< 50 tokens 一般丢弃或合并）。\n6. **去重**：\n   - 精确去重：`sha256(normalized_text)`。\n   - 近似去重：MinHash + LSH（Jaccard 阈值常用 0.8–0.9）或 SimHash；跨版本文档保留最新版并链接旧版。\n7. **敏感与合规**：PII 检测（Presidio、正则 + NER）、密级标签、版权/许可检查；高敏文档隔离到独立索引或打脱敏。\n8. **文档类型分类**：规则 + 轻量分类器/LLM（如：政策、API 文档、合同、会议纪要、论文、表格报表、代码）。分类结果决定**解析器、分块策略、元数据模板**。\n9. **路由**：\n\n| 文档类型 | 解析器 | 分块策略 |\n|---|---|---|\n| 文本型 PDF/论文 | 布局感知解析（Docling、MinerU、Unstructured hi_res） | 按章节/标题层级 + 语义 |\n| 扫描件 | OCR（PaddleOCR、Tesseract、云 OCR）+ 版面分析 | 同上，保留页码/坐标 |\n| HTML/Markdown | trafilatura/readability + 标题结构 | 按 heading 层级 |\n| 表格/XLSX/CSV | pandas / 专用 table parser | 行组 + 表头重复；或转 SQL |\n| 代码仓库 | tree-sitter AST | 函数/类级别 + 文件路径上下文 |\n| 对话/工单 | 线程重建 | 按轮次窗口 + 摘要 |\n| 幻灯片 | python-pptx / 版面解析 | 每页一块 + 备注 |\n\n### 1.4.2 分拣输出\n\n每个文档得到一条 `triage_record`：`doc_id, mime, language, pdf_kind, quality_score, dup_of, pii_flags, doc_type, route, status(accept|reject|quarantine), reason`。被拒/隔离的必须落盘并可审计。\n\n## 1.5 阶段 3：解析（Parsing）\n\n| 难点 | 方案 | 备注 |\n|---|---|---|\n| 多栏/页眉页脚/脚注 | 版面分析模型（layout detection）确定阅读顺序；去除重复页眉页脚 | 重复行跨页频率统计法 |\n| 表格 | 输出结构化（HTML/Markdown/JSON）；表格另存并生成**自然语言摘要**用于检索，原表保留用于回答 | 合并单元格、跨页表需特别处理 |\n| 公式 | LaTeX 输出（Nougat、MinerU 等） | 视需求，非必须 |\n| 图片/图表 | VLM 生成 caption + 抽取图中文字/数据；图片本体存对象存储，chunk 内放引用 | 多模态检索可用 ColPali 类视觉 late-interaction |\n| 代码块 | 保留围栏与语言标记，不在块中间切分 | |\n| 超链接/引用 | 保留 URL 与锚文本，供图谱/引用跳转 | |\n\n解析器选型建议：先用 2–3 个解析器在 30 份代表性文档上**人工对比**，度量：标题层级正确率、表格还原率、阅读顺序错误率。解析错误会被下游所有环节放大。\n\n输出统一为中间表示（IR）：`blocks[{type: heading|paragraph|table|list|code|figure, text, page, bbox, level, parent_id}]`。\n\n## 1.6 阶段 4：标识（Identification & Metadata）\n\n“标识”包含三件事：**稳定 ID**、**元数据 Schema**、**打标（tagging）**。\n\n### 1.6.1 稳定 ID 设计\n\n```\ndoc_id    = hash(source_system + source_uri)               # 同一文档跨版本不变\nversion   = content_hash 或 source revision id             # 变更即新版本\nchunk_id  = f\"{doc_id}:{version[:8]}:{chunk_index:05d}\"    # 可复现\n```\n\n要求：重跑 pipeline 得到相同 ID（幂等）；upsert 时据 `doc_id` 删除旧版本 chunks 再写入新版本（或用 `is_latest` 标记）。\n\n### 1.6.2 元数据 Schema（建议最小集）\n\n```json\n{\n  \"chunk_id\": \"...\", \"doc_id\": \"...\", \"version\": \"...\", \"is_latest\": true,\n  \"title\": \"...\", \"section_path\": [\"3 Pricing\", \"3.2 Enterprise\"],\n  \"page_start\": 12, \"page_end\": 13, \"source_uri\": \"...\", \"doc_type\": \"policy\",\n  \"language\": \"zh\", \"created_at\": \"...\", \"updated_at\": \"...\", \"effective_date\": \"...\",\n  \"tenant_id\": \"...\", \"acl_groups\": [\"finance\", \"legal\"], \"sensitivity\": \"internal\",\n  \"tags\": [\"pricing\", \"enterprise\"], \"entities\": [\"ProductX\"], \"token_count\": 412,\n  \"parent_id\": \"...\", \"prev_chunk_id\": \"...\", \"next_chunk_id\": \"...\"\n}\n```\n\n### 1.6.3 打标方法\n\n| 方法 | 适用 | 成本 |\n|---|---|---|\n| 规则/正则/路径映射 | 结构稳定（如目录=部门） | 极低 |\n| 受控词表（taxonomy）+ 分类器 | 需一致的标签体系 | 低 |\n| LLM 抽取（结构化输出，JSON Schema） | 实体、主题、日期、摘要、可回答问题 | 中（批处理 + 缓存） |\n| NER / 关键词（KeyBERT、spaCy） | 实体与关键词 | 低 |\n\nLLM 打标注意：使用**受控标签集**（枚举）而非自由文本；temperature=0；抽样人工审计一致率；标签版本化。\n\n**权限（ACL）必须在检索时过滤**（过滤发生在向量库查询内，而不是生成之后），否则造成越权泄露。\n\n## 1.7 阶段 5：分块（Chunking）\n\n### 1.7.1 策略对比\n\n| 策略 | 做法 | 优点 | 缺点 | 适用 |\n|---|---|---|---|---|\n| 固定长度 + overlap | 按 token 数切，10–20% 重叠 | 简单、可预测 | 破坏语义边界 | 基线 |\n| 递归字符/分隔符 | 按 `\\n\\n`→`\\n`→句号递归 | 尽量保持段落 | 无结构感知 | 通用文本 |\n| 结构感知 | 按 heading/章节/表格边界 | 语义完整、可带 section_path | 依赖解析质量 | 手册、论文、政策 |\n| 语义分块 | 相邻句向量相似度突变处切 | 主题内聚 | 额外 embedding 成本，不稳定 | 长叙述文本 |\n| 父子（small-to-big） | 小块检索，返回其所在大块（父） | 兼顾召回精度与上下文完整 | 需维护父子关系 | **生产常用** |\n| 句子窗口 | 检索句，扩展前后 N 句 | 精度高 | 同上 | 问答密集文档 |\n| 命题（Proposition） | LLM 拆成原子事实 | 精确 | 成本高、可能丢上下文 | 事实库 |\n| 层次摘要（RAPTOR） | 递归聚类+摘要成树 | 支持全局/汇总问题 | 构建昂贵 | 长文档汇总 |\n| Late chunking | 先对整篇长文编码再池化切块 | 块向量含全文上下文 | 需长上下文 embedding 模型 | 指代多的文本 |\n\n### 1.7.2 参数起点\n\n- 块大小：**256–512 tokens**（事实问答），**512–1024**（需更多上下文/摘要类）。过小 → 丢上下文，过大 → 稀释相关性、增加 token 成本。\n- overlap：10–15%（结构感知切分可为 0，改用 prev/next 链接）。\n- 硬规则：不在代码块、表格行、列表项中间切；标题必须随块（前置 section_path）。\n- 块不超过 embedding 模型最大输入；留余量。\n\n### 1.7.3 Contextual Retrieval（上下文增强）\n\n为每个块用 LLM 生成 50–100 token 的“该块在整篇文档中的位置与主题”说明，**前置到块文本**后再做 embedding 与 BM25 索引。可显著降低检索失败（Anthropic 公布的实验显示与 BM25 结合并配合 rerank 时降低幅度更大）。成本控制：借助 **prompt caching**，整篇文档作为缓存前缀，逐块只付增量。\n\n其他增强：为块生成“假设性问题”（doc2query）、块摘要、关键词；检索用增强文本，**回答时给 LLM 原文**。\n\n## 1.8 阶段 6：Embedding\n\n### 1.8.1 选型维度\n\n| 维度 | 考虑 |\n|---|---|\n| 语言 | 中文/多语言需选多语言模型（bge-m3、multilingual-e5、Qwen3-Embedding 系列、Cohere/OpenAI/Voyage 等） |\n| 最大长度 | 与块大小匹配；长文档可选长上下文模型 |\n| 维度 | 越高越准越贵；用 Matryoshka（MRL）模型可截断维度（如 1024→256）省存储 |\n| 许可与部署 | 开源自托管（数据不出域） vs API |\n| 非对称检索 | query 与 passage 前缀/指令不同（e5: `query:`/`passage:`；bge/Qwen 用 instruction）——**用错前缀是常见性能损失** |\n| 领域 | 通用榜单（MTEB/C-MTEB）仅参考，**必须在自己的 golden set 上评测** |\n\n### 1.8.2 工程要点\n\n- 批量编码、GPU 批处理；失败重试；记录 `embedding_model, dim, normalize, prefix` 版本到索引元数据。\n- **换模型 = 全量重建索引**；设计成蓝绿索引（blue/green）切换。\n- 向量 L2 归一化后用内积/余弦；与索引度量一致。\n- 量化：float32 → float16 / int8 / binary（binary 需 rescoring）；存储降 4–32×，精度损失需实测。\n- 稀疏向量：BM25（词频）或学习型稀疏（SPLADE、bge-m3 sparse）；多向量：ColBERT/late interaction（精度高，存储大）。\n\n## 1.9 阶段 7：索引与向量库\n\n### 1.9.1 向量库选型\n\n| 选项 | 特点 | 适合 |\n|---|---|---|\n| pgvector（+ pgvectorscale） | 与业务库同库，事务/过滤/权限方便 | < 数千万向量，已有 Postgres |\n| Qdrant | 过滤性能好、混合检索与稀疏向量支持、Rust | 中大规模自托管 |\n| Milvus / Zilliz | 分布式、多索引类型、规模大 | 十亿级 |\n| Weaviate | 内置混合检索、模块化 | 快速上手 |\n| Elasticsearch / OpenSearch | BM25 成熟 + 向量；一体化混合 | 已有搜索栈、强关键词需求 |\n| LanceDB / Chroma / FAISS | 嵌入式/本地/原型 | 原型、边缘 |\n| 云托管（Pinecone、Vertex、Azure AI Search） | 免运维 | 小团队 |\n\n### 1.9.2 索引类型与 HNSW 参数\n\n| 索引 | 说明 | 取舍 |\n|---|---|---|\n| Flat（暴力） | 精确 | < 10 万向量或需 100% 精确 |\n| HNSW | 图索引，高召回低延迟 | 内存大；**默认首选** |\n| IVF-PQ / IVF-Flat | 倒排 + 量化 | 省内存，召回需调 nprobe |\n| DiskANN | SSD 友好 | 超大规模内存受限 |\n\nHNSW 参数：`M`（每节点连接数，16–64；大→召回高、内存高）、`efConstruction`（构建质量，128–400）、`efSearch`（查询质量，需 ≥ top_k，常 64–512；是**召回-延迟旋钮**）。调参方法：固定 golden query，扫 `efSearch`，画 Recall@k vs P95 latency。\n\n### 1.9.3 过滤与多租户\n\n- 元数据过滤：优先 **filtered ANN（过滤内置于图遍历）**；避免“先检索后过滤”导致结果不足。\n- 低选择性过滤（只命中很少数据）时，部分引擎自动退化为暴力扫描——需验证。\n- 多租户：小租户 → 同集合 + `tenant_id` 过滤；大租户/强隔离 → 独立 collection/namespace/分区。\n- 索引更新：增量 upsert + 定期 compaction/重建；删除用 tombstone，注意召回漂移。\n\n## 1.10 阶段 8：查询处理（Query Understanding）\n\n| 技术 | 做什么 | 何时用 |\n|---|---|---|\n| 意图/路由分类 | 判断：闲聊 / 需检索 / 需 SQL / 需工具 / 拒答 | 几乎总是（小模型即可） |\n| Query Rewrite | 结合对话历史把指代问题改写成独立问题（standalone） | 多轮对话必需 |\n| Multi-Query | 生成 3–5 个改写，分别检索后融合 | 召回不足、问法多样 |\n| Decomposition | 多跳问题拆子问题，顺序/并行检索 | 多跳、对比类 |\n| HyDE | 先生成假设答案，用其向量检索 | 查询短、与文档措辞差异大 |\n| Step-back | 先问更抽象的问题 | 需要原理/背景 |\n| 元数据抽取 | 从问题抽时间/产品/部门，转为过滤条件（self-query） | 元数据丰富时收益大 |\n| 查询扩展（同义词/术语表） | 领域缩写展开 | 专业领域 |\n\n注意：每增加一步 LLM 调用都增加延迟与成本；先做路由与改写，其余按评估收益再加。\n\n## 1.11 阶段 9：混合检索（Hybrid Search）\n\n### 1.11.1 为什么\n\n- Dense：语义匹配，擅长同义/改写，弱于精确词（型号、ID、罕见词、代码符号）。\n- Sparse/BM25：精确词匹配强，弱于语义。\n- 二者互补，混合通常优于任一单路。\n\n### 1.11.2 流程\n\n```\nquery ──► dense embedding ──► ANN top 50–200 ─┐\n   │                                            ├─► 融合 (RRF / 加权) ──► top 50–100 ──► Rerank ──► top 5–10\n   └────► BM25 / SPLADE   ──► top 50–200 ─────┘\n                 （两路共用同一 metadata/ACL 过滤）\n```\n\n### 1.11.3 融合方法\n\n| 方法 | 公式/做法 | 评价 |\n|---|---|---|\n| **RRF**（Reciprocal Rank Fusion） | `score(d) = Σ 1 / (k + rank_i(d))`，k≈60 | 无需分数归一化，稳健，**默认选择** |\n| 加权线性（alpha） | `α·norm(dense) + (1-α)·norm(bm25)` | 需归一化（min-max/z-score），α 需调（常 0.3–0.7） |\n| 学习排序（LTR） | 用点击/标注训练 | 数据足够时 |\n| 向量库内置混合 | Qdrant/Weaviate/ES 内置 | 少一次网络往返 |\n\n### 1.11.4 BM25 细节\n\n- 中文/日文必须**分词**（jieba、pkuseg、ICU、n-gram），否则 BM25 失效。\n- 参数 `k1`（1.2–2.0）、`b`（0.75）；标题/字段可加权（BM25F）。\n- 索引的是**增强后文本**（含 section_path、contextual 前缀）。\n\n### 1.11.5 参考代码（RRF + 过滤，Python）\n\n```python\nfrom collections import defaultdict\n\ndef rrf_fuse(rank_lists: list[list[str]], k: int = 60, top_n: int = 100) -> list[tuple[str, float]]:\n    scores: dict[str, float] = defaultdict(float)\n    for ranking in rank_lists:                  # 每路检索结果（按相关性降序的 chunk_id）\n        for rank, cid in enumerate(ranking, start=1):\n            scores[cid] += 1.0 / (k + rank)\n    return sorted(scores.items(), key=lambda x: x[1], reverse=True)[:top_n]\n\nasync def hybrid_search(q: str, flt: dict, n: int = 100):\n    qv = await embed_query(q)                                  # 注意 query 前缀\n    dense, sparse = await asyncio.gather(\n        vdb.search(vector=qv, filter=flt, limit=n),            # ACL/tenant 过滤在库内\n        bm25.search(text=q, filter=flt, limit=n),\n    )\n    fused = rrf_fuse([[h.id for h in dense], [h.id for h in sparse]])\n    return fused\n```\n\n## 1.12 阶段 10：重排序（Reranking）\n\n### 1.12.1 漏斗\n\n`召回 top 100–200（便宜，高召回）→ 重排 → 保留 top 5–10 送入 LLM（高精度）`\n\n### 1.12.2 方法对比\n\n| 类型 | 原理 | 精度 | 延迟 | 备注 |\n|---|---|---|---|---|\n| Bi-encoder（即第一阶段） | 独立编码 | 中 | 极低 | 不是 reranker |\n| **Cross-encoder** | query+doc 拼接联合打分 | 高 | 中（与候选数线性） | bge-reranker、Cohere Rerank、Jina、mxbai、Voyage rerank 等；**首选** |\n| Late interaction（ColBERT） | token 级 MaxSim | 高 | 中低 | 存储大；可作二阶段 |\n| LLM Listwise/Pointwise | LLM 直接排序/打分 | 最高 | 高、贵 | 小候选集（≤20–30）；可蒸馏到小模型 |\n| 规则/业务信号加权 | 时效、权威度、点击 | — | 极低 | 与模型分融合：`final = rerank + λ·recency + μ·authority` |\n\n### 1.12.3 工程要点\n\n- 候选数 N：从 50 起测，超过 ~100 边际收益递减而延迟线性增长。\n- 截断：cross-encoder 有最大长度（常 512 tokens），长块需截断或分段打分取 max。\n- 批处理 + GPU；或用托管 API。设定超时与**降级**（超时则直接用融合结果）。\n- 阈值：对 rerank 分数设最低阈值，低于阈值 → “未检索到足够依据”，触发拒答/澄清。\n- 微调 reranker：用 `(query, 正例, 难负例)` 三元组；难负例来自第一阶段排名靠前但标注为不相关者。\n- 多样性：重排后可用 MMR 降低近重复。\n\n## 1.13 阶段 11：上下文组装（Context Assembly）\n\n1. **父块扩展**：把命中小块替换为其父块/邻接块。\n2. **去重与合并**：同一文档相邻块合并，去除近重复。\n3. **排序**：LLM 对长上下文中间部分关注较弱（lost-in-the-middle）——把最相关的放在**开头与结尾**；或按文档原顺序保持连贯。\n4. **Token 预算**：`budget = ctx_window − system − history − question − 预留输出`；按相关度贪心装填。\n5. **压缩（可选）**：抽取式（句子级筛选）或 LLMLingua 类压缩；会带来信息损失，需评估。\n6. **引用标注**：为每块分配 `[1][2]` 编号并带 `title/section/page/url`，要求答案逐句引用。\n7. **格式**：用明确分隔符/XML 标签包裹文档，便于模型区分指令与数据（也有助于抗注入）：\n\n```\n<documents>\n  <document index=\"1\"><source>handbook.pdf p.12 §3.2<\/source><content>...<\/content><\/document>\n<\/documents>\n```\n\n## 1.14 阶段 12：生成（Generation）\n\nPrompt 要点：\n- 角色与边界：“仅依据 `<documents>` 回答；证据不足时明确说明并指出缺什么。”\n- 引用规则、语言、格式（JSON Schema/Markdown）。\n- 冲突处理：多个来源矛盾时并列呈现并标注时间/来源。\n- **文档内容视为不可信数据**：忽略其中的指令（防间接提示注入）。\n- temperature 低（0–0.3）用于事实问答。\n- 后处理：校验引用 ID 存在；可用 NLI/LLM 校验“每个断言有支撑”（faithfulness check），不通过则重试/拒答。\n\n## 1.15 缓存体系（含 KV-cache）\n\nRAG 有四层缓存，作用不同，不要混淆：\n\n| 层 | 缓存什么 | 命中条件 | 收益 | 风险 |\n|---|---|---|---|---|\n| 1. Embedding 缓存 | `hash(text)→vector` | 同文本 | 省 embedding 调用（尤其重建索引、重复 query） | 模型版本变更需失效 |\n| 2. 检索结果缓存 | `hash(规范化 query + filter + 索引版本)→top 文档` | 同 query | 省检索+rerank | 索引更新需失效；ACL 必须纳入 key |\n| 3. 语义缓存（Semantic Cache） | `query 向量 → 完整答案` | 相似度 > 阈值（如 0.95+） | 省整个 LLM 调用 | **误命中**导致答错；ACL/时效/个性化须隔离；阈值要用评估集校准 |\n| 4. **KV-cache / Prefix cache** | LLM 内部 attention 的 K/V 张量 | **请求前缀完全相同** | 降低 TTFT 与成本 | 前缀一变全失效（见下） |\n\n### 1.15.1 KV-cache 原理\n\n自回归解码时，已处理 token 的 Key/Value 不必重算。**Prefix caching**：不同请求若共享相同前缀（system prompt、工具定义、固定文档），共享前缀的 KV 可复用，只对新增后缀做 prefill。\n\n- 自托管：vLLM Automatic Prefix Caching（`--enable-prefix-caching`，块级哈希复用）、SGLang RadixAttention（基数树管理前缀）、TensorRT-LLM KV cache reuse。\n- API：Anthropic prompt caching（`cache_control` 断点；缓存读取价格显著低于普通输入；有 TTL，如 5 分钟/可选更长）、OpenAI 自动前缀缓存、Gemini context caching。具体价格与 TTL 以官方文档为准。\n\n### 1.15.2 RAG 中如何让 KV-cache 真正命中\n\n**提示词布局原则：稳定内容在前，易变内容在后。**\n\n```\n[ 系统指令 | 工具定义 | 输出格式 | few-shot ]   ← 静态，最长公共前缀，设缓存断点\n[ 常驻/热点文档（如产品手册）            ]   ← 半静态，可缓存\n[ 对话历史（只追加，不改写早期轮次）      ]   ← 逐步增长，前缀稳定\n[ 本轮检索到的动态 chunks                 ]   ← 每次不同，放后面\n[ 用户当前问题                            ]   ← 最后\n```\n\n常见破坏缓存的行为：在前缀中放时间戳/请求 ID/随机排序的 chunk；改写历史消息；工具列表顺序变化；对同一批文档每次不同顺序拼接（对热点文档**固定排序**）。\n\n### 1.15.3 CAG（Cache-Augmented Generation）\n\n知识库小（能放进上下文，如 < 100K–200K tokens）且稳定时：把全文预加载并缓存 KV，查询时无检索。优点：无检索误差、低延迟；缺点：规模受限、更新需重算缓存、长上下文注意力稀释。可与 RAG 组合：常驻核心知识走 CAG，长尾走 RAG。\n\n### 1.15.4 KV-cache 显存估算\n\n```\nKV bytes per token = 2 (K和V) × n_layers × n_kv_heads × head_dim × bytes_per_elem\n总 KV = 上式 × 序列长度 × 并发数\n```\n\n例：32 层、8 个 KV 头（GQA）、head_dim 128、fp16（2 字节）→ `2×32×8×128×2 = 131,072 B ≈ 128 KB/token`；8K 上下文 ≈ 1 GB/请求。优化：GQA/MQA、KV 量化（fp8/int8）、PagedAttention（vLLM，消除碎片）、滑动窗口、前缀共享。\n\n## 1.16 进阶形态\n\n| 形态 | 要点 | 何时用 |\n|---|---|---|\n| Agentic RAG | LLM 自主决定何时检索、检索什么、是否再检索（循环 + 工具） | 多跳、开放问题；成本/延迟高，需步数上限 |\n| GraphRAG | 抽取实体/关系建知识图谱 + 社区摘要；local（实体邻域）/global（社区摘要）检索 | 全局汇总类问题、关系密集数据 |\n| Self-RAG / CRAG | 检索后自评相关性，不相关则重检索或走 Web | 提升鲁棒性 |\n| 多模态 RAG | 图像（ColPali/CLIP）+ 文本联合检索 | 图表、扫描件密集文档 |\n| Text-to-SQL 路由 | 结构化问题查库 | 报表/指标类 |\n\n## 1.17 评估\n\n### 1.17.1 指标\n\n| 层 | 指标 | 说明 |\n|---|---|---|\n| 检索 | Recall@k、Hit Rate、MRR、nDCG@k、Context Precision | 需要 gold chunk 标注 |\n| 生成 | Faithfulness（忠实度/有据性）、Answer Relevance、Answer Correctness、Citation Precision/Recall | LLM-as-judge + 抽样人工校验 |\n| 拒答 | 应拒答召回率、误拒率 | 需 `must_refuse` 样本 |\n| 系统 | P50/P95 延迟（分阶段）、成本/请求、缓存命中率 | |\n\n工具：RAGAS、TruLens、DeepEval、Phoenix、LangSmith、promptfoo。LLM-as-judge 注意：位置偏差、长度偏差、自我偏好；用固定 rubric + 低温 + 与人工对齐度检查。\n\n### 1.17.2 分层诊断（定位问题在哪一层）\n\n```\n答案错 ─► gold chunk 在召回 top-k 里吗？\n           ├─ 否 → 召回问题：解析/分块/embedding/BM25/过滤/查询改写\n           └─ 是 → 在 rerank 后 top-n 里吗？\n                    ├─ 否 → 重排问题：reranker、截断、阈值\n                    └─ 是 → LLM 用对了吗？\n                             ├─ 否 → 生成问题：prompt、上下文顺序、模型能力、长度\n                             └─ 是 → 标注/参考答案问题\n```\n\n### 1.17.3 在线评估与回流\n\n记录：query、改写、各阶段命中、最终上下文、答案、用户反馈（👍/👎、追问、复制）。失败案例 → 加入 golden set（防回归）。每次改动跑回归集，设门槛（如 Recall@10 不降、Faithfulness ≥ 阈值）。\n\n## 1.18 安全、治理、运维\n\n- **ACL**：检索内过滤；缓存 key 包含 ACL 维度；日志脱敏。\n- **间接提示注入**：文档可能含恶意指令 → 数据/指令分隔、最小权限工具、输出过滤、不自动执行文档中的动作。\n- **PII/合规**：入库前脱敏或隔离；保留与删除策略（GDPR 删除权：按 `doc_id` 级联删除 chunks/向量/缓存）。\n- **新鲜度**：增量同步 + 版本标记；检索时偏好 `is_latest`，可按 `effective_date` 过滤。\n- **可观测性**：OpenTelemetry trace 贯穿各阶段；监控召回分数分布漂移、空结果率、拒答率。\n- **成本控制**：embedding 批处理、缓存、rerank 候选数限制、小模型做路由/改写、流式输出降低感知延迟。\n- **延迟预算示例**（目标 P95 < 3s）：路由+改写 200ms；检索 100–200ms；rerank 150–300ms；首 token 500–800ms；其余为流式生成。\n\n## 1.19 参考实现骨架（FastAPI）\n\n```python\n# app/rag/pipeline.py（示意，省略 import 与错误细节）\nclass RAGPipeline:\n    async def answer(self, req: AskRequest, user: User) -> AskResponse:\n        flt = build_filter(user)                                   # tenant + ACL + is_latest\n        intent = await self.router.classify(req.question, req.history)\n        if intent == \"chitchat\":\n            return await self.llm.chat(req)\n        q = await self.rewriter.standalone(req.question, req.history)\n        cands = await self.retriever.hybrid(q, flt, n=100)         # dense + BM25 + RRF\n        ranked = await self.reranker.rerank(q, cands, top_n=8, timeout=0.6)  # 超时降级\n        if not ranked or ranked[0].score < self.cfg.min_score:\n            return AskResponse(answer=self.cfg.no_evidence_msg, citations=[])\n        ctx = self.assembler.build(ranked, budget=self.cfg.ctx_budget)       # 父块扩展/去重/排序\n        out = await self.llm.generate(prompt=render(ctx, q), cache_prefix=True, temperature=0.1)\n        out = await self.verifier.check(out, ctx)                            # 引用与忠实度校验\n        self.trace.log(req, q, cands, ranked, ctx, out)\n        return out\n```\n\n推荐栈：解析（Docling/Unstructured/MinerU）→ 编排（LlamaIndex 或自研薄层；LangChain/LangGraph 用于 agentic 流程）→ 向量库（Qdrant/pgvector/ES）→ rerank（bge-reranker/Cohere）→ 服务（FastAPI + vLLM/API）→ 观测（Langfuse/Phoenix）→ 任务编排（Prefect/Airflow/Dagster）。\n\n## 1.20 故障排查表\n\n| 症状 | 常见根因 | 排查/对策 |\n|---|---|---|\n| 明明有答案却检索不到 | 解析丢失（表格/扫描件）、块切坏、中文未分词、query/passage 前缀错 | 抽查 gold 文档解析结果；换结构感知分块；检查分词与前缀 |\n| 检索到了但答案错 | 块太小缺上下文；排序放中间；上下文过长 | 父子块；重排+置顶；减 top-n |\n| 专有名词/型号召回差 | 只用 dense | 加 BM25/SPLADE；混合检索 |\n| 近重复结果占满 top-k | 未去重、多版本并存 | 入库去重；`is_latest`；MMR |\n| 过时答案 | 无版本/时效管理 | 增量同步；`effective_date`；缓存失效 |\n| 幻觉/编造引用 | 无拒答机制、引用未校验 | 阈值拒答；引用校验；faithfulness 检查 |\n| 延迟高 | 候选过多、rerank 慢、冷启动、无缓存 | 限候选；批处理；前缀缓存；并行检索 |\n| 过滤后结果为空/很少 | 过滤在检索后做；低选择性过滤 | 库内过滤；检查 ef/扫描策略 |\n| 语义缓存答非所问 | 阈值过低、未隔离租户 | 提高阈值；key 含租户/ACL；评估集校准 |\n| 换 embedding 后效果反降 | 前缀/归一化/维度不一致、未重建索引 | 全量重建；蓝绿对比 |\n\n## 1.21 RAG 检查清单\n\n- [ ] golden set（含多跳、否定、应拒答）与指标门槛已定义\n- [ ] 原始数据不可变存档；每文档有溯源字段\n- [ ] 分拣：格式/质量/去重/PII/分类/路由，被拒项可审计\n- [ ] 解析器在代表性样本上人工对比过；表格/图片有处理策略\n- [ ] 稳定 ID、版本、ACL、元数据 Schema 已落地；upsert 幂等\n- [ ] 分块策略经消融；块带 section_path；父子或邻接链接\n- [ ] embedding 在自有 golden set 上选型；前缀/归一化正确；版本记录\n- [ ] 混合检索（dense + BM25 + RRF）与库内过滤\n- [ ] Cross-encoder 重排 + 超时降级 + 分数阈值\n- [ ] 上下文组装：去重、排序、预算、引用\n- [ ] Prompt 稳定前缀布局；prefix/KV cache 命中率被监控\n- [ ] 拒答与引用校验；注入防护\n- [ ] 分阶段延迟/成本监控；回归评估纳入 CI\n- [ ] 删除/过期/再索引流程可执行\n\n---\n\n# 2. LoRA 工作流\n\n## 2.1 目标与何时使用\n\nLoRA（Low-Rank Adaptation）：冻结基座权重 `W`，只训练低秩增量 `ΔW = (α/r)·B·A`，其中 `A ∈ R^{r×k}`、`B ∈ R^{d×r}`，`r ≪ min(d,k)`。\n\n**适用**：改变风格/格式/领域术语/工具调用习惯；资源有限；需要多个任务 adapter 共享一个基座。\n**不适用**：向模型“灌入大量新事实”（用 RAG）；需要大幅改变基础能力（考虑全参 + 继续预训练）。\n\n```\n流程总览\n 需求定义 → 数据构建与清洗 → 基座选型 → 方案(LoRA/QLoRA/DoRA) → 超参与显存规划\n   → 训练（SFTTrainer）→ 评估（任务指标 + 通用能力回归）→ 迭代\n   → 合并或保留 adapter → 部署（单 adapter / 多 adapter 热切换）→ 监控与回滚\n```\n\n### 2.1.1 优势与代价\n\n| 项 | LoRA | 全参微调 |\n|---|---|---|\n| 可训练参数 | 约 0.1–2% | 100% |\n| 显存 | 低（无需存全量梯度/优化器状态） | 高（约 16 bytes/param：权重+梯度+Adam 状态，混合精度） |\n| 产物大小 | 几十–几百 MB | 与基座同大小 |\n| 多任务 | 一个基座 + N 个 adapter | N 份完整模型 |\n| 上限 | 复杂任务/大幅分布迁移可能略低 | 更高 |\n| 遗忘 | 通常较轻（权重改动小） | 更易灾难性遗忘 |\n\n## 2.2 阶段 1：需求与数据\n\n### 2.2.1 数据格式\n\n- 指令数据：`{\"messages\":[{\"role\":\"system|user|assistant\",\"content\":\"...\"}]}`（推荐，使用基座对应的 **chat template**）。\n- 工具调用：assistant 消息含 `tool_calls`，加 `tool` 角色结果；训练时保持与推理端完全一致的模板。\n- **损失屏蔽**：只对 assistant 回复计算 loss（`assistant_only_loss` / completion-only collator），不对 system/user 计算。\n\n### 2.2.2 数据量与质量\n\n| 目标 | 经验量级 | 说明 |\n|---|---|---|\n| 风格/格式对齐 | 数百–数千条高质量 | 质量远重要于数量（LIMA 结论） |\n| 领域任务适配 | 数千–数万 | 覆盖任务全分布 |\n| 复杂推理/工具使用 | 数万+ 且含推理轨迹 | 可结合 RL |\n\n构建来源：真实业务日志（脱敏、人工修正）、专家撰写、强模型蒸馏/合成（注意许可条款）、拒绝采样（多次生成，用规则/裁判模型筛选）。\n\n### 2.2.3 清洗流程\n\n1. 去重（精确 + MinHash）；2. 长度与异常过滤；3. 语言/PII/许可过滤；4. 标签一致性检查（抽样人工）；5. **评估集去污染**（训练集与 eval/测试集 n-gram 重叠剔除）；6. 难度/类别分布平衡；7. 切分 train/val/test（按**来源/会话**切分，避免泄漏）。\n\n### 2.2.4 输出\n\n`data/v{N}/train.jsonl, val.jsonl, test.jsonl` + `manifest.json`（来源、过滤规则、哈希、数量、模板版本）。\n\n## 2.3 阶段 2：基座模型选型\n\n| 维度 | 考虑 |\n|---|---|\n| 规模 | 7–8B（单卡 24GB + QLoRA 可行）、14B、32B、70B（多卡/QLoRA）；任务简单优先小模型 |\n| 模型类型 | **Instruct/Chat** 版（已有对话与对齐）适合大多数 LoRA；Base 版适合大规模 SFT 从零构建对话能力 |\n| 语言 | 中文场景选中文能力强者（Qwen、GLM、DeepSeek、Yi 系列等）；以自测为准 |\n| 上下文 | 与任务序列长度匹配 |\n| 许可 | 商用条款、衍生模型分发条款 |\n| 生态 | 是否被 vLLM/TRL/Unsloth 等良好支持；是否支持多 LoRA 服务 |\n| 推理成本 | 部署规模与延迟约束反推模型大小 |\n\n先用 prompt/少样本测基线；若基线已接近目标，微调收益有限。\n\n## 2.4 阶段 3：方案选择\n\n| 方案 | 要点 | 何时用 |\n|---|---|---|\n| **LoRA** | 16/bf16 基座 + 低秩 adapter | 显存足够（如 7B 需 ~16–24GB 视序列长度） |\n| **QLoRA** | 基座 4-bit NF4 量化 + 双重量化 + paged optimizer，adapter 用 bf16 训练 | 显存紧张；精度略降，通常接近 LoRA |\n| **DoRA** | 权重分解为幅度+方向，LoRA 作用于方向 | 想在相同 r 下略提精度；训练稍慢 |\n| **rsLoRA** | 缩放用 `α/√r` 代替 `α/r` | 高 rank（≥64）时更稳定 |\n| **LoRA+** | A、B 使用不同学习率（B 更大） | 加速收敛 |\n| **PiSSA / OLoRA** | 用 SVD/QR 初始化 adapter | 更快收敛 |\n| **AdaLoRA** | 动态分配各层 rank | 研究/参数预算紧 |\n| Prefix/Prompt tuning、IA3 | 其他 PEFT | 特定场景 |\n\n默认建议：**先 LoRA（或显存不足用 QLoRA），r=16**，必要时再试 DoRA/rsLoRA。\n\n## 2.5 阶段 4：超参与显存规划\n\n### 2.5.1 核心超参起点\n\n| 参数 | 起点 | 调整方向与说明 |\n|---|---|---|\n| `r`（rank） | 16（简单风格 8；复杂任务 32–64） | 越大容量越大、越易过拟合；超过 64 收益递减 |\n| `lora_alpha` | `2r` 或 `= r`（缩放 = α/r） | 与学习率共同决定有效步长；调 α 就像调 LR |\n| `lora_dropout` | 0–0.05 | 小数据可 0.05–0.1 |\n| `target_modules` | **所有线性层**：`q,k,v,o,gate,up,down`（`all-linear`） | 仅 q,v 容量不足；全线性层通常更好 |\n| 学习率 | **1e-4 – 2e-4**（LoRA）；QLoRA 约 2e-4；rsLoRA/大 r 取低 | 比全参（1e-5 级）高一个量级 |\n| 调度器 | cosine 或 linear | warmup 3–10% |\n| epochs | 1–3 | 小数据 3；大数据 1；用 val loss 早停 |\n| 有效 batch size | 16–64（样本级）| `per_device × grad_accum × GPUs` |\n| `max_seq_length` | 覆盖 95–99% 样本 | 过长浪费显存；开启 packing 提升吞吐 |\n| weight decay | 0–0.01 | |\n| 精度 | bf16（Ampere+）| fp16 需 loss scaling |\n| gradient checkpointing | 显存不足时开 | 用 ~20–30% 速度换显存 |\n| `bias` | none | |\n| `modules_to_save` | 仅当要新增 token/改 embedding 或 lm_head 时 | 会增大产物 |\n\n### 2.5.2 显存粗估（训练，单位 GB，近似）\n\n```\n基座权重：bf16 ≈ 2×参数量(B)；4bit ≈ 0.5–0.6×参数量(B)\nLoRA 梯度+优化器：≈ 可训练参数 × (2 + 8) 字节（Adam 两个 fp32 状态）→ 通常 < 2 GB\n激活：∝ batch × seq × hidden × layers；梯度检查点可降 3–5×\n例：7–8B + QLoRA + seq 2048 + checkpointing ≈ 10–16 GB；LoRA(bf16) ≈ 20–28 GB\n```\n\n### 2.5.3 防过拟合与稳定性\n\n- 监控 train/val loss 差距；val loss 回升即停。\n- 小数据降低 r、提高 dropout、减少 epoch。\n- 学习率过大 → loss spike/发散：降 LR、加 warmup、梯度裁剪（`max_grad_norm=1.0`）。\n- 保持**训练与推理 chat template 完全一致**（最常见的“训练好、上线差”原因）。\n\n## 2.6 阶段 5：训练实现\n\n### 2.6.1 框架\n\n| 框架 | 特点 |\n|---|---|\n| Hugging Face **PEFT + TRL (SFTTrainer)** | 标准、灵活、可控 |\n| **Unsloth** | 单卡高效（定制 kernel），省显存提速，适合入门/小规模 |\n| **Axolotl** | YAML 配置驱动，多卡（DeepSpeed/FSDP）成熟 |\n| **LLaMA-Factory** | 带 Web UI，支持多模型与多算法 |\n| **torchtune** | PyTorch 原生，配置清晰 |\n| 托管微调（各云厂商/模型厂商 API） | 免运维，但灵活性与可见性有限 |\n\n### 2.6.2 参考代码（PEFT + TRL，QLoRA）\n\n```python\nimport torch\nfrom datasets import load_dataset\nfrom peft import LoraConfig\nfrom transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig\nfrom trl import SFTTrainer, SFTConfig\n\nBASE = \"your-org/your-base-instruct\"            # 替换为实际基座\ntok = AutoTokenizer.from_pretrained(BASE)\nbnb = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type=\"nf4\",\n                         bnb_4bit_use_double_quant=True, bnb_4bit_compute_dtype=torch.bfloat16)\nmodel = AutoModelForCausalLM.from_pretrained(BASE, quantization_config=bnb,\n                                             torch_dtype=torch.bfloat16, device_map=\"auto\")\n\npeft_cfg = LoraConfig(r=16, lora_alpha=32, lora_dropout=0.05, bias=\"none\",\n                      target_modules=\"all-linear\", task_type=\"CAUSAL_LM\")\n\nds = load_dataset(\"json\", data_files={\"train\": \"data/v1/train.jsonl\", \"validation\": \"data/v1/val.jsonl\"})\n\ncfg = SFTConfig(\n    output_dir=\"runs/exp001\", num_train_epochs=2, learning_rate=2e-4, lr_scheduler_type=\"cosine\",\n    warmup_ratio=0.05, per_device_train_batch_size=4, gradient_accumulation_steps=8,\n    max_length=4096, packing=False, bf16=True, gradient_checkpointing=True, max_grad_norm=1.0,\n    assistant_only_loss=True,                      # 仅对 assistant 回复计损（需模板支持）\n    eval_strategy=\"steps\", eval_steps=100, save_steps=100, save_total_limit=3,\n    load_best_model_at_end=True, metric_for_best_model=\"eval_loss\", logging_steps=10,\n    report_to=\"wandb\", seed=42,\n)\ntrainer = SFTTrainer(model=model, args=cfg, train_dataset=ds[\"train\"], eval_dataset=ds[\"validation\"],\n                     processing_class=tok, peft_config=peft_cfg)\ntrainer.train()\ntrainer.save_model(\"runs/exp001/adapter\")        # 仅保存 adapter\n```\n\n> 参数名随 TRL/Transformers 版本有变化（如 `max_length`/`max_seq_length`、`processing_class`/`tokenizer`），以所装版本文档为准。\n\n### 2.6.3 多卡\n\n- 7–8B QLoRA 单卡可行；13B+ 或长序列：DeepSpeed ZeRO-2/3 或 FSDP + `accelerate launch`。\n- 注意：QLoRA 与 ZeRO-3/FSDP 的兼容性依赖版本，先小规模验证。\n\n### 2.6.4 实验管理\n\n每次运行记录：数据版本、基座版本（commit hash）、全部超参、随机种子、代码 commit、训练曲线、产物路径。工具：W&B / MLflow / TensorBoard。\n\n## 2.7 阶段 6：评估\n\n### 2.7.1 三类评估\n\n| 类型 | 内容 | 方法 |\n|---|---|---|\n| 任务指标 | 目标任务的准确率/格式正确率/F1/BLEU/ROUGE/JSON 合法率 | 固定测试集；规则判定优先 |\n| 开放质量 | 风格、有用性 | LLM-as-judge（成对比较，交换位置去偏）+ 人工抽检 |\n| **回归/遗忘** | 通用能力（指令遵循、知识、推理、安全） | 通用基准子集 + 自有通用问集；对比基座 |\n\n### 2.7.2 流程\n\n1. 基座 + 最佳 prompt 的基线；2. LoRA 模型同集评测；3. **对比同一 prompt、同一解码参数**；4. 误差分析（分类统计失败原因）；5. 反馈到数据（补难例、修标注）而不是盲目调超参。\n\n### 2.7.3 解码设置\n\n评测用确定性解码（temperature=0）；线上与评测保持一致；检查是否出现重复/不停止（EOS 处理、模板问题）。\n\n## 2.8 阶段 7：合并与部署\n\n### 2.8.1 两种形态\n\n| 形态 | 做法 | 优缺点 |\n|---|---|---|\n| **合并权重** | `model = model.merge_and_unload()` 保存为完整模型 | 推理零额外开销、部署最简；失去热切换；QLoRA 合并到量化模型需先反量化到 bf16 再合并 |\n| **保留 adapter** | 基座常驻显存 + 运行时加载 adapter | 多任务/多租户；少量额外延迟 |\n\n### 2.8.2 多 LoRA 服务\n\n- **vLLM**：`--enable-lora --lora-modules name=path`，请求中指定 adapter；注意 `--max-lora-rank` ≥ adapter 的 r，`--max-loras` 控制并发加载数。\n- **LoRAX / S-LoRA / Punica 类**：批内混合不同 adapter，适合成百上千 adapter。\n- 合并后再量化（AWQ/GPTQ/GGUF）用于边缘部署，需重新评测（量化可能抵消微调增益）。\n\n### 2.8.3 发布与回滚\n\nadapter 与基座**版本绑定**（记录基座 commit/hash）；灰度（影子流量/按比例）→ 监控关键指标 → 一键回滚到上一 adapter 或基座。\n\n## 2.9 阶段 8：迭代\n\n```\n线上日志 → 筛选失败/低分样本 → 人工修正/专家标注 → 并入训练集（新版本）→ 重训 → 回归评测 → 发布\n```\n\n数据飞轮要点：保留**固定测试集**不入训；新数据去污染；定期评估是否值得升级基座。\n\n## 2.10 LoRA 故障排查\n\n| 症状 | 根因 | 对策 |\n|---|---|---|\n| 训练 loss 很低、测试差 | 过拟合/泄漏/模板不一致 | 减 epoch/r；查泄漏；对齐 chat template |\n| loss 不降 | LR 太低；target_modules 不匹配；标签全被 mask | 提 LR；检查模块名；打印 labels 确认非 -100 |\n| loss spike/NaN | LR 太高；fp16 溢出；坏样本 | 降 LR；用 bf16；梯度裁剪；清洗数据 |\n| 输出不停止/重复 | EOS 缺失、模板错、解码参数 | 训练样本末尾加 EOS；检查 `generation_config` |\n| 通用能力下降（遗忘） | LR 过大/epoch 过多/数据窄 | 降 LR/r；混入通用指令数据（5–20%）；早停 |\n| 合并后效果变差 | 量化基座直接合并、精度损失 | 反量化后合并；或保留 adapter |\n| 显存 OOM | 序列长/batch 大 | 降 batch + 增 grad_accum；checkpointing；QLoRA；缩短序列 |\n| 吞吐低 | 无 packing、padding 多 | 长度分桶；packing；flash-attention |\n| 多 adapter 服务慢 | rank 大、频繁换入 | 提高 `max-loras`；热点 adapter 合并成独立模型 |\n\n## 2.11 LoRA 检查清单\n\n- [ ] 确认问题适合微调（先测 prompt/RAG 基线）\n- [ ] 数据：清洗、去重、去污染、按来源切分、模板版本化\n- [ ] 仅对 assistant 计损；训练/推理 chat template 一致\n- [ ] 基座与方案（LoRA/QLoRA）依显存与精度决定\n- [ ] 超参起点：r=16, α=32, 全线性层, LR 2e-4, cosine, warmup 5%, 1–3 epoch\n- [ ] val 指标早停；记录全部实验元数据\n- [ ] 评估含任务指标 + 通用回归 + 人工抽检\n- [ ] 部署形态（合并/多 adapter）与回滚预案\n- [ ] 数据飞轮与固定测试集\n\n---\n\n# 3. SFT + 强化学习（RL）工作流\n\n## 3.1 后训练总览\n\n```\n基座预训练 ─► (可选) 继续预训练 CPT（领域语料）\n          ─► SFT（监督微调：学会格式/指令/基本能力）\n          ─► 偏好优化：DPO/IPO/KTO/SimPO（离线，用偏好对）\n          ─► RL：RLHF(PPO，用奖励模型) 或 RLVR(GRPO 等，用可验证奖励)\n          ─► 评估 / 红队 / 安全 ─► 部署 ─► 线上数据回流\n```\n\n| 阶段 | 学什么 | 数据 | 典型规模 | 成本 |\n|---|---|---|---|---|\n| SFT | 模仿示范（格式、风格、技能起点） | (prompt, 优质回复) | 1K–1M | 低–中 |\n| 偏好优化（DPO 类） | 区分好坏回复 | (prompt, chosen, rejected) | 10K–1M | 中 |\n| RLHF/RLVR | 最大化奖励，探索超越示范 | prompt + 奖励函数/模型 | 数千–数十万 prompt，多次 rollout | 高 |\n\n**原则**：SFT 提供起点（模型需能“偶尔做对”，RL 才有信号）；RL 提升上限与鲁棒性；先 SFT，再 RL。\n\n---\n\n## 3.2 SFT 工作流\n\n### 3.2.1 流程\n\n```\n任务定义 → 数据来源规划 → 数据构建(人工/合成/蒸馏) → 清洗与去污染 → 配比与格式化\n  → 训练（全参或 LoRA）→ 评估 → 误差分析 → 数据迭代\n```\n\n### 3.2.2 数据构建\n\n| 来源 | 方法 | 注意 |\n|---|---|---|\n| 专家/人工标注 | 撰写指南 + 双标注 + 仲裁，计算标注一致性（Cohen's κ） | 质量最高，最贵；指南版本化 |\n| 真实日志 | 脱敏 → 选择高质量会话 → 人工修正 | 分布最贴近线上；注意隐私与偏差 |\n| 合成（self-instruct / evol-instruct） | 强模型生成指令与回复，多样性控制（种子、主题树、难度演化） | 去重、验证；注意模型许可条款 |\n| 蒸馏（含推理轨迹） | 强模型生成带思维链的解答 | 先过滤：仅保留**答案可验证正确**的轨迹 |\n| 拒绝采样（Rejection Sampling） | 对每个 prompt 采样 N 个回复，用验证器/裁判选最优 | 把 RL 的收益部分“离线化”，实现简单 |\n\n### 3.2.3 数据质量工程\n\n1. 格式统一（chat template、系统提示、工具调用结构）。\n2. 去重（精确 + 近似）；多样性分析（主题/长度/难度分布，embedding 聚类）。\n3. **质量打分过滤**：规则（长度、重复、语言）+ 裁判模型打分；保留高分段。\n4. **去污染**：与所有评估集做 n-gram（如 13-gram）重叠剔除。\n5. 配比（data mixing）：目标任务数据 + 通用指令数据（防遗忘）+ 安全数据 + 推理/代码数据；通过小规模实验确定比例。\n6. 难度课程（可选）：由易到难或多阶段（先通用后专项）。\n\n### 3.2.4 训练要点\n\n| 项 | 起点/建议 |\n|---|---|\n| 方式 | 全参（高上限，显存高）或 LoRA（见 §2） |\n| 损失 | 仅 assistant token；对长回复可 token 级平均，避免被长样本主导 |\n| 学习率 | 全参 1e-5 – 2e-5（7B 级；更大模型更小）；LoRA 1e-4 – 2e-4 |\n| epochs | 2–3（小数据）；大数据 1–2；监控 val loss |\n| batch（有效） | 64–512 序列 |\n| 序列长度 | 覆盖业务分布；packing 提效（注意跨样本注意力隔离/位置重置） |\n| 调度 | cosine + warmup 3% |\n| 精度/并行 | bf16；FSDP/ZeRO-3；flash-attention |\n| 多阶段 | 通用 SFT → 领域 SFT（较低 LR） |\n\n### 3.2.5 SFT 评估\n\n- 任务集（规则可判）+ 通用基准回归 + 成对人评/LLM 评。\n- 检查：格式合规率、拒答/过度拒答率、长度分布、重复率、安全性。\n- **SFT 终点判定**：不是 loss 最低，而是下游指标最好；常见“loss 更低但生成更差”。\n\n### 3.2.6 SFT 常见问题\n\n| 问题 | 原因 | 对策 |\n|---|---|---|\n| 风格好但事实错 | 模仿表面；数据含错误 | 加可验证数据；RAG；RL |\n| 过度拒答/冗长 | 数据偏置 | 平衡数据；DPO 惩罚冗长（长度归一化） |\n| 多样性下降 | 小数据多 epoch | 降 epoch；混入多样数据；后续 RL 可能进一步降熵，需监控 |\n| 遗忘通用能力 | LR 大/数据窄 | 混入通用数据；LoRA；降 LR |\n\n---\n\n## 3.3 偏好数据（Preference Data）\n\n### 3.3.1 来源\n\n| 方式 | 说明 | 优缺点 |\n|---|---|---|\n| 人工成对比较 | 同一 prompt 两个回复，标注者选优 + 理由 | 最可靠，贵；需标注指南与一致性检查 |\n| RLAIF / LLM 裁判 | 强模型按 rubric 打分/比较（UltraFeedback 式） | 便宜、可扩展；有偏差（位置/长度/自偏好），需人工校准 |\n| On-policy 采样 | 用**当前模型**采样多个回复再标注 | **分布匹配**，效果通常最佳；需迭代 |\n| 规则/验证器构造 | 正确 vs 错误答案（可验证任务） | 无噪声 |\n| Constitutional / 原则驱动 | 按明确原则自我批评与修订，生成偏好 | 控制价值取向；需原则质量 |\n\n### 3.3.2 质量控制\n\n标注指南（有用性、真实性、无害性的优先级）；双标注 + 一致性；金标准校验题；去除近似平局样本（低信号）；**长度偏差**控制（chosen 过长是常见陷阱）；校准 LLM 裁判（与人工一致率 ≥ 阈值）。\n\n---\n\n## 3.4 奖励模型（Reward Model, RM）\n\n| 项 | 内容 |\n|---|---|\n| 目标 | 学习 `r(x,y)` 标量，反映人类偏好 |\n| 损失（Bradley–Terry） | `L = -log σ( r(x, y_w) − r(x, y_l) )` |\n| 结构 | 基座 LLM + 线性头（输出标量）；常从 SFT 模型初始化 |\n| 训练 | 1 epoch 居多（多了易过拟合）；LR 1e-5 级；评估指标：偏好对准确率（通常 65–80% 视任务噪声） |\n| ORM vs PRM | **ORM**（结果奖励）只评最终答案；**PRM**（过程奖励）评每一步，适合推理但标注昂贵（可用 MC rollout 自动估计） |\n| 风险 | 奖励黑客（reward hacking）：策略利用 RM 漏洞（长度、迎合措辞）；RM 过优化（Goodhart） |\n| 缓解 | KL 约束；RM 集成/不确定性；定期用新 on-policy 数据**重训 RM**；监控 RM 分数与真实人评的背离；长度惩罚 |\n\n---\n\n## 3.5 RLHF（PPO）流程\n\n### 3.5.1 组成（4 个模型）\n\n| 角色 | 作用 |\n|---|---|\n| Policy（Actor） | 被优化的 LLM |\n| Reference | 冻结的 SFT 模型，用于 KL 约束 |\n| Reward Model | 给完整回复打分 |\n| Critic（Value） | 估计状态价值，用于优势估计（GAE） |\n\n### 3.5.2 迭代循环\n\n```\n1. 采样一批 prompt\n2. Policy 生成回复（rollout，用 vLLM 等加速）\n3. RM 打分；计算 KL(policy‖ref)；token 级奖励 = RM 分(末 token) − β·KL\n4. Critic 估计价值；GAE 计算优势 A_t\n5. PPO 更新：clip 目标 + value loss + (熵项)\n6. 记录指标；周期性评估；保存检查点\n```\n\n目标函数：`J = E[ r(x,y) ] − β · KL(π_θ ‖ π_ref)`；PPO clip：`min(ρ·A, clip(ρ, 1−ε, 1+ε)·A)`，ε≈0.2。\n\n### 3.5.3 难点\n\n显存与工程（4 模型）、超参敏感、不稳定。多数团队转向更简的 DPO/GRPO/RLOO。\n\n---\n\n## 3.6 偏好优化与无 critic RL 算法\n\n### 3.6.1 算法对比\n\n| 算法 | 类型 | 需要 | 核心思想 | 优点 | 缺点 |\n|---|---|---|---|---|---|\n| **DPO** | 离线偏好 | 偏好对、ref 模型 | 把 RLHF 目标闭式化为分类损失：`−log σ(β[(log π/π_ref)(y_w) − (log π/π_ref)(y_l)])` | 简单稳定、无需 RM/采样 | 依赖偏好数据分布；可能使 chosen 概率也下降；对长度敏感 |\n| IPO | 离线 | 同上 | 正则化的平方损失，防 DPO 过拟合 | 更稳 | 超参 |\n| **KTO** | 离线 | 单条好/坏标签（无需成对） | 前景理论 | 数据易得 | 调参 |\n| ORPO | 离线 | 偏好对，无 ref | SFT + odds-ratio 惩罚一步完成 | 省显存、一阶段 | 效果依任务 |\n| SimPO | 离线 | 偏好对，无 ref | 长度归一化平均 logprob 作隐式奖励 + margin | 无 ref、控长度 | 超参 |\n| **RLOO / REINFORCE++** | 在线 | 奖励 | 用同 prompt 其他样本均值作 baseline，无 critic | 简单、省显存 | 方差 |\n| **GRPO** | 在线 | 奖励函数/RM | 每 prompt 采样 G 个回复，**组内标准化**作为优势：`A_i = (r_i − mean) / std`；无 critic | 省显存，适合可验证奖励 | 长度偏置、难度偏置（有 Dr.GRPO/DAPO 等修正） |\n| DAPO / GSPO 等变体 | 在线 | 奖励 | 动态采样、clip-higher、token/序列级损失等稳定化改进 | 长推理更稳 | 更多超参 |\n\n### 3.6.2 选择建议\n\n```\n有成对偏好数据，想要最简单稳定 ──► DPO（先试 β=0.1）\n只有“好/坏”单标签 ──► KTO\n有可程序化验证的奖励（数学/代码/格式/工具成功） ──► GRPO / RLOO（RLVR）\n需要学习型主观奖励（风格/有用性）且资源足 ──► RM + PPO/GRPO，或迭代式 DPO（on-policy）\n```\n\n### 3.6.3 DPO 工作流细节\n\n1. 基于 SFT 模型作为 `π_ref`（和初始化 `π_θ`）。\n2. 偏好数据尽量 **on-policy**：用当前 SFT 模型采样 → 打分 → 选 chosen/rejected（差距明显）。\n3. 超参：β 0.05–0.5（越大越贴近 ref）；LR 5e-7 – 5e-6（全参）/ 5e-6 – 5e-5（LoRA）；1–3 epoch。\n4. 监控：chosen/rejected 隐式奖励差（margins）、奖励准确率、chosen logprob 是否下降、输出长度。\n5. 迭代：Online/Iterative DPO（多轮：采样→标注→训练）。\n\n```python\n# TRL DPO（示意；参数名随版本变化）\nfrom trl import DPOTrainer, DPOConfig\ncfg = DPOConfig(output_dir=\"runs/dpo\", beta=0.1, learning_rate=5e-7, num_train_epochs=1,\n                per_device_train_batch_size=2, gradient_accumulation_steps=16,\n                max_length=2048, bf16=True, logging_steps=10)\ntrainer = DPOTrainer(model=sft_model, ref_model=None, args=cfg,   # ref=None 时 PEFT 可用 adapter 关闭作 ref\n                     train_dataset=pref_ds, processing_class=tok, peft_config=lora_cfg)\ntrainer.train()\n```\n\n---\n\n## 3.7 RLVR（可验证奖励的强化学习）工作流\n\n### 3.7.1 适用任务与奖励设计\n\n| 任务 | 验证器 | 奖励设计 |\n|---|---|---|\n| 数学 | 答案精确匹配/符号等价（`sympy`、`math-verify`） | 正确 1，错误 0；格式奖励（如要求 `\\boxed{}`）小权重 |\n| 代码 | 沙箱执行单元测试 | 通过率；超时/编译错误惩罚；**沙箱隔离**必须 |\n| 结构化输出 | JSON Schema 校验、字段匹配 | 合法性 + 字段正确率 |\n| 工具/智能体任务 | 环境最终状态检查（订单是否正确修改等） | 任务成功 + 步数/成本惩罚 |\n| 事实问答 | 与参考答案匹配（规则 + 小裁判） | 注意裁判漏洞 |\n\n奖励设计规则：\n1. **稀疏但可靠** 优于 稠密但可被利用；先保证正确性信号，再叠加少量塑形项。\n2. 多奖励加权：`R = w1·正确 + w2·格式 + w3·长度惩罚`；格式奖励权重要小，避免策略只学格式。\n3. 部分得分谨慎：易被刷分。\n4. 防 reward hacking：对抗性测试（空答案、重复、硬编码答案、篡改测试文件）；沙箱只读测试；抽样人工审阅高奖励样本。\n5. 过滤 prompt 难度：保留**通过率在 (0,1) 之间**（如 10–90%）的题；全对/全错的组梯度为零（GRPO 下无信号）。\n\n### 3.7.2 GRPO 训练循环\n\n```\nfor step in range(N):\n    prompts = sample_batch(dataset, B)                    # B 个 prompt\n    rollouts = policy.generate(prompts, n=G, temp=1.0)    # 每个 prompt G 个回复（vLLM）\n    rewards = verifier(prompts, rollouts)                 # 可验证奖励\n    adv = (rewards − mean_group) / (std_group + eps)      # 组内标准化（或仅减均值）\n    loss = −E[ min(ρ·adv, clip(ρ,1−ε,1+ε)·adv) ] + β·KL(π‖π_ref)\n    policy.update(loss)                                   # 1 次或少量 mini-epoch\n```\n\n### 3.7.3 GRPO 超参起点\n\n| 参数 | 起点 | 说明 |\n|---|---|---|\n| 组大小 G | 8–16（难题可到 64） | 越大优势估计越稳，rollout 成本线性增 |\n| 每步 prompt 数 B | 64–512 | 与 G 共同决定 rollout 总量 |\n| 学习率 | 1e-6（全参）；LoRA 约 1e-5 – 5e-5 | 比 SFT 小一个数量级 |\n| KL β | 0 – 0.04（许多近期做法设 0 并靠 clip/其他稳定化） | β=0 省 ref 前向但更需监控漂移 |\n| clip ε | 0.2（DAPO 类用非对称 clip-higher，如上 0.28） | |\n| 采样温度 | 0.8–1.0 | 太低无探索 |\n| 最大生成长度 | 依任务（推理 4K–32K） | 截断策略需明确（截断样本如何计奖） |\n| 损失聚合 | token 级（避免长度偏置）或序列级 | 参考 DAPO/Dr.GRPO |\n| 优势归一 | 去 std 或保留 | 去 std 可降低难度偏置 |\n| 重要性比 | on-policy 单步时 ρ=1 | 多 mini-epoch 才有 clip 作用 |\n\n### 3.7.4 基础设施\n\n| 组件 | 选项 |\n|---|---|\n| RL 框架 | **TRL**（GRPOTrainer，易用）、**verl**、**OpenRLHF**、NeMo-RL、SkyRL 等 |\n| Rollout 引擎 | vLLM / SGLang（高吞吐）；与训练引擎权重同步 |\n| 训练引擎 | FSDP / Megatron / DeepSpeed |\n| 部署模式 | **Colocated**（rollout 与训练同卡，切换显存，简单）vs **Disaggregated**（分离，异步，利用率高，需处理 off-policy 滞后） |\n| 瓶颈 | 长尾 rollout（最长序列拖慢整批）→ 异步/部分 rollout、动态批 |\n| 沙箱 | 代码执行：容器/gVisor/Firecracker，限 CPU/内存/网络/时间 |\n\n```python\n# TRL GRPO 示意（参数名随版本变化）\nfrom trl import GRPOTrainer, GRPOConfig\n\ndef correctness_reward(prompts, completions, answer, **kw):\n    return [1.0 if extract_final(c) == a else 0.0 for c, a in zip(completions, answer)]\ndef format_reward(prompts, completions, **kw):\n    return [0.1 if has_required_format(c) else 0.0 for c in completions]\n\ncfg = GRPOConfig(output_dir=\"runs/grpo\", learning_rate=1e-6, num_generations=8,\n                 per_device_train_batch_size=8, gradient_accumulation_steps=8,\n                 max_completion_length=2048, beta=0.0, temperature=1.0,\n                 use_vllm=True, bf16=True, logging_steps=5, save_steps=100)\ntrainer = GRPOTrainer(model=sft_ckpt, reward_funcs=[correctness_reward, format_reward],\n                      args=cfg, train_dataset=ds, processing_class=tok)\ntrainer.train()\n```\n\n### 3.7.5 监控指标（必须看板化）\n\n| 指标 | 健康表现 | 异常含义 |\n|---|---|---|\n| 平均奖励（train） | 缓慢上升 | 不升：LR/奖励/难度问题；突升后崩：hacking |\n| 验证集奖励（held-out） | 与 train 同向 | 背离 = 过拟合/hacking |\n| KL(π‖ref) | 平滑增长后趋稳 | 激增 = 漂移过快（降 LR / 加 β） |\n| 熵（entropy） | 缓降 | 骤降 = 熵坍塌（探索消失；用 clip-higher、提高温度、熵奖励） |\n| 响应长度 | 与任务匹配地变化 | 持续暴涨/骤缩 = 长度偏置或 hacking |\n| 组内奖励方差 / 零梯度组比例 | 零梯度组占比不高 | 占比高 = 题太易/太难，需动态过滤 |\n| clip 比例 | 5–20% 区间常见 | 过高：更新过激 |\n| 梯度范数 | 稳定 | 尖峰：数据/学习率问题 |\n| 截断率 | 低 | 高：max length 过小或策略啰嗦 |\n\n### 3.7.6 稳定化技巧\n\n动态采样（丢弃全对/全错组并补采）、clip-higher、token 级损失、超长回复软惩罚、保留 ref KL 或周期性重置 ref、冷启动 SFT（少量长推理数据）、课程学习（由易到难）、混入 SFT/预训练损失（防遗忘）、检查点回滚。\n\n---\n\n## 3.8 智能体 / 多轮 RL（Agentic RL）\n\n- 环境：多轮交互（工具调用、浏览器、代码执行），奖励在**回合末**（任务是否完成）+ 可选过程信号。\n- 轨迹处理：只对**模型生成的 token** 计损（屏蔽环境/工具返回）；长轨迹的信用分配（trajectory-level 优势，或按回合分配）。\n- 工程：环境并行与隔离、超时与重置、确定性种子、轨迹回放存储。\n- 风险：环境漏洞被利用、工具滥用、长尾轨迹拖慢训练；设最大回合数与成本惩罚。\n\n---\n\n## 3.9 评估（后训练全程）\n\n| 维度 | 方法 |\n|---|---|\n| 任务能力 | 可验证基准 + 自有测试集（pass@1、pass@k、maj@k） |\n| 偏好/有用性 | 成对比较（LLM 裁判 + 人工）、胜率；控制长度（长度校正胜率） |\n| 安全/红队 | 越狱、有害请求、过度拒答率 |\n| 通用回归 | 指令遵循、知识、代码、长上下文子集 |\n| 校准与幻觉 | 事实性集、拒答合理性 |\n| 稳定性 | 多随机种子、不同温度 |\n\n规则：评估集永不进训练；每个阶段（SFT→DPO→RL）都与上一阶段对比；报告置信区间（样本小时波动大）。\n\n---\n\n## 3.10 常见故障排查\n\n| 症状 | 根因 | 对策 |\n|---|---|---|\n| RL 奖励不涨 | 初始通过率≈0；LR 太小；奖励 bug | 先 SFT/蒸馏冷启动；过滤题难度；单元测试奖励函数 |\n| 奖励飙升但真实质量下降 | Reward hacking / RM 过优化 | 加 held-out 真实评测；修验证器；增 KL；重训 RM |\n| 响应越来越长且无益 | 长度偏置 | token 级损失；长度惩罚；去 std 归一 |\n| 熵坍塌、输出单一 | 探索不足 | clip-higher、升温度、熵奖励、减 LR |\n| KL 爆炸、语言崩坏 | LR 过大、β 过小 | 降 LR；加 β；缩小 clip |\n| DPO 后 chosen 概率下降/输出怪异 | 偏好对差异小、β 不合适 | 过滤近平局；加 SFT 损失项（RPO）；调 β |\n| 训练-推理不一致（rollout 与训练 logprob 差异） | 引擎数值差异/权重同步滞后 | 对齐精度；重算 logprob；重要性修正 |\n| OOM | rollout + 训练同显存 | 降 G/长度；offload；分离部署；梯度检查点 |\n| rollout 太慢 | 长尾 | 异步、动态批、限制最大长度 |\n\n## 3.11 SFT + RL 检查清单\n\n- [ ] SFT 起点模型在目标任务上有非零（理想 10–70%）通过率\n- [ ] SFT 数据：清洗/去污染/配比；仅 assistant 计损；评估基线保存\n- [ ] 偏好数据 on-policy、控制长度偏差；裁判模型与人工校准\n- [ ] 选对算法：DPO（偏好对）/ GRPO（可验证奖励）/ PPO（学习型 RM）\n- [ ] 奖励函数单元测试 + 对抗测试；沙箱隔离\n- [ ] prompt 按难度过滤；held-out 验证集\n- [ ] 监控：reward、val reward、KL、熵、长度、clip、零梯度组比例\n- [ ] 检查点频繁保存、可回滚；记录全部配置与种子\n- [ ] 每阶段做通用回归与安全评测\n- [ ] 最终 A/B 或影子流量验证后上线\n\n---\n\n# 4. LLM-Wiki 工作流\n\n> 本章按 Andrej Karpathy 公开的 **LLM Wiki 模式**（2026 年 4 月前后公开的 gist）整理，并补充工程化扩展。若你指的是别的含义（如 Wikipedia 相关 LLM 管线），请告知后调整。\n> 来源：[Karpathy LLM Wiki gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)。\"扩展\"标记的部分是本手册的工程建议，不属于原文。\n\n## 4.1 核心思想\n\n**RAG**：每次提问时从原始文档临时检索并拼接，知识不累积。\n**LLM-Wiki**：LLM 在**摄入（ingest）时**把每个新来源整合进一个**持久、互相链接的 Markdown wiki**；交叉引用、矛盾标注、综合摘要在写入时就做好，查询时直接读已编译的知识。\n\n| 对比 | RAG | LLM-Wiki |\n|---|---|---|\n| 综合发生在 | 查询时（每次重做） | 摄入时（一次做，持续累积） |\n| 知识形态 | 向量化的原文块 | 人类可读的 Markdown 页面 + 链接 |\n| 跨文档综合/矛盾发现 | 依赖单次检索覆盖 | 写入时已整合，lint 时再审 |\n| 规模上限 | 很高（百万级文档） | 中等（原作者提到约百份来源、数百页可靠地靠 index 工作） |\n| 可审计性 | 看检索块 | 直接读/diff 页面（git） |\n| 维护成本 | 重建索引 | LLM 承担全部“记账”工作（交叉引用、摘要更新） |\n| 最适合 | 大规模、长尾、事实查询 | 个人/团队深度研究、持续积累的主题知识 |\n\n二者可组合：wiki 规模增大后，在 wiki 之上加检索（见 §4.9）。\n\n## 4.2 三层架构\n\n```\nproject/\n├── raw/                  # 第 1 层：原始来源（不可变，LLM 只读）\n│   ├── articles/  papers/  transcripts/  data/\n│   └── assets/           # 下载的图片附件（固定目录，便于引用）\n├── wiki/                 # 第 2 层：LLM 拥有并维护的 Markdown 页面\n│   ├── index.md          # 内容目录\n│   ├── log.md            # 只追加的时间线\n│   ├── overview.md       # 全局综述\n│   ├── sources/          # 每个来源一页摘要\n│   ├── entities/         # 人物/组织/工具/产品\n│   ├── concepts/         # 概念/方法/理论\n│   ├── comparisons/      # 对比分析\n│   └── syntheses/        # 综合性结论、问答沉淀\n└── CLAUDE.md (或 AGENTS.md)   # 第 3 层：Schema（规则与工作流）\n```\n\n| 层 | 谁写 | 可变性 | 作用 |\n|---|---|---|---|\n| raw | 人（收集） | **不可变**，事实来源 | 保证可溯源、可重新编译 |\n| wiki | LLM | 持续更新 | 编译后的知识 |\n| schema | 人 + LLM 共同演化 | 缓慢演化 | 让 LLM 成为“有纪律的维护者” |\n\n## 4.3 Schema 文件（CLAUDE.md / AGENTS.md）应包含什么\n\nSchema 是整个系统的质量来源。建议模板：\n\n```markdown\n# Wiki Schema\n\n## 目的与范围\n本 wiki 用于：<主题/领域>。不收录：<范围外内容>。读者：<自己/团队>。\n\n## 目录与命名\n- 页面文件名：kebab-case，英文或拼音，全局唯一；标题用自然语言\n- 目录：sources/ entities/ concepts/ comparisons/ syntheses/\n- 链接：使用 [[wikilink]]（Obsidian 兼容）；每页至少 2 个出链\n\n## 页面类型与模板\n（每种类型给出 frontmatter 字段与固定小节）\n\n## Frontmatter 规范\ntype, title, aliases, tags, created, updated, sources(列表，指向 raw/ 路径), confidence(low|medium|high), status(draft|stable|needs-review)\n\n## 工作流\n### Ingest：步骤清单（见下）\n### Query：步骤清单\n### Lint：检查项清单\n\n## 写作规则\n- 每个事实性断言需可追溯到来源（页内 [source: raw/...] 或 sources 字段）\n- 矛盾不覆盖：并列记录并标注来源与日期，写入 \"Open questions\"\n- 不编造；不确定写 confidence: low\n- raw/ 只读，绝不修改\n\n## 日志格式\n## [YYYY-MM-DD] ingest | <标题>   （log.md 追加，一致前缀便于 grep）\n```\n\n## 4.4 页面类型与模板\n\n| 类型 | 内容 | 关键字段/小节 |\n|---|---|---|\n| source（来源摘要） | 单个来源的要点、论点、数据、引用位置 | `source_path, author, date, type`；小节：Summary / Key claims / Data / Quotes(短) / Relevance / Links |\n| entity | 人、组织、产品、工具 | 小节：What it is / Key facts / Timeline / Related / Sources |\n| concept | 概念、方法、理论 | 小节：Definition / How it works / Variants / Trade-offs / Related / Sources |\n| comparison | A vs B | 对比表 + 结论 + 适用场景 + 来源 |\n| synthesis | 跨来源的综合结论或有价值的问答 | 问题 / 结论 / 依据（链接到各页）/ 不确定性 |\n| overview | 全局视图 | 主题地图、当前共识、争议点、阅读路径 |\n| index | 内容目录 | 每页：链接 + 一行摘要 + 元数据；按类别分组 |\n| log | 时间线 | `## [日期] 操作 | 标题` + 影响页面列表 |\n\n页面示例：\n\n```markdown\n---\ntype: concept\ntitle: Hybrid Search\naliases: [混合检索]\ntags: [rag, retrieval]\ncreated: 2026-11-17\nupdated: 2026-11-17\nsources: [raw/articles/rrf-paper.md, raw/articles/vector-db-guide.md]\nconfidence: medium\nstatus: stable\n---\n# Hybrid Search\n## Definition\n结合稠密向量检索与 BM25 的检索方式 ……\n## How it works\n……RRF 融合见 [[reciprocal-rank-fusion]]\n## Trade-offs\n……\n## Open questions\n- [[source-a]] 认为 α=0.5 最佳，[[source-b]] 报告 0.3，差异来自语料类型（待验证）\n## Related\n[[reranking]] · [[bm25]] · [[dense-retrieval]]\n```\n\n## 4.5 核心操作\n\n### 4.5.1 Ingest（摄入）\n\n```\n1. 人把来源放入 raw/（网页用 Web Clipper 转 Markdown；图片下载到 raw/assets/）\n2. 指示 LLM：“按 schema 摄入 raw/articles/xxx.md”\n3. LLM 读取来源（文本优先；图片另行查看）\n4. 与人讨论要点（可选：单篇监督模式）\n5. 写 wiki/sources/xxx.md（来源摘要页）\n6. 更新受影响的 entity / concept 页面（一个来源常触及 10–15 页）\n7. 发现与既有页面冲突 → 记录到 Open questions，不覆盖\n8. 创建缺失的被引用页面（stub，标 status: draft）\n9. 更新 index.md（新增/修改条目）\n10. 追加 log.md：## [日期] ingest | 标题 + 触及页面清单\n11. git commit（一个来源一个 commit，便于回滚与审阅）\n```\n\n模式：**监督式**（逐篇、边读边讨论，质量高）与**批量式**（多篇连续处理，监督少、效率高）。建议：新领域前 10–20 篇用监督式校准 schema，之后批量。\n\n### 4.5.2 Query（查询）\n\n```\n1. LLM 读 index.md 定位相关页面（规模大时借助搜索工具，见 §4.9）\n2. 读取相关页面（及其链接页）\n3. 综合回答，**带引用**（链接到 wiki 页，必要时回溯 raw 来源）\n4. 输出形式不限：Markdown、表格、图表、Marp 幻灯片\n5. 有长期价值的回答 → 归档为 syntheses/ 新页面（探索也在累积）\n6. log.md 追加 query 记录；必要时更新 index\n```\n\n### 4.5.3 Lint（健康检查）\n\n定期（如每 N 次摄入或每周）运行：\n\n| 检查项 | 处理 |\n|---|---|\n| 页面间矛盾 | 汇总到 Open questions，标注来源与日期；必要时回查 raw |\n| 过时断言（被新来源取代） | 更新并保留历史说明 |\n| 孤儿页（无入链） | 补链接或合并/删除 |\n| 缺失页面（被 [[link]] 引用但不存在） | 创建 stub |\n| 缺少交叉引用 | 补充互链 |\n| 断链/重复页面/别名冲突 | 合并或修复 |\n| 无来源断言（unsourced claims） | 补来源或降 confidence |\n| 数据缺口 | 列出可通过网页搜索补充的主题 → 生成待办来源清单 |\n| 格式/Schema 违规（frontmatter 缺失等） | 自动修正 |\n| index 与实际文件不同步 | 重建 index |\n\nLint 输出：报告（`wiki/lint-YYYY-MM-DD.md` 或写入 log）+ 自动修复的 commit + 待人工决定项。\n\n## 4.6 index.md 与 log.md\n\n**index.md**（内容目录，LLM 每次摄入更新，查询时先读）：\n\n```markdown\n# Index\n## Concepts\n- [[hybrid-search]] — 稠密+BM25 融合检索，RRF 为默认融合方式 (updated 2026-11-17, 4 sources)\n- [[reranking]] — 召回后用 cross-encoder 精排 (2026-11-10, 3 sources)\n## Entities\n- [[qdrant]] — 向量库，支持稀疏向量与过滤 ……\n## Sources\n- [[2026-11-03-rrf-paper]] — RRF 原论文要点 ……\n## Syntheses\n- [[when-to-use-rag-vs-wiki]] — ……\n```\n\n**log.md**（只追加，时间线，格式固定便于命令行解析）：\n\n```markdown\n## [2026-11-17] ingest | RRF paper\ntouched: sources/rrf-paper, concepts/hybrid-search, concepts/reciprocal-rank-fusion\n## [2026-11-17] query | RAG vs wiki 取舍\nfiled: syntheses/when-to-use-rag-vs-wiki\n## [2026-11-20] lint | weekly\nfixed: 3 orphans, 2 broken links; open: 1 contradiction (hybrid-search α)\n```\n\n查看最近 5 条：`grep \"^## \\[\" wiki/log.md | tail -5`。\n\n## 4.7 工具链\n\n| 用途 | 工具 | 说明 |\n|---|---|---|\n| 阅读/导航 | **Obsidian** | 图谱视图看枢纽/孤儿；LLM 代理与 Obsidian 并排运行（LLM 是程序员，wiki 是代码库） |\n| 网页采集 | Obsidian Web Clipper | 文章 → Markdown 入 raw/ |\n| 图片 | 固定附件目录（raw/assets） | LLM 先读文本再单独看图 |\n| 动态查询表 | Obsidian **Dataview**（查 frontmatter） | 按 type/tags/updated 生成表格 |\n| 幻灯片 | **Marp** | 从 wiki 内容生成 Markdown 幻灯片 |\n| 版本 | **git** | 每次 ingest/lint 一个 commit；分支用于实验性大改；PR 审阅 |\n| 代理 | Claude Code / 其他编码代理（读写文件、执行命令） | 以 CLAUDE.md/AGENTS.md 为 schema |\n| 搜索（规模增大后） | **qmd**（本地 Markdown 搜索：关键词 + 向量 + LLM 重排，含 CLI 与 MCP 服务） | 小规模靠 index.md 即可 |\n\n## 4.8 搭建步骤（从零）\n\n1. 建目录与 git 仓库（raw/ wiki/ + schema 文件）。\n2. 写 schema（范围、目录、页面模板、三大操作清单、写作规则、日志格式）。\n3. 初始化 `index.md`、`log.md`、`overview.md`（空骨架）。\n4. 摄入 3–5 篇种子来源（监督式），审阅产出，**修订 schema**（这是最重要的迭代）。\n5. 用 Obsidian 打开 wiki/，检查图谱与页面可读性。\n6. 小批量摄入（10–20 篇），做第一次 lint。\n7. 固化节奏：采集 → 摄入 → 周度 lint → 季度回顾（拆分过大页面、重组目录）。\n8. 规模增大时引入搜索（§4.9）。\n\n## 4.9 扩展：规模化与质量保障（工程建议）\n\n| 问题 | 方案 |\n|---|---|\n| index.md 过长（数百页以上） | 分层索引（按目录建子 index）；引入 qmd/自定义检索；摘要字段保持一行 |\n| 单次摄入触及页面过多、上下文放不下 | 先让 LLM 产出“影响页面清单”，再分批更新；页面保持小而专一（原子化） |\n| LLM 写入错误累积 | 来源可追溯（raw 不可变）；confidence 字段；lint 定期核对；人工抽检；git 审阅 diff |\n| 矛盾与来源可信度 | 记录来源类型与日期；按可信度分级；并列保留而非覆盖 |\n| 多人协作 | git 分支/PR；schema 中约定页面所有权；CI 校验 frontmatter 与链接 |\n| 与 RAG 结合 | 对 wiki 页面建混合检索索引（页面=自然语义分块）；对 raw 长尾保留 RAG 兜底；wiki 优先、raw 回溯 |\n| 反复“重编译” | raw 不变 → 可用新模型/新 schema 重新全量编译 wiki（类似重新构建） |\n| 隐私/敏感 | 敏感来源本地模型处理；仓库私有；schema 声明不收录项 |\n| 成本 | 摄入用批处理；稳定前缀（schema）利用 prompt cache；lint 用较小模型先扫、疑点再升级 |\n\nCI 校验示例（脚本化 lint 的确定性部分）：frontmatter 必填字段、`[[link]]` 目标存在、文件名唯一、index 覆盖所有页面、无空页面。LLM 只负责语义类检查（矛盾、过时、缺口）。\n\n## 4.10 评估 LLM-Wiki 质量\n\n| 维度 | 指标/方法 |\n|---|---|\n| 覆盖 | 每个 raw 来源均有 source 页；被引用概念均有页面 |\n| 连通性 | 孤儿页比例、平均出入链数 |\n| 可追溯 | 带来源断言占比；抽样回溯 raw 校验准确率 |\n| 一致性 | 未解决矛盾数量及时长 |\n| 新鲜度 | 过期页面数（`updated` 超过阈值且主题活跃） |\n| 查询效果 | 构造 20–50 个问题，比较“基于 wiki 回答”与“基于 raw 直接回答”的正确性、完整性、引用质量、token 成本 |\n| 人工效率 | 摄入单篇耗时、人工修订率（人改动的页面比例） |\n\n## 4.11 常见故障排查\n\n| 症状 | 根因 | 对策 |\n|---|---|---|\n| 页面风格不一致、字段缺失 | schema 模板模糊 | 在 schema 中给出完整模板与示例；CI 校验 |\n| 摄入后更新了无关页面 | 指令宽泛 | 要求先列“拟修改页面与理由”，确认后执行 |\n| 页面越来越冗长重复 | 只追加不重构 | lint 时合并重复、拆分过大页；设页面长度上限 |\n| 引用不可追溯 | 未强制来源 | schema 规定每个事实断言带来源；lint 查无来源断言 |\n| LLM 覆盖掉旧观点 | 未规定矛盾处理 | 规则：冲突并列保留，写入 Open questions |\n| 查询找不到已有页面 | index 摘要质量差/过长 | 优化一行摘要；引入搜索工具；增加 aliases |\n| wiki 与 raw 脱节 | 修改了 raw 或未记录来源 | raw 只读；source 页保存路径与哈希 |\n| 孤儿页堆积 | 创建页面未链接 | 摄入步骤强制“至少 2 个出链、被 index 收录” |\n\n## 4.12 LLM-Wiki 检查清单\n\n- [ ] raw/ 不可变，来源有路径（建议含哈希）与元数据\n- [ ] schema 含：范围、目录、页面模板、frontmatter、三大操作清单、写作规则、日志格式\n- [ ] 每次摄入：source 页 + 更新相关页 + index + log + git commit\n- [ ] 矛盾并列保留；断言可追溯；confidence 标注\n- [ ] 周期性 lint（脚本化确定性检查 + LLM 语义检查）\n- [ ] 有价值的问答沉淀为 syntheses 页面\n- [ ] 规模增大时引入搜索/分层索引\n- [ ] 抽样回溯校验准确率；记录人工修订率以迭代 schema\n\n---\n\n# 附录 A：术语速查\n\n| 术语 | 含义 |\n|---|---|\n| Chunk | 检索的最小文本单元 |\n| Hybrid Search | 稠密 + 稀疏（BM25）联合检索 |\n| RRF | Reciprocal Rank Fusion，按名次融合多路结果 |\n| Cross-encoder | query 与文档拼接联合打分的重排模型 |\n| KV-cache | 缓存已计算 token 的 Key/Value，避免重复计算 |\n| Prefix caching | 相同前缀的请求共享 KV |\n| LoRA | 低秩适配：冻结基座，训练 `BA` 增量 |\n| QLoRA | 4-bit 量化基座 + LoRA |\n| SFT | 监督微调 |\n| DPO | 直接偏好优化，离线偏好对损失 |\n| RLHF | 基于人类反馈的强化学习（RM + PPO 等） |\n| RLVR | 可验证奖励的强化学习 |\n| GRPO | 组相对策略优化，组内标准化优势、无 critic |\n| KL 散度 | 衡量策略与参考模型的偏离 |\n| Reward hacking | 策略利用奖励漏洞获得高分但不达成真实目标 |\n| LLM-Wiki | LLM 持续维护的互链 Markdown 知识库 |\n\n# 附录 B：跨工作流的组合方式\n\n```\n┌────────── 知识层 ──────────┐     ┌───────── 行为层 ─────────┐\n│ LLM-Wiki（编译后的知识）     │     │ SFT/LoRA（格式、风格、工具） │\n│   + RAG（长尾原始文档）      │ ──► │ RL（可验证任务上限）        │\n└───────────────────────────┘     └──────────────────────────┘\n                  │                                │\n                  └──────────► 应用 / Agent ◄──────┘\n                           评估集 + 观测 + 数据飞轮\n```\n\n典型落地顺序：**prompt 基线 → RAG（知识）→ 评估 → LoRA/SFT（行为）→ DPO/RL（上限与对齐）**；每一步以评估集的提升为准入条件。\n\n# 附录 C：参考资料（建议自行核对最新版本）\n\n- Karpathy, LLM Wiki gist：https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f\n- RAG / Contextual Retrieval：Anthropic 工程博客；Lewis et al. 2020（RAG 原论文）\n- RRF：Cormack et al. 2009\n- LoRA：Hu et al. 2021；QLoRA：Dettmers et al. 2023；DoRA：Liu et al. 2024；rsLoRA：Kalajdzievski 2023\n- DPO：Rafailov et al. 2023；GRPO：DeepSeekMath（Shao et al. 2024）、DeepSeek-R1；DAPO：Yu et al. 2025\n- 工具文档：Hugging Face PEFT / TRL、vLLM、SGLang、verl、OpenRLHF、Unsloth、Axolotl、LLaMA-Factory、Qdrant、Docling\n";
+  var content = document.getElementById('content');
+  var hero = document.getElementById('hero');
+  var root = document.documentElement;
+
+  function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) {} return null; }
+
+  /* theme */
+  var saved = store('llmwiki-theme');
+  if (saved === 'dark' || saved === 'light') root.setAttribute('data-theme', saved);
+  document.getElementById('themeBtn').addEventListener('click', function () {
+    var cur = root.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    var next = cur === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next); store('llmwiki-theme', next);
+  });
+
+  if (!window.marked) {
+    var warn = document.createElement('p');
+    warn.textContent = '渲染库未能加载（需要访问 cdnjs.cloudflare.com）。请刷新页面，或改用同时提供的 Markdown 文件。';
+    content.appendChild(warn); return;
+  }
+
+  /* render */
+  var tmp = document.createElement('div');
+  tmp.innerHTML = marked.parse(MD, { gfm: true });
+  var titleH1 = tmp.querySelector('h1');
+  var lead = titleH1 && titleH1.nextElementSibling && titleH1.nextElementSibling.tagName === 'BLOCKQUOTE' ? titleH1.nextElementSibling : null;
+  if (titleH1) { titleH1.removeAttribute('id'); hero.insertBefore(titleH1, hero.firstChild); }
+  if (lead) { hero.insertBefore(lead, hero.querySelector('.cards')); }
+  while (tmp.firstChild) content.appendChild(tmp.firstChild);
+
+  /* ids, chapters */
+  var used = {}, fallback = 0;
+  function mkId(text) {
+    var m = text.match(/^(\d+(?:\.\d+)*)\.?\s/), id;
+    if (m) id = 's' + m[1].replace(/\./g, '-');
+    else { var a = text.match(/^附录\s*([A-Z])/); id = a ? 'app-' + a[1].toLowerCase() : 'x' + (++fallback); }
+    while (used[id]) id += 'b';
+    used[id] = 1; return id;
+  }
+  var heads = Array.prototype.slice.call(content.querySelectorAll('h1,h2,h3,h4')).filter(function (h) { return h !== titleH1; });
+  var chapters = [], cur = null;
+  heads.forEach(function (h) {
+    var txt = h.textContent.trim();
+    h.id = mkId(txt);
+    var lvl = +h.tagName.charAt(1);
+    if (lvl === 1 || (lvl === 2 && !cur)) {
+      var n = (txt.match(/^(\d+)/) || [])[1];
+      cur = { id: h.id, title: txt, color: n && +n >= 1 && +n <= 4 ? 'var(--c' + n + ')' : 'var(--c0)', items: [] };
+      chapters.push(cur);
+    } else if (lvl === 2 && cur) { cur.items.push({ id: h.id, title: txt }); }
+    h._ch = cur;
+    if (cur) h.style.setProperty('--chc', cur.color);
+  });
+  var curTop = null;
+  Array.prototype.forEach.call(content.querySelectorAll('blockquote'), function (b) {
+    var p = b, prev = null;
+    while (p && p !== content) { p = p.previousElementSibling || p.parentElement; if (p && /^H[1-4]$/.test(p.tagName) && p._ch) { prev = p; break; } }
+    if (prev) b.style.setProperty('--chc', prev._ch.color);
+  });
+
+  /* wrap tables and code */
+  Array.prototype.forEach.call(content.querySelectorAll('table'), function (t) {
+    var w = document.createElement('div'); w.className = 'tablewrap'; t.parentNode.insertBefore(w, t); w.appendChild(t);
+  });
+  Array.prototype.forEach.call(content.querySelectorAll('pre'), function (pre) {
+    var w = document.createElement('div'); w.className = 'codewrap'; pre.parentNode.insertBefore(w, pre); w.appendChild(pre);
+    var b = document.createElement('button'); b.className = 'btn copy'; b.type = 'button'; b.textContent = '复制'; w.appendChild(b);
+    b.addEventListener('click', function () {
+      var text = pre.innerText;
+      function done(ok) { b.textContent = ok ? '已复制' : '请手动复制'; setTimeout(function () { b.textContent = '复制'; }, 1400); }
+      function fallbackSel() {
+        var r = document.createRange(); r.selectNodeContents(pre.firstElementChild || pre);
+        var s = getSelection(); s.removeAllRanges(); s.addRange(r); done(false);
+      }
+      try { navigator.clipboard.writeText(text).then(function () { done(true); }, fallbackSel); } catch (e) { fallbackSel(); }
+    });
+  });
+  Array.prototype.forEach.call(content.querySelectorAll('a[href^="http"]'), function (a) { a.target = '_blank'; a.rel = 'noopener noreferrer'; });
+
+  var foot = document.createElement('div'); foot.className = 'foot';
+  foot.textContent = '数值为经验起点，需用自己的评估集验证；库版本与模型名请以官方文档为准。生成日期 2026-11-17。';
+  content.appendChild(foot);
+
+  /* nav */
+  var nav = document.getElementById('nav');
+  chapters.forEach(function (c) {
+    var el;
+    if (!c.items.length) {
+      el = document.createElement('a'); el.className = 'grp-plain'; el.href = '#' + c.id; el.textContent = c.title; el.style.setProperty('--chc', c.color);
+      el.dataset.chapter = c.id; nav.appendChild(el); c.el = el; return;
+    }
+    el = document.createElement('details'); el.className = 'grp'; el.style.setProperty('--chc', c.color);
+    var s = document.createElement('summary'), a = document.createElement('a');
+    a.href = '#' + c.id; a.textContent = c.title; s.appendChild(a); el.appendChild(s);
+    var ul = document.createElement('ul');
+    c.items.forEach(function (it) {
+      var li = document.createElement('li'), l = document.createElement('a');
+      l.href = '#' + it.id; l.textContent = it.title; l.dataset.target = it.id; li.appendChild(l); ul.appendChild(li); it.el = l;
+    });
+    el.appendChild(ul); nav.appendChild(el); c.el = el;
+  });
+  var firstGrp = nav.querySelector('details'); if (firstGrp) firstGrp.open = true;
+
+  /* scroll spy */
+  var spyEls = heads.filter(function (h) { return h.tagName === 'H1' || h.tagName === 'H2'; });
+  var activeLink = null;
+  function setActive(h) {
+    var ch = h._ch; if (!ch) return;
+    if (activeLink) activeLink.classList.remove('on');
+    var link = null;
+    ch.items.forEach(function (it) { if (it.id === h.id) link = it.el; });
+    if (link) { link.classList.add('on'); activeLink = link; }
+    if (ch.el && ch.el.tagName === 'DETAILS' && !ch.el.open) {
+      Array.prototype.forEach.call(nav.querySelectorAll('details.grp'), function (d) { if (d !== ch.el) d.open = false; });
+      ch.el.open = true;
+    }
+    if (link && !document.getElementById('side').classList.contains('open')) {
+      var side = document.getElementById('side'), r = link.getBoundingClientRect(), sr = side.getBoundingClientRect();
+      if (r.top < sr.top + 20 || r.bottom > sr.bottom - 20) side.scrollTop += r.top - sr.top - sr.height / 2;
+    }
+  }
+  if ('IntersectionObserver' in window) {
+    var visible = {};
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { visible[e.target.id] = e.isIntersecting; });
+      for (var i = 0; i < spyEls.length; i++) { if (visible[spyEls[i].id]) { setActive(spyEls[i]); return; } }
+    }, { rootMargin: '-70px 0px -72% 0px' });
+    spyEls.forEach(function (h) { io.observe(h); });
+  }
+
+  /* mobile drawer */
+  var side = document.getElementById('side'), menuBtn = document.getElementById('menuBtn');
+  var scrim = document.createElement('div'); scrim.className = 'scrim'; document.body.appendChild(scrim);
+  function drawer(open) { side.classList.toggle('open', open); scrim.classList.toggle('open', open); menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false'); }
+  menuBtn.addEventListener('click', function () { drawer(!side.classList.contains('open')); });
+  scrim.addEventListener('click', function () { drawer(false); });
+  nav.addEventListener('click', function (e) { if (e.target.closest('a')) drawer(false); });
+
+  /* search index */
+  var sections = [];
+  heads.forEach(function (h) {
+    if (h.tagName === 'H4') return;
+    var parts = [], n = h.nextElementSibling;
+    while (n && !/^H[1-3]$/.test(n.tagName)) { parts.push(n.textContent); n = n.nextElementSibling; }
+    sections.push({ id: h.id, title: h.textContent.trim(), text: parts.join(' ').replace(/\s+/g, ' '), ch: h._ch ? h._ch.title.replace(/^(\d+)\.\s*/, '$1 · ').replace(/^附录\s*/, '附录 ') : '', color: h._ch ? h._ch.color : 'var(--c0)' });
+  });
+  function esc(s) { return s.replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function reEsc(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+  var input = document.getElementById('q'), box = document.getElementById('results'), kbd = document.getElementById('kbd');
+  var sel = -1, hits = [];
+  function run() {
+    var raw = input.value.trim().toLowerCase();
+    if (!raw) { box.hidden = true; box.innerHTML = ''; hits = []; return; }
+    var terms = raw.split(/\s+/).filter(Boolean);
+    hits = [];
+    sections.forEach(function (s) {
+      var t = s.title.toLowerCase(), x = s.text.toLowerCase(), score = 0, ok = true;
+      terms.forEach(function (w) {
+        var inT = t.indexOf(w) >= 0, inX = x.indexOf(w) >= 0;
+        if (!inT && !inX) { ok = false; return; }
+        if (inT) score += 20;
+        if (inX) { var c = 0, i = -1; while ((i = x.indexOf(w, i + 1)) >= 0 && c < 20) c++; score += c; }
+      });
+      if (ok) hits.push({ s: s, score: score });
+    });
+    hits.sort(function (a, b) { return b.score - a.score; });
+    var shown = hits.slice(0, 30), re = new RegExp('(' + terms.map(function (w) { return reEsc(esc(w)); }).join('|') + ')', 'gi');
+    var out = '<div class="res-count">' + hits.length + ' 个匹配小节' + (hits.length > 30 ? '，显示前 30 个' : '') + '</div>';
+    if (!shown.length) out = '<div class="res-empty">没有匹配。试试更短的关键词，或英文术语。</div>';
+    shown.forEach(function (h, idx) {
+      var s = h.s, lowx = s.text.toLowerCase(), pos = -1;
+      terms.forEach(function (w) { var p = lowx.indexOf(w); if (p >= 0 && (pos < 0 || p < pos)) pos = p; });
+      var snip = pos >= 0 ? s.text.substr(Math.max(0, pos - 40), 150) : s.text.substr(0, 150);
+      out += '<a class="res" href="#' + s.id + '" data-i="' + idx + '"><div class="res-t"><span>' + esc(s.title).replace(re, '<mark>$1</mark>') +
+        '</span><span class="res-ch" style="--chc:' + s.color + '">' + esc(s.ch) + '</span></div><div class="res-s">' +
+        (pos > 40 ? '…' : '') + esc(snip).replace(re, '<mark>$1</mark>') + '…</div></a>';
+    });
+    box.innerHTML = out; box.hidden = false; sel = -1; hits = shown;
+  }
+  function go(id) {
+    box.hidden = true; drawer(false);
+    var el = document.getElementById(id); if (!el) return;
+    history.replaceState(null, '', '#' + id);
+    el.scrollIntoView(); el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash');
+  }
+  function highlight(i) {
+    var rs = box.querySelectorAll('.res'); rs.forEach(function (r) { r.classList.remove('sel'); });
+    if (rs[i]) { rs[i].classList.add('sel'); rs[i].scrollIntoView({ block: 'nearest' }); }
+  }
+  input.addEventListener('input', run);
+  input.addEventListener('focus', function () { if (input.value.trim()) run(); });
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowDown') { e.preventDefault(); sel = Math.min(sel + 1, hits.length - 1); highlight(sel); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); sel = Math.max(sel - 1, 0); highlight(sel); }
+    else if (e.key === 'Enter' && hits.length) { e.preventDefault(); go(hits[Math.max(sel, 0)].s.id); }
+    else if (e.key === 'Escape') { input.value = ''; run(); input.blur(); }
+  });
+  box.addEventListener('click', function (e) {
+    var a = e.target.closest('.res'); if (!a) return; e.preventDefault(); go(a.getAttribute('href').slice(1));
+  });
+  document.addEventListener('click', function (e) { if (!e.target.closest('.search')) box.hidden = true; });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === '/' && !/^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName)) { e.preventDefault(); input.focus(); input.select(); }
+  });
+  input.addEventListener('focus', function () { kbd.style.display = 'none'; });
+  input.addEventListener('blur', function () { kbd.style.display = ''; });
+
+  /* deep link */
+  if (location.hash.length > 1) {
+    var t = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if (t) setTimeout(function () { t.scrollIntoView(); }, 50);
+  }
+})();
+</script>
+
+</body></html>
