@@ -496,6 +496,53 @@
     pre { background: #f6f8fa; color: #333; }
   }
 </style>
+<link rel="stylesheet" href="docs-shell.css">
+<style>
+  /* light theme (docs shell) — overrides values only, no markup changes */
+  :root {
+    --bg: #f7f8fa;
+    --bg2: #f1f2f6;
+    --bg3: #e9ebf1;
+    --surface: #ffffff;
+    --surface2: #f4f5f9;
+    --border: rgba(20,25,40,0.10);
+    --border2: rgba(20,25,40,0.18);
+    --text: #151821;
+    --text2: #4c5464;
+    --text3: #767e8f;
+    --accent: #6a52e8;
+    --accent2: #5a41d0;
+    --green: #0e7a52;
+    --amber: #8a5a05;
+    --red: #b3261e;
+    --pink: #a02a55;
+    --teal: #0b6d80;
+    --blue: #1d4ed8;
+  }
+  .doc-header h1 {
+    background-image: linear-gradient(135deg, #151821 0%, #3b2f8f 55%, #6a52e8 100%);
+  }
+  .badge-purple { color: #5b46c9; border-color: rgba(106,82,232,0.28); background: rgba(106,82,232,0.08); }
+  .badge-green  { color: #0e7a52; border-color: rgba(14,122,82,0.28);  background: rgba(14,122,82,0.08); }
+  .badge-amber  { color: #8a5a05; border-color: rgba(138,90,5,0.28);    background: rgba(138,90,5,0.08); }
+  .badge-teal   { color: #0b6d80; border-color: rgba(11,109,128,0.28);  background: rgba(11,109,128,0.08); }
+  .callout-tip    { color: #0e6f4b; background: rgba(14,111,75,0.07);  border-color: rgba(14,111,75,0.22); }
+  .callout-warn   { color: #7d5205; background: rgba(160,105,10,0.09); border-color: rgba(160,105,10,0.25); }
+  .callout-info   { color: #1d4ed8; background: rgba(37,99,235,0.07);  border-color: rgba(37,99,235,0.22); }
+  .callout-danger { color: #b3261e; background: rgba(179,38,30,0.07);  border-color: rgba(179,38,30,0.22); }
+  .callout-purple { color: #5b46c9; background: rgba(106,82,232,0.07); border-color: rgba(106,82,232,0.22); }
+  .tag-easy   { background: rgba(14,122,82,0.10);  color: #0e7a52; }
+  .tag-medium { background: rgba(138,90,5,0.10);   color: #8a5a05; }
+  .tag-hard   { background: rgba(179,38,30,0.10);  color: #b3261e; }
+  .tag-perf   { background: rgba(11,109,128,0.10); color: #0b6d80; }
+  .tag-react  { background: rgba(29,78,216,0.10);  color: #1d4ed8; }
+  .tag-css    { background: rgba(160,42,85,0.10);  color: #a02a55; }
+  .tag-gsap   { background: rgba(14,122,82,0.10);  color: #0e7a52; }
+  .tag-new    { background: rgba(106,82,232,0.12); color: #5b46c9; }
+  .do-box h4   { color: #0e7a52; }
+  .dont-box h4 { color: #b3261e; }
+  .code-label  { color: #8d97a8; }
+</style>
 </head>
 <body>
 
@@ -2287,5 +2334,6 @@ gsap.from(split.words, {
   </div>
 </footer>
 
+<script src="docs-shell.js"></script>
 </body>
 </html>

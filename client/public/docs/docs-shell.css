@@ -18,7 +18,6 @@ html.docs-shelled {
   overflow-x: clip;
   scroll-padding-top: calc(env(safe-area-inset-top, 0px) + var(--docs-shell-h) + 8px);
 }
-body.docs-shelled { overflow-x: clip; }
 
 /* ── top bar ─────────────────────────────────────────────────────────────── */
 
