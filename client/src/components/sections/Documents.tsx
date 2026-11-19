@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { BookOpen, Download, Network, ScrollText, Wand2, Workflow } from "lucide-react";
+import { BookOpen, Download, Network, ScrollText, Sparkles, Wand2, Workflow } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslations } from "@/lib/translations";
 import { SectionHeading } from "@/components/sections/SectionHeading";
@@ -46,6 +46,14 @@ export default function Documents() {
       title: t.documents.ragTitle,
       description: t.documents.ragDesc,
       href: "/docs/rag-pipelines-animation.html",
+      download: false,
+      action: t.documents.open,
+    },
+    {
+      icon: Sparkles,
+      title: t.documents.genaiTitle,
+      description: t.documents.genaiDesc,
+      href: "/docs/genai-handbook.html",
       download: false,
       action: t.documents.open,
     },

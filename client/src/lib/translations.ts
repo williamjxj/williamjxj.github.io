@@ -100,6 +100,8 @@ export interface Translations {
     workflowDesc: string;
     ragTitle: string;
     ragDesc: string;
+    genaiTitle: string;
+    genaiDesc: string;
     download: string;
     open: string;
   };
@@ -253,6 +255,9 @@ export const translations: Record<Language, Translations> = {
       ragTitle: "RAG Pipelines (Animated)",
       ragDesc:
         "An animated walkthrough of the offline indexing and online retrieval pipelines behind RAG.",
+      genaiTitle: "GenAI Multimedia Handbook",
+      genaiDesc:
+        "A hands-on handbook for building audio, image, video and animation pipelines with generative AI, from prompt to deployment.",
       download: "Download Document",
       open: "Open Reference Page",
     },
@@ -404,6 +409,9 @@ export const translations: Record<Language, Translations> = {
       ragTitle: "RAG 离线与在线 Pipeline（动画）",
       ragDesc:
         "以动画演示 RAG 的离线建库与在线检索完整流程。",
+      genaiTitle: "GenAI 多媒体手册",
+      genaiDesc:
+        "覆盖音频、图像、视频与动画的生成式 AI 实战手册，从提示词到部署上线。",
       download: "下载文档",
       open: "打开参考页面",
     },
