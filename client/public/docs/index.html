@@ -1,184 +1,32 @@
 <!doctype html>
-<html lang="en" class="docs-shelled">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Documents · William Jiang</title>
-<meta name="description" content="Reference handbooks and interactive explainers on AI engineering, retrieval pipelines, generative media and frontend craft.">
+<meta name="color-scheme" content="dark">
+<title>Document Library · William Jiang</title>
+<meta name="description" content="Search and browse William Jiang's AI engineering handbooks, interactive references and machine learning documents in English and Chinese.">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link rel="stylesheet" href="docs-shell.css">
 <style>
-  body {
-    margin: 0;
-    background: #f7f8fa;
-    color: #151821;
-    font-family: var(--docs-font);
-    -webkit-font-smoothing: antialiased;
-  }
-  .docs-index {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 56px max(16px, env(safe-area-inset-left, 0px)) 0;
-  }
-  .docs-index-eyebrow {
-    margin: 0 0 10px;
-    color: var(--docs-shell-muted);
-    font: 500 11px/1 var(--docs-mono);
-    letter-spacing: .18em;
-    text-transform: uppercase;
-  }
-  .docs-index h1 {
-    margin: 0 0 12px;
-    font-size: clamp(26px, 3.4vw, 36px);
-    line-height: 1.15;
-    letter-spacing: -.02em;
-    font-weight: 700;
-  }
-  .docs-index h1 span { color: var(--docs-shell-muted); font-weight: 400; }
-  .docs-index-deck {
-    margin: 0 0 36px;
-    max-width: 62ch;
-    font-size: 14.5px;
-    line-height: 1.65;
-    color: #4c5464;
-  }
-  .docs-cards {
-    margin: 0;
-    padding: 0;
-    display: grid;
-    gap: 16px;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  }
-  .docs-card {
-    display: flex;
-    flex-direction: column;
-    padding: 22px 22px 18px;
-    background: #fff;
-    border: 1px solid var(--docs-shell-line);
-    border-radius: 12px;
-    color: inherit;
-    text-decoration: none;
-    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
-  }
-  .docs-card:hover {
-    transform: translateY(-2px);
-    border-color: #cfd6e4;
-    box-shadow: 0 10px 28px rgba(16, 22, 38, .08);
-  }
-  .docs-card:focus-visible {
-    outline: 2px solid var(--docs-shell-violet);
-    outline-offset: 3px;
-  }
-  .docs-card-lang {
-    margin-bottom: 10px;
-    color: var(--docs-shell-violet);
-    font: 600 10.5px/1 var(--docs-mono);
-    letter-spacing: .12em;
-    text-transform: uppercase;
-  }
-  .docs-card h2 {
-    margin: 0 0 3px;
-    font-size: 17px;
-    line-height: 1.3;
-    letter-spacing: -.01em;
-    font-weight: 700;
-  }
-  .docs-card-sub {
-    margin: 0;
-    color: var(--docs-shell-muted);
-    font: 400 11.5px/1.4 var(--docs-mono);
-  }
-  .docs-card-desc {
-    flex: 1;
-    margin: 10px 0 0;
-    font-size: 13.5px;
-    line-height: 1.55;
-    color: #4c5464;
-  }
-  .docs-card-cta {
-    margin-top: 16px;
-    padding-top: 12px;
-    border-top: 1px solid #eef1f6;
-    color: var(--docs-shell-violet);
-    font-size: 12.5px;
-    font-weight: 600;
-  }
+:root{--background:#0b0f19;--foreground:#e6edf3;--card:#111827;--muted-foreground:#9ba6b8;--border:#283244;--accent:#3ecf8e;color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:var(--background);color:var(--foreground);font:14px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}header{border-bottom:1px solid var(--border)}.bar{max-width:1160px;margin:auto;padding:18px 24px;display:flex;justify-content:space-between;align-items:center;gap:20px}.brand{font-weight:650;text-decoration:none;color:var(--foreground);display:flex;align-items:center;gap:10px}.mark{background:#8b5cf6;padding:3px 7px;border-radius:6px;font-size:11px}.links{display:flex;align-items:center;gap:16px}.links a{color:var(--muted-foreground);text-decoration:none;font-size:12px}.links button{font:inherit;font-size:12px;color:inherit;background:transparent;border:1px solid var(--border);border-radius:6px;padding:5px 9px;cursor:pointer}main{max-width:1160px;padding:58px 24px 70px;margin:auto}.eyebrow{color:var(--accent);font-size:11px;letter-spacing:.15em;font-weight:600;text-transform:uppercase;margin:0 0 12px}h1{font-size:clamp(30px,5vw,46px);letter-spacing:-.045em;line-height:1.1;margin:0 0 16px}.deck{color:var(--muted-foreground);font-size:15px;max-width:640px;margin:0 0 32px}footer{font-size:12px;color:var(--muted-foreground);margin-top:25px}footer a{color:inherit}a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:4px}@media(max-width:500px){main{padding:36px 14px}.bar{padding:16px 14px}.links{gap:10px}.home-label{display:none}}
 </style>
+<script type="module" src="documents-library.js"></script>
 </head>
-<body class="docs-shelled">
-
-<div class="docs-shell" data-docs-shell>
-  <div class="docs-shell-in">
-    <a class="docs-brand" href="/">
-      <span class="docs-mark" aria-hidden="true">WJ</span>
-      <span class="docs-brand-text">William Jiang</span>
-    </a>
-    <span class="docs-kicker">Docs · 文档</span>
-    <details class="docs-menu">
-      <summary class="docs-menu-btn">
-        <span class="docs-menu-btn-long">All documents · 全部文档</span>
-        <span class="docs-menu-btn-short">Docs · 文档</span>
-      </summary>
-      <nav class="docs-menu-panel" aria-label="Documents · 文档"></nav>
-    </details>
-    <a class="docs-home" href="/">
-      <span aria-hidden="true">←</span>
-      <span class="docs-home-long">Portfolio · 返回作品集</span>
-      <span class="docs-home-short">Home · 主页</span>
-    </a>
-  </div>
-</div>
-
-<main class="docs-index">
-  <p class="docs-index-eyebrow">Docs · 文档</p>
-  <h1>Documents <span>· 文档</span></h1>
-  <p class="docs-index-deck">
-    Reference handbooks and interactive explainers on AI engineering, retrieval
-    pipelines, generative media and frontend craft. Each page is self-contained
-    and shares this navigation.
-  </p>
-
-  <div class="docs-cards">
-    <!-- Keep these cards in sync with DOCS in docs-shell.js (the menu is generated from it). -->
-    <a class="docs-card" href="frontend-animation-reference.html">
-        <span class="docs-card-lang">EN</span>
-        <h2>Frontend Animation Reference</h2>
-        <p class="docs-card-sub">前端动画参考</p>
-        <p class="docs-card-desc">CSS, Motion and GSAP patterns, component libraries and typography.</p>
-        <span class="docs-card-cta">Open <span aria-hidden="true">→</span></span>
-      </a>
-    <a class="docs-card" href="llm-workflow.html">
-        <span class="docs-card-lang">中文</span>
-        <h2>LLM Workflow Handbook</h2>
-        <p class="docs-card-sub">LLM 工作流手册</p>
-        <p class="docs-card-desc">RAG, LoRA, SFT/RL and LLM-wiki workflows, with checklists and failure modes.</p>
-        <span class="docs-card-cta">Open <span aria-hidden="true">→</span></span>
-      </a>
-    <a class="docs-card" href="rag-pipelines-animation.html">
-        <span class="docs-card-lang">中文</span>
-        <h2>RAG Pipelines</h2>
-        <p class="docs-card-sub">RAG 流水线 (动画)</p>
-        <p class="docs-card-desc">Animated walkthrough of RAG offline indexing and online retrieval.</p>
-        <span class="docs-card-cta">Open <span aria-hidden="true">→</span></span>
-      </a>
-    <a class="docs-card" href="genai-handbook.html">
-        <span class="docs-card-lang">中文</span>
-        <h2>GenAI Multimedia Handbook</h2>
-        <p class="docs-card-sub">GenAI 多媒体手册</p>
-        <p class="docs-card-desc">Audio, image, video and animation pipelines with generative AI, from prompt to deployment.</p>
-        <span class="docs-card-cta">Open <span aria-hidden="true">→</span></span>
-      </a>
-  </div>
+<body>
+<header><div class="bar"><a class="brand" href="/"><span class="mark">WJ</span>William Jiang</a><div class="links"><a href="/#documents">← <span class="home-label">Portfolio</span></a><button type="button" id="language" aria-label="Switch interface to Chinese">中文</button></div></div></header>
+<main>
+<p class="eyebrow">Notes from the workbench</p>
+<h1>Document library</h1>
+<p class="deck">A growing collection of practical guides, technical handbooks and interactive explainers. Find a topic, choose an edition, keep exploring.</p>
+<wj-documents-library lang="en"><p>Loading documents…</p></wj-documents-library>
+<noscript><p>Enable JavaScript to search the library, or browse the <a href="docs-catalog.json">document catalog</a>.</p></noscript>
+<footer><a href="/">← Back to portfolio</a> · William Jiang</footer>
 </main>
-
-<nav class="docs-foot" aria-label="Document navigation · 文档导航">
-  <div class="docs-foot-in">
-    <span></span>
-    <a class="docs-foot-link docs-foot-all" href="/">← Portfolio · 返回作品集</a>
-    <span></span>
-  </div>
-</nav>
-
-<script src="docs-shell.js"></script>
+<script>
+const library=document.querySelector('wj-documents-library');
+let language=new URLSearchParams(location.search).get('lang')==='zh'?'zh':'en';
+function applyLanguage(){const zh=language==='zh';document.documentElement.lang=language;library.setAttribute('lang',language);document.querySelector('h1').textContent=zh?'技术文档库':'Document library';document.querySelector('.eyebrow').textContent=zh?'实践与探索':'Notes from the workbench';document.querySelector('.deck').textContent=zh?'持续积累的实践指南、技术手册与交互演示。按主题探索，选择适合的语言版本。':'A growing collection of practical guides, technical handbooks and interactive explainers. Find a topic, choose an edition, keep exploring.';const button=document.getElementById('language');button.textContent=zh?'English':'中文';button.setAttribute('aria-label',zh?'Switch interface to English':'Switch interface to Chinese');}
+document.getElementById('language').addEventListener('click',()=>{language=language==='en'?'zh':'en';applyLanguage();const url=new URL(location.href);url.searchParams.set('lang',language);history.replaceState(null,'',url);});applyLanguage();
+</script>
 </body>
 </html>
