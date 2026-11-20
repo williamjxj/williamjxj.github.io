@@ -123,10 +123,10 @@ williamjxj.github.io/
 
 ## 📚 Documents & Interactive References
 
-Everything under `client/public/docs/` is plain static files — no build step, no framework:
+Documents live in `client/public/docs/` and are served as static files. Shared browser scripts live in `client/public/js/`; the catalog generator and its test live in `scripts/` and `tests/`:
 
 - `index.html` — the `/docs/` landing page that lists every document.
-- `docs-shell.css` / `docs-shell.js` — the shared light navigation shell (home link, document
+- `client/public/css/docs-shell.css` and `client/public/js/docs-shell.js` — the shared light navigation shell (home link, document
   menu, prev/next footer) injected into each page. The `DOCS` array at the top of `docs-shell.js`
   is the single source of truth for order, filenames and bilingual titles.
 - `*.html` — self-contained references (frontend animation, LLM workflow, RAG pipelines, GenAI
@@ -134,9 +134,10 @@ Everything under `client/public/docs/` is plain static files — no build step, 
 - `*.docx` — downloadable documents, surfaced as cards in the homepage "Professional Documents"
   section.
 
-Adding or renaming a document touches three places: the `DOCS` array (in-docs menu and prev/next),
-the card in `docs/index.html`, and the card plus translations in `Documents.tsx` and
-`translations.ts`. The project skill `.agents/skills/project-docs-index/SKILL.md` walks through it.
+The `/docs/` catalog and homepage `#documents` section use one searchable, filterable library with
+pagination. Add a supported document to `client/public/docs/`, update `document-metadata.json` when
+needed, and run `pnpm docs:catalog` to refresh its generated catalog. The docs shell list remains
+curated in `client/public/js/docs-shell.js` for its menu and previous/next links.
 
 ## 🎨 Design Philosophy
 

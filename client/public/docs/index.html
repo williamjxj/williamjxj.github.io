@@ -10,7 +10,7 @@
 <style>
 :root{--background:#0b0f19;--foreground:#e6edf3;--card:#111827;--muted-foreground:#9ba6b8;--border:#283244;--accent:#3ecf8e;color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:var(--background);color:var(--foreground);font:14px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}header{border-bottom:1px solid var(--border)}.bar{max-width:1160px;margin:auto;padding:18px 24px;display:flex;justify-content:space-between;align-items:center;gap:20px}.brand{font-weight:650;text-decoration:none;color:var(--foreground);display:flex;align-items:center;gap:10px}.mark{background:#8b5cf6;padding:3px 7px;border-radius:6px;font-size:11px}.links{display:flex;align-items:center;gap:16px}.links a{color:var(--muted-foreground);text-decoration:none;font-size:12px}.links button{font:inherit;font-size:12px;color:inherit;background:transparent;border:1px solid var(--border);border-radius:6px;padding:5px 9px;cursor:pointer}main{max-width:1160px;padding:58px 24px 70px;margin:auto}.eyebrow{color:var(--accent);font-size:11px;letter-spacing:.15em;font-weight:600;text-transform:uppercase;margin:0 0 12px}h1{font-size:clamp(30px,5vw,46px);letter-spacing:-.045em;line-height:1.1;margin:0 0 16px}.deck{color:var(--muted-foreground);font-size:15px;max-width:640px;margin:0 0 32px}footer{font-size:12px;color:var(--muted-foreground);margin-top:25px}footer a{color:inherit}a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:4px}@media(max-width:500px){main{padding:36px 14px}.bar{padding:16px 14px}.links{gap:10px}.home-label{display:none}}
 </style>
-<script type="module" src="documents-library.js"></script>
+<script type="module" src="../js/documents-library.js"></script>
 </head>
 <body>
 <header><div class="bar"><a class="brand" href="/"><span class="mark">WJ</span>William Jiang</a><div class="links"><a href="/#documents">← <span class="home-label">Portfolio</span></a><button type="button" id="language" aria-label="Switch interface to Chinese">中文</button></div></div></header>
@@ -22,7 +22,7 @@
 <noscript><p>Enable JavaScript to search the library, or browse the <a href="docs-catalog.json">document catalog</a>.</p></noscript>
 <footer><a href="/">← Back to portfolio</a> · William Jiang</footer>
 </main>
-<script>
+<script type="module">
 const library=document.querySelector('wj-documents-library');
 let language=new URLSearchParams(location.search).get('lang')==='zh'?'zh':'en';
 function applyLanguage(){const zh=language==='zh';document.documentElement.lang=language;library.setAttribute('lang',language);document.querySelector('h1').textContent=zh?'技术文档库':'Document library';document.querySelector('.eyebrow').textContent=zh?'实践与探索':'Notes from the workbench';document.querySelector('.deck').textContent=zh?'持续积累的实践指南、技术手册与交互演示。按主题探索，选择适合的语言版本。':'A growing collection of practical guides, technical handbooks and interactive explainers. Find a topic, choose an edition, keep exploring.';const button=document.getElementById('language');button.textContent=zh?'English':'中文';button.setAttribute('aria-label',zh?'Switch interface to English':'Switch interface to Chinese');}

@@ -62,8 +62,8 @@
         "GSAP"
       ],
       "format": "HTML",
-      "bytes": 109745,
-      "updated": "2026-11-20T00:07:16.503Z"
+      "bytes": 109758,
+      "updated": "2026-11-21T00:00:54.474Z"
     },
     {
       "id": "genai-handbook-en.html",
@@ -106,8 +106,8 @@
         "Video"
       ],
       "format": "HTML",
-      "bytes": 157511,
-      "updated": "2026-11-19T23:55:21.459Z"
+      "bytes": 157524,
+      "updated": "2026-11-21T00:00:54.475Z"
     },
     {
       "id": "llm-workflow-en.html",
@@ -150,8 +150,8 @@
         "Training"
       ],
       "format": "HTML",
-      "bytes": 109587,
-      "updated": "2026-11-19T23:56:22.437Z"
+      "bytes": 109601,
+      "updated": "2026-11-21T00:00:54.475Z"
     },
     {
       "id": "rag-pipelines-animation.html",
@@ -171,8 +171,8 @@
         "Interactive"
       ],
       "format": "HTML",
-      "bytes": 33694,
-      "updated": "2026-11-19T23:53:46.875Z"
+      "bytes": 33707,
+      "updated": "2026-11-21T00:00:54.475Z"
     }
   ]
 }

@@ -1,104 +1,56 @@
-import { motion } from "framer-motion";
-import { BookOpen, Download, Network, ScrollText, Sparkles, Wand2, Workflow } from "lucide-react";
+import { createElement, useEffect, useState } from "react";
+import { ExternalLink } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslations } from "@/lib/translations";
 import { SectionHeading } from "@/components/sections/SectionHeading";
 
+/** The homepage and /docs/ share the same searchable library and generated catalog. */
 export default function Documents() {
   const { language } = useLanguage();
   const t = useTranslations(language);
+  const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
+  const docsBase = `${import.meta.env.BASE_URL}docs/`;
+  const isChinese = language === "zh";
 
-  const docs = [
-    {
-      icon: BookOpen,
-      title: t.documents.overviewTitle,
-      description: t.documents.overviewDesc,
-      href: "/docs/autodrive-ml-training-overview.docx",
-      download: true,
-      action: t.documents.download,
-    },
-    {
-      icon: ScrollText,
-      title: t.documents.detailsTitle,
-      description: t.documents.detailsDesc,
-      href: "/docs/autodrive-ml-training-details.docx",
-      download: true,
-      action: t.documents.download,
-    },
-    {
-      icon: Wand2,
-      title: t.documents.animationTitle,
-      description: t.documents.animationDesc,
-      href: "/docs/frontend-animation-reference.html",
-      download: false,
-      action: t.documents.open,
-    },
-    {
-      icon: Workflow,
-      title: t.documents.workflowTitle,
-      description: t.documents.workflowDesc,
-      href: "/docs/llm-workflow.html",
-      download: false,
-      action: t.documents.open,
-    },
-    {
-      icon: Network,
-      title: t.documents.ragTitle,
-      description: t.documents.ragDesc,
-      href: "/docs/rag-pipelines-animation.html",
-      download: false,
-      action: t.documents.open,
-    },
-    {
-      icon: Sparkles,
-      title: t.documents.genaiTitle,
-      description: t.documents.genaiDesc,
-      href: "/docs/genai-handbook.html",
-      download: false,
-      action: t.documents.open,
-    },
-  ];
+  useEffect(() => {
+    let active = true;
+    import(/* @vite-ignore */ `${import.meta.env.BASE_URL}js/documents-library.js`)
+      .then(() => {
+        if (active) setStatus("ready");
+      })
+      .catch(() => {
+        if (active) setStatus("error");
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
 
   return (
-    <section id="documents" className="relative py-24 sm:py-32">
+    <section id="documents" className="relative py-20 sm:py-28">
       <div className="container">
         <SectionHeading
           eyebrow="05"
           title={t.documents.title}
-          subtitle={t.documents.subtitle}
+          subtitle={isChinese
+            ? "AI 工程、机器学习与前端实践，持续积累的知识与参考。"
+            : "Practical guides and references on AI engineering, machine learning and frontend craft."}
         />
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {docs.map((doc, i) => {
-            const Icon = doc.icon;
-            const isDownload = doc.download;
-            return (
-              <motion.a
-                key={i}
-                href={doc.href}
-                {...(isDownload ? { download: true } : { target: "_blank", rel: "noreferrer" })}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.55, delay: i * 0.1 }}
-                className="group flex h-full flex-col rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:border-orange-400/40 hover:shadow-xl hover:shadow-orange-500/10"
-              >
-                <span className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-gradient-to-br from-orange-500/15 to-violet-500/10 text-orange-400">
-                  <Icon size={20} />
-                </span>
-                <h3 className="text-lg font-bold text-foreground transition group-hover:text-orange-400">
-                  {doc.title}
-                </h3>
-                <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
-                  {doc.description}
-                </p>
-                <span className="mt-5 inline-flex items-center gap-2 border-t border-border pt-4 text-sm font-medium text-accent transition group-hover:text-accent/80">
-                  <Download size={15} />
-                  {doc.action}
-                </span>
-              </motion.a>
-            );
-          })}
+        <div className="mx-auto max-w-6xl">
+          {status === "ready" ? createElement("wj-documents-library", { lang: language }) : (
+            <p role="status" className="rounded-2xl border border-border bg-card p-8 text-center text-sm text-muted-foreground">
+              {status === "loading"
+                ? (isChinese ? "正在加载文档库…" : "Loading the document library…")
+                : (isChinese ? "无法加载内嵌文档库，请打开完整文档库。" : "The embedded library could not load. Open the full library.")}
+            </p>
+          )}
+          <div className="mt-5 flex justify-end">
+            <a href={`${docsBase}?lang=${language}`} className="inline-flex items-center gap-2 text-sm text-accent hover:underline">
+              {isChinese ? "打开完整文档库" : "Open full library"}
+              <ExternalLink size={14} aria-hidden="true" />
+            </a>
+          </div>
         </div>
       </div>
     </section>
