@@ -1,6 +1,7 @@
 /* Docs shell — shared light navigation for the standalone documents in /docs/.
-   Loaded after each document's own styles; every rule here is prefixed docs-
-   and none of them restyle document content. */
+   Every rule here is prefixed docs- and none of them restyle document content.
+   The bar is sticky at every width, so the pages' own sticky chrome is offset
+   by --docs-shell-h below it. */
 
 :root {
   --docs-shell-h: 44px;
@@ -22,6 +23,9 @@ html.docs-shelled {
 /* ── top bar ─────────────────────────────────────────────────────────────── */
 
 .docs-shell {
+  position: sticky;
+  top: 0;
+  z-index: 60;
   box-sizing: border-box;
   width: 100vw;
   margin-left: calc(50% - 50vw);
@@ -32,10 +36,6 @@ html.docs-shelled {
   font-family: var(--docs-font);
   -webkit-font-smoothing: antialiased;
 }
-@media (min-width: 760px) {
-  .docs-shell { position: sticky; top: 0; z-index: 60; }
-}
-
 .docs-shell-in {
   max-width: 1280px;
   margin: 0 auto;
@@ -216,10 +216,17 @@ html.docs-shelled {
 
 /* ── offset the documents' own sticky chrome ─────────────────────────────── */
 
-@media (min-width: 760px) {
-  body.docs-shelled .bar { top: var(--docs-shell-h); }
+body.docs-shelled .bar {
+  top: calc(env(safe-area-inset-top, 0px) + var(--docs-shell-h));
+}
+body.docs-shelled .side {
+  top: calc(env(safe-area-inset-top, 0px) + var(--docs-shell-h) + var(--bar-h) + 20px);
+  max-height: calc(100vh - var(--docs-shell-h) - var(--bar-h) - env(safe-area-inset-top, 0px) - 36px);
+}
+@media (max-width: 900px) {
   body.docs-shelled .side {
     top: calc(env(safe-area-inset-top, 0px) + var(--docs-shell-h) + var(--bar-h));
+    max-height: none;
   }
 }
 
@@ -234,6 +241,17 @@ html.docs-shelled {
   .docs-home-short,
   .docs-menu-btn-short { display: inline; }
   .docs-menu-btn { padding: 0 9px; }
+  /* viewport-anchored panel: the trigger sits mid-bar on phones, so a
+     trigger-anchored panel would clip off the left edge */
+  .docs-menu-panel {
+    position: fixed;
+    top: calc(env(safe-area-inset-top, 0px) + var(--docs-shell-h) + 6px);
+    left: 8px;
+    right: 8px;
+    width: auto;
+    min-width: 0;
+    max-width: none;
+  }
   .docs-foot-in { flex-direction: column; gap: 14px; }
   .docs-foot-next,
   .docs-foot-all { justify-items: start; text-align: left; }

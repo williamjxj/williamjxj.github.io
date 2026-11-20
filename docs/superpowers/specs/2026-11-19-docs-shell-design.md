@@ -74,9 +74,8 @@ their own typography, palettes and layouts.
   - a 44px top bar with the WJ gradient mark linking to `/`, the word
     "Docs · 文档", a native `<details>` dropdown listing the four documents with
     the current one marked `aria-current="page"`, and a
-    "← Portfolio / 返回作品集" link. It is sticky at 760px and wider, and
-    static on phones, so the documents' own sticky bars keep the top slot
-    where vertical space is scarce;
+    "← Portfolio / 返回作品集" link. It is sticky at every width, and the
+    documents' own sticky bars and sidebars are offset below it;
   - a footer before `</body>` with prev/next document links, "All documents",
     and the back-to-portfolio link.
   It adds a `docs-shelled` class to `<body>`. Document order for prev/next is

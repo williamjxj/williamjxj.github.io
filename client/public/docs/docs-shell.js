@@ -1,6 +1,7 @@
 /* Docs shell — injects the shared bar and footer into every document in /docs/.
-   Order here is the reading order used by the menu, the prev/next footer and
-   the index page. Add a new document by adding one entry. */
+   DOCS is the single source of truth for order, filenames and titles: it drives
+   the menu, the prev/next footer, and the menu on the hand-written index page.
+   Add a new document here, then add its card in index.html. */
 (function () {
   var DOCS = [
     { file: "frontend-animation-reference.html", en: "Frontend Animation Reference", zh: "前端动画参考" },
@@ -10,18 +11,23 @@
   ];
   var HOME = "/";
 
-  document.documentElement.classList.add("docs-shelled");
-  document.body.classList.add("docs-shelled");
-  bindMenu();
-
-  if (document.querySelector("[data-docs-shell]")) return;
-
   var file = (window.location.pathname.split("/").pop() || "").toLowerCase();
   var current = null;
   for (var i = 0; i < DOCS.length; i++) {
     if (DOCS[i].file === file) current = DOCS[i];
   }
   var index = current ? DOCS.indexOf(current) : -1;
+
+  document.documentElement.classList.add("docs-shelled");
+  document.body.classList.add("docs-shelled");
+  bindMenu();
+
+  var existing = document.querySelector("[data-docs-shell]");
+  if (existing) {
+    var panel = existing.querySelector(".docs-menu-panel");
+    if (panel && !panel.children.length) panel.innerHTML = DOCS.map(menuItem).join("");
+    return;
+  }
 
   function esc(value) {
     return String(value).replace(/[&<>"]/g, function (ch) {

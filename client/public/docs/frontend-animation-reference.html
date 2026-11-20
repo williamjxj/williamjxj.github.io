@@ -542,6 +542,17 @@
   .do-box h4   { color: #0e7a52; }
   .dont-box h4 { color: #b3261e; }
   .code-label  { color: #8d97a8; }
+  code {
+    color: #24292f;
+    background: rgba(20,25,40,0.06);
+    border-color: rgba(20,25,40,0.12);
+  }
+  .ms-item.ms-green  { background: rgba(14,122,82,0.10);  color: #0e7a52; }
+  .ms-item.ms-blue   { background: rgba(29,78,216,0.10);  color: #1d4ed8; }
+  .ms-item.ms-violet { background: rgba(106,82,232,0.10); color: #5b46c9; }
+  .ms-item.ms-amber  { background: rgba(138,90,5,0.10);   color: #8a5a05; }
+  .ms-item.ms-pink   { background: rgba(160,42,85,0.10);  color: #a02a55; }
+  .ms-item.ms-red    { background: rgba(179,38,30,0.10);  color: #b3261e; }
 </style>
 </head>
 <body>
@@ -1884,22 +1895,22 @@ gsap.from(split.words, {
   </div>
 
   <div class="motion-scale">
-    <div class="ms-item" style="background:rgba(62,207,142,0.12); color:#3ecf8e;">
+    <div class="ms-item ms-green">
       <span>0.97×</span>tap
     </div>
-    <div class="ms-item" style="background:rgba(96,165,250,0.12); color:#60a5fa;">
+    <div class="ms-item ms-blue">
       <span>1.02×</span>hover lift
     </div>
-    <div class="ms-item" style="background:rgba(124,111,247,0.12); color:#a89cff;">
+    <div class="ms-item ms-violet">
       <span>1.05×</span>feature card
     </div>
-    <div class="ms-item" style="background:rgba(245,165,36,0.12); color:#f5a524;">
+    <div class="ms-item ms-amber">
       <span>1.08×</span>CTA button
     </div>
-    <div class="ms-item" style="background:rgba(232,121,160,0.12); color:#e879a0;">
+    <div class="ms-item ms-pink">
       <span>1.15×</span>icon bounce
     </div>
-    <div class="ms-item" style="background:rgba(255,68,68,0.12); color:#ff7777;">
+    <div class="ms-item ms-red">
       <span>>1.2×</span>avoid ⚠
     </div>
   </div>
