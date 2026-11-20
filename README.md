@@ -100,7 +100,7 @@ npm run preview
 williamjxj.github.io/
 ├── client/                 # Frontend React application
 │   ├── public/            # Static assets
-│   │   ├── docs/          # Downloadable documents & interactive HTML references
+│   │   ├── docs/          # Documents, interactive references + the /docs/ shell (index.html, docs-shell.*)
 │   │   ├── github-io.png  # Portfolio banner
 │   │   └── favicon.svg    # Site favicon
 │   └── src/
@@ -120,6 +120,23 @@ williamjxj.github.io/
 ├── shared/                # Shared constants & utilities
 └── ...
 ```
+
+## 📚 Documents & Interactive References
+
+Everything under `client/public/docs/` is plain static files — no build step, no framework:
+
+- `index.html` — the `/docs/` landing page that lists every document.
+- `docs-shell.css` / `docs-shell.js` — the shared light navigation shell (home link, document
+  menu, prev/next footer) injected into each page. The `DOCS` array at the top of `docs-shell.js`
+  is the single source of truth for order, filenames and bilingual titles.
+- `*.html` — self-contained references (frontend animation, LLM workflow, RAG pipelines, GenAI
+  multimedia). Each links the shell with relative paths and is light-themed only.
+- `*.docx` — downloadable documents, surfaced as cards in the homepage "Professional Documents"
+  section.
+
+Adding or renaming a document touches three places: the `DOCS` array (in-docs menu and prev/next),
+the card in `docs/index.html`, and the card plus translations in `Documents.tsx` and
+`translations.ts`. The project skill `.agents/skills/project-docs-index/SKILL.md` walks through it.
 
 ## 🎨 Design Philosophy
 
