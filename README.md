@@ -129,10 +129,9 @@ Documents live in `client/public/docs/` and are served as static files. Shared b
 - `client/public/css/docs-shell.css` and `client/public/js/docs-shell.js` — the shared light navigation shell (home link, document
   menu, prev/next footer) injected into each page. The `DOCS` array at the top of `docs-shell.js`
   is the single source of truth for order, filenames and bilingual titles.
-- `*.html` — self-contained references (frontend animation, LLM workflow, RAG pipelines, GenAI
-  multimedia). Each links the shell with relative paths and is light-themed only.
-- `*.docx` — downloadable documents, surfaced as cards in the homepage "Professional Documents"
-  section.
+- Long-form `*.html` files — self-contained references (frontend animation, LLM workflow, RAG
+  pipelines, GenAI multimedia). They link the shell with relative paths and use a light theme.
+- `*.docx` — downloadable documents listed in the homepage and `/docs/` library.
 
 The `/docs/` catalog and homepage `#documents` section use one searchable, filterable library with
 pagination. Add a supported document to `client/public/docs/`, update `document-metadata.json` when

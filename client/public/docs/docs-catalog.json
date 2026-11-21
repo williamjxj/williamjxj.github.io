@@ -84,8 +84,8 @@
         "Video"
       ],
       "format": "HTML",
-      "bytes": 104829,
-      "updated": "2026-11-20T23:25:10.254Z"
+      "bytes": 104930,
+      "updated": "2026-11-21T00:01:48.828Z"
     },
     {
       "id": "genai-handbook.html",
@@ -128,8 +128,8 @@
         "Agents"
       ],
       "format": "HTML",
-      "bytes": 118351,
-      "updated": "2026-11-20T23:41:44.894Z"
+      "bytes": 118452,
+      "updated": "2026-11-21T00:01:48.827Z"
     },
     {
       "id": "llm-workflow.html",

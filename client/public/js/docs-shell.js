@@ -1,13 +1,14 @@
 /* Docs shell — injects the shared bar and footer into every document in /docs/.
    DOCS is the single source of truth for order, filenames and titles: it drives
-   the menu, the prev/next footer, and the menu on the hand-written index page.
-   Add a new document here, then add its card in index.html. */
+   the menu and prev/next footer on each long-form HTML document. */
 (function () {
   var DOCS = [
     { file: "frontend-animation-reference.html", en: "Frontend Animation Reference", zh: "前端动画参考" },
     { file: "llm-workflow.html", en: "LLM Workflow Handbook", zh: "LLM 工作流手册" },
+    { file: "llm-workflow-en.html", en: "LLM Workflow Handbook (English)", zh: "LLM 工作流手册（英文版）" },
     { file: "rag-pipelines-animation.html", en: "RAG Pipelines", zh: "RAG 流水线 (动画)" },
-    { file: "genai-handbook.html", en: "GenAI Multimedia Handbook", zh: "GenAI 多媒体手册" }
+    { file: "genai-handbook.html", en: "GenAI Multimedia Handbook", zh: "GenAI 多媒体手册" },
+    { file: "genai-handbook-en.html", en: "GenAI Multimedia Handbook (English)", zh: "GenAI 多媒体手册（英文版）" }
   ];
   var HOME = "/";
 
