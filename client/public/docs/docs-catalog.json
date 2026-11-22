@@ -63,7 +63,7 @@
       ],
       "format": "HTML",
       "bytes": 109758,
-      "updated": "2026-11-21T00:00:54.474Z"
+      "updated": "2026-11-21T00:07:20.296Z"
     },
     {
       "id": "genai-handbook-en.html",
@@ -85,7 +85,7 @@
       ],
       "format": "HTML",
       "bytes": 104930,
-      "updated": "2026-11-21T00:01:48.828Z"
+      "updated": "2026-11-21T00:07:31.003Z"
     },
     {
       "id": "genai-handbook.html",
@@ -107,7 +107,7 @@
       ],
       "format": "HTML",
       "bytes": 157524,
-      "updated": "2026-11-21T00:00:54.475Z"
+      "updated": "2026-11-21T00:07:20.300Z"
     },
     {
       "id": "llm-workflow-en.html",
@@ -117,19 +117,20 @@
         "zh": "LLM 工作流手册（英文版）"
       },
       "description": {
-        "en": "RAG, LoRA, SFT/RL and LLM-Wiki with a North American AI stack.",
-        "zh": "面向北美 AI 技术栈的 RAG、LoRA、SFT/RL 与 LLM-Wiki 工作流。"
+        "en": "RAG, LoRA, SFT/RL and LLM-Wiki on a North American stack, plus a unified RAG + wiki memory appendix.",
+        "zh": "面向北美 AI 技术栈的 RAG、LoRA、SFT/RL 与 LLM-Wiki 工作流，新增 RAG × LLM-Wiki 联合记忆查询附录。"
       },
       "topic": "ai",
       "language": "en",
       "tags": [
         "RAG",
         "LoRA",
+        "LLM-Wiki",
         "Agents"
       ],
       "format": "HTML",
-      "bytes": 118452,
-      "updated": "2026-11-21T00:01:48.827Z"
+      "bytes": 150761,
+      "updated": "2026-11-22T23:32:10.153Z"
     },
     {
       "id": "llm-workflow.html",
@@ -139,19 +140,20 @@
         "zh": "LLM 工作流手册"
       },
       "description": {
-        "en": "Chinese edition covering retrieval, adaptation, post-training and knowledge workflows.",
-        "zh": "涵盖检索增强、模型适配、后训练与知识管理的中文实践手册。"
+        "en": "Chinese edition covering retrieval, adaptation, post-training and LLM-Wiki, plus a unified RAG + wiki memory appendix.",
+        "zh": "涵盖检索增强、模型适配、后训练与 LLM-Wiki 的中文实践手册，新增 RAG × LLM-Wiki 联合记忆查询附录。"
       },
       "topic": "ai",
       "language": "zh",
       "tags": [
         "RAG",
         "LoRA",
-        "Training"
+        "Training",
+        "LLM-Wiki"
       ],
       "format": "HTML",
-      "bytes": 109601,
-      "updated": "2026-11-21T00:00:54.475Z"
+      "bytes": 147811,
+      "updated": "2026-11-22T23:54:06.341Z"
     },
     {
       "id": "rag-pipelines-animation.html",
@@ -172,7 +174,7 @@
       ],
       "format": "HTML",
       "bytes": 33707,
-      "updated": "2026-11-21T00:00:54.475Z"
+      "updated": "2026-11-21T00:07:20.308Z"
     }
   ]
 }
