@@ -27,7 +27,9 @@ step for either system.
 
 1. Put the file at the **top level** of `client/public/docs`. The catalog scans top-level files
    only; `index.html` is ignored. Supported extensions: `.html`, `.pdf`, `.docx`, `.md`, `.txt`,
-   `.pptx`, `.xlsx`.
+   `.pptx`, `.xlsx`. Every docs HTML page must also link the site favicon in its `<head>`:
+   `<link rel="icon" type="image/svg+xml" href="/favicon.svg">`. Use the same root-relative icon
+   as the homepage; the docs test checks every HTML page.
 2. Edit `client/public/docs/document-metadata.json` using the exact filename as the key. Provide:
    - `title` and `description`, each with both `en` and `zh` strings;
    - `topic`: `ai`, `ml`, `frontend`, or `resources`;

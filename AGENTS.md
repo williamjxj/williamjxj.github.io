@@ -33,6 +33,7 @@ Only `client/public/docs/` is published. The root `docs/` directory is notes/sta
 - Add/rename/remove a document: edit `client/public/docs/document-metadata.json` (bilingual title/description, topic, language, tags), then run `pnpm docs:catalog`. Never hand-edit `docs-catalog.json`; it is generated.
 - The `/docs/` landing page and the homepage `#documents` section share the `<wj-documents-library>` custom element from `client/public/js/documents-library.js` (shadow DOM, styles in `client/public/css/documents-library.css`). Search/filter/pagination logic and `validateCatalog` live there; tests import the module in Node, so keep the `window` guard.
 - Long-form HTML documents opt into the shared bar/prev-next shell via `../css/docs-shell.css` and `../js/docs-shell.js`; the `DOCS` array at the top of `docs-shell.js` is the single source of truth for order, filenames, and bilingual titles. `/docs/index.html` does **not** use the shell. The shell bar is light; several handbooks also expose their own light/dark toggle, so preserve each page's existing theme.
+- Every docs HTML page links the site favicon (`<link rel="icon" type="image/svg+xml" href="/favicon.svg">`) so tabs match the homepage; `tests/documents-library.test.mjs` enforces it.
 - `.agents/skills/project-docs-index/SKILL.md` documents the current docs pipeline (metadata → catalog, the shared library component, and the reader shell). Keep it in sync when any of those surfaces change.
 
 ## Gotchas

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFile,access} from 'node:fs/promises';
+import {readFile,readdir,access} from 'node:fs/promises';
 import {selectDocuments,validateCatalog} from '../client/public/js/documents-library.js';
 const docsRoot=new URL('../client/public/docs/',import.meta.url);
 const catalog=JSON.parse(await readFile(new URL('docs-catalog.json',docsRoot),'utf8'));
@@ -10,6 +10,14 @@ test('catalog links resolve to actual public documents',async()=>{
   for(const doc of docs)await access(new URL(encodeURIComponent(doc.file),docsRoot));
   assert(docs.some(doc=>doc.file==='genai-handbook-en.html'));
   assert(docs.some(doc=>doc.file==='llm-workflow-en.html'));
+});
+test('every docs HTML page uses the site favicon',async()=>{
+  const pages=(await readdir(docsRoot)).filter(file=>file.endsWith('.html'));
+  assert.ok(pages.length>0);
+  for(const file of pages){
+    const html=await readFile(new URL(file,docsRoot),'utf8');
+    assert.match(html,/<link\b[^>]*\brel=["']icon["'][^>]*\bhref=["']\/favicon\.svg["']/i,`${file} must link /favicon.svg`);
+  }
 });
 test('combined search distinguishes English and Chinese editions',()=>{
   const result=selectDocuments(docs,{...defaults,query:'LLM LoRA',language:'en'});
