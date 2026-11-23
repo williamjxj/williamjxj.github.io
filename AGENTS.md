@@ -32,8 +32,8 @@ Only `client/public/docs/` is published. The root `docs/` directory is notes/sta
 - Supported catalog files: `.html .pdf .docx .md .txt .pptx .xlsx`; `index.html` is skipped. Displayed dates come from file mtime, so rerunning `pnpm dev`, `pnpm build`, or `pnpm docs:catalog` can dirty the tracked `docs-catalog.json` — commit it deliberately.
 - Add/rename/remove a document: edit `client/public/docs/document-metadata.json` (bilingual title/description, topic, language, tags), then run `pnpm docs:catalog`. Never hand-edit `docs-catalog.json`; it is generated.
 - The `/docs/` landing page and the homepage `#documents` section share the `<wj-documents-library>` custom element from `client/public/js/documents-library.js` (shadow DOM, styles in `client/public/css/documents-library.css`). Search/filter/pagination logic and `validateCatalog` live there; tests import the module in Node, so keep the `window` guard.
-- Long-form HTML documents opt into the shared bar/prev-next shell via `../css/docs-shell.css` and `../js/docs-shell.js`; the `DOCS` array at the top of `docs-shell.js` is the single source of truth for order, filenames, and bilingual titles. `/docs/index.html` does **not** use the shell. Long-form docs are light-themed; a dark page among them is a bug.
-- `.agents/skills/project-docs-index/SKILL.md` is outdated (old shell paths, hand-written `/docs/` cards, a `Documents.tsx` cards array). Trust this file and the current code instead.
+- Long-form HTML documents opt into the shared bar/prev-next shell via `../css/docs-shell.css` and `../js/docs-shell.js`; the `DOCS` array at the top of `docs-shell.js` is the single source of truth for order, filenames, and bilingual titles. `/docs/index.html` does **not** use the shell. The shell bar is light; several handbooks also expose their own light/dark toggle, so preserve each page's existing theme.
+- `.agents/skills/project-docs-index/SKILL.md` documents the current docs pipeline (metadata → catalog, the shared library component, and the reader shell). Keep it in sync when any of those surfaces change.
 
 ## Gotchas
 

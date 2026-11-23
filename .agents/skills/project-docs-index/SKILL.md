@@ -1,91 +1,97 @@
 ---
 name: project-docs-index
-description: Keep everything under client/public/docs in sync with the williamjxj.github.io site — both the React "Professional Documents" section and the in-docs navigation shell (docs-shell.js DOCS array, /docs/index.html cards, light theme, prev/next order). Use whenever a document, image, video or other viewable/downloadable asset is added, renamed or removed in client/public/docs, when a docs page needs the shared shell, or when asked to add/link a file from that folder on the site.
+description: "Use when adding, updating, renaming, or removing a document under client/public/docs, when the homepage #documents section or /docs/ library must show a file, or when a long-form docs page needs the shared reader shell, menu, or prev/next links. Covers document-metadata.json, the generated docs-catalog.json, the wj-documents-library web component, docs-shell.js DOCS, bilingual metadata, and the docs catalog test."
 ---
 
 # Index project documents
 
-This skill is specific to the `williamjxj.github.io` project. Assets under
-`client/public/docs/` are surfaced in **two** places, and adding a file means
-touching both:
+Project-specific to `williamjxj.github.io`. Files under `client/public/docs` are
+surfaced by two different systems. Decide which one applies before editing.
 
-| Surface | File | Purpose |
+| Surface | What it is | Source of truth |
 | --- | --- | --- |
-| Marketing section | `client/src/components/sections/Documents.tsx` + `client/src/lib/translations.ts` | Cards in the homepage "Professional Documents" section |
-| Docs shell | `client/public/docs/docs-shell.js` (`DOCS` array) | Top bar menu and prev/next footer on every docs page |
-| Docs landing | `client/public/docs/index.html` | The `/docs/` index page cards |
+| Searchable library | Homepage `#documents` and the `/docs/` landing page, both rendering `<wj-documents-library>` | `client/public/docs/document-metadata.json` → `docs-catalog.json` |
+| Reader shell | Top bar menu and prev/next footer on curated long-form HTML docs | `DOCS` in `client/public/js/docs-shell.js` |
 
-The shell is plain static CSS/JS — no build step, no framework, no bundler.
-`client/public/docs` is copied verbatim into `dist/public/docs` by Vite.
+The library component is `client/public/js/documents-library.js` (shadow DOM; styles in
+`client/public/css/documents-library.css`). It owns search, topic/language filters, sorting,
+six-item pagination, and `validateCatalog`. `Documents.tsx` only imports that script and renders
+the element; there is no per-document card array in React or in the translations.
 
-## The docs shell contract
+The reader shell is plain static CSS/JS: `client/public/css/docs-shell.css` and
+`client/public/js/docs-shell.js`. It styles only its own `docs-*` classes and does not restyle
+document content. Vite copies `client/public` verbatim into `dist/public`, so there is no build
+step for either system.
 
-- `client/public/docs/docs-shell.css` — every class prefixed `docs-` (`--docs-shell-h: 44px`,
-  `.docs-shell`, `.docs-shell-in`, `.docs-menu*`, `.docs-foot*`). It never restyles document content.
-- `client/public/docs/docs-shell.js` — injects the bar and footer; `DOCS` at the top is the single
-  source of truth for **order, filenames and titles**. The menu is generated from it on every page
-  including `index.html`, so never hand-write menu links.
-- Every docs HTML page links `<link rel="stylesheet" href="docs-shell.css">` in `<head>` and
-  `<script src="docs-shell.js"></script>` before `</body>`. Paths are **relative** — the pages live
-  at `/docs/`.
-- Docs are **light only**. `frontend-animation-reference.html` carries a page-level
-  `/* light theme (docs shell) */` override block; a dark page among light ones is a bug.
-- Nav labels are bilingual (`EN · 中文`), because two pages are English and two are Chinese.
-- The shell bar is sticky at every width; the handbooks' own `.bar`/`.side` are offset below it by
-  `--docs-shell-h` in `docs-shell.css`. Do not add page-level overrides for that.
-- `docs/index.html` is hand-written and works without JavaScript: its menu starts empty and the
-  script fills it from `DOCS`; its four cards are static and must be kept in sync by hand.
+## Add or update a library document
 
-## Workflow — adding a document
+1. Put the file at the **top level** of `client/public/docs`. The catalog scans top-level files
+   only; `index.html` is ignored. Supported extensions: `.html`, `.pdf`, `.docx`, `.md`, `.txt`,
+   `.pptx`, `.xlsx`.
+2. Edit `client/public/docs/document-metadata.json` using the exact filename as the key. Provide:
+   - `title` and `description`, each with both `en` and `zh` strings;
+   - `topic`: `ai`, `ml`, `frontend`, or `resources`;
+   - `language`: `en`, `zh`, or `und`;
+   - `tags`: an array of strings.
+   Do not add `format`, `bytes`, or `updated`; the generator derives them.
+3. Run `pnpm docs:catalog`. It rewrites `client/public/docs/docs-catalog.json`, which is generated
+   and must never be hand-edited.
+4. Library-only is the default. Add the page to the curated reader only when it is a
+   self-contained long-form HTML reference that should appear in the reader menu and prev/next;
+   DOCX, PDF, slides, and spreadsheets stay library-only.
+   - add `{ file: "my-page.html", en: "English title", zh: "中文标题" }` to `DOCS` in
+     `client/public/js/docs-shell.js` — place it in reading order next to related documents;
+   - link `../css/docs-shell.css` and `../js/docs-shell.js` from the page;
+   - preserve the page's own theme. The shell bar is light, and several handbooks also expose
+     their own light/dark toggle; do not force a theme conversion just for the shell.
+5. Verify: `node --test tests/documents-library.test.mjs`, `pnpm check`, and `pnpm build`. Check
+   `/docs/` and `/#documents` show the file with the right language/topic, and on shell pages
+   check `/docs/<file>`: current menu entry marked, prev/next correct, shell present, and no
+   page-level horizontal scroll at 390px.
 
-1. Confirm the new file exists under `client/public/docs` and note its exact filename and extension.
-   Do not rename or move it unless asked.
-2. **Shell registration** — for a self-contained HTML page, add one entry to `DOCS` in
-   `client/public/docs/docs-shell.js`:
+## Rename or remove a document
 
-   ```js
-   { file: "my-page.html", en: "English title", zh: "中文标题" }
-   ```
+Change the file, its `document-metadata.json` key, and (for shell pages) its `DOCS` entry in the
+same change, then run `pnpm docs:catalog`. A renamed shell page keeps its position in `DOCS`.
+Prev/next is computed from that array, so removing or reordering an entry updates the neighbouring
+pages automatically; no other page needs editing. No React or translation edits are needed — the
+library reads the catalog. A rename that misses the metadata key or a DOCS entry leaves a stale
+card or a dead menu link.
 
-   Array order is the reading order used by the menu and by prev/next. Give the page the two
-   shell references (see the contract above) and keep it light-themed.
-3. **Docs landing** — add a matching `<a class="docs-card">` card in `client/public/docs/index.html`
-   in the same position as the `DOCS` entry: language chip (`EN` or `中文`), English title,
-   Chinese subtitle, one-sentence description, `Open →`. Leave the existing
-   "keep these cards in sync with DOCS" comment in place.
-4. **Homepage section** — read `client/src/components/sections/Documents.tsx` and
-   `client/src/lib/translations.ts` before editing, follow the existing card style, and do not
-   replace or reorder unrelated cards. Add one object to the `docs` array:
-   - `href: "/docs/<exact-filename>"` — Vite serves `client/public` from the site root.
-   - Pick a `lucide-react` icon; reuse an existing import when it fits.
-   - HTML references: `download: false` (opens in a new tab with `rel="noreferrer"`).
-   - DOCX and other saved/consumed files: `download: true`.
-   - PDF, image, audio, video: prefer opening in a new tab; use download only when the file type
-     or the request calls for it.
-5. **Translations** — add title/description/action strings to the `documents` section of both the
-   English and Chinese objects in `client/src/lib/translations.ts`, including the `Translations`
-   type. Reuse the existing `open` and `download` labels.
-6. **Review** — `pnpm check` (types) and `pnpm build`; confirm `dist/public/docs/` contains the new
-   file plus `docs-shell.css`, `docs-shell.js` and `index.html`. Serve `client/public` and check
-   `/docs/<file>`: shell bar present, current entry marked, prev/next correct, light theme, no
-   horizontal scroll at 390px. Report the files changed.
+## Catalog rules
 
-## Workflow — renaming or removing a document
+- `docs-catalog.json` is generated from top-level files, sorted by filename. `updated` comes from
+  the file mtime, so `pnpm dev`, `pnpm build`, and `pnpm docs:catalog` can all change dates; commit
+  the catalog deliberately.
+- `validateCatalog` fails closed on unsafe paths, duplicate ids, unknown topics/languages/formats,
+  negative byte counts, invalid dates, or malformed bilingual text. The test asserts this, so bad
+  metadata breaks the library rather than silently dropping a file.
+- DOCX files are always library-only; do not add them to `DOCS`, edit them, or convert them.
 
-Update, in the same commit: the file itself, its `DOCS` entry, its `index.html` card, its
-`Documents.tsx` object, and both translation dictionaries. Renaming only the file leaves a dead
-menu link and a broken card — check every `href` matches the filename exactly.
+## Editing long-form handbook content
+
+- `llm-workflow.html` and `llm-workflow-en.html` keep their Markdown in a JSON-encoded
+  `var MD = "..."` string rendered by marked from cdnjs. Edit the Markdown string, not the rendered
+  DOM.
+- Raw HTML/SVG blocks pass through marked, but an HTML block ends at the first blank line. Keep an
+  inline `<figure>` block free of blank lines, as in the hybrid retrieval figure in §1.11.2.
+- Put figure styles in the page's existing `<style>` block. For wide diagrams, use an
+  `overflow-x: auto` wrapper so the page itself stays within the viewport at 390px.
+- The shell menu and the handbooks' in-page search index are generated at runtime.
 
 ## Non-goals
 
-- Do not edit the `.docx` files, and do not convert them.
-- Do not add a build step, framework, dependency or external CDN to the docs shell.
-- Do not reintroduce a dark theme for one page; flip to light instead.
-- Do not duplicate the document list by hand-editing the menu in a page — it comes from `DOCS`.
+- Do not put publishable files in the root `docs/` directory; it is not served. Only
+  `client/public/docs/` is published.
+- Do not hand-write the shell menu or duplicate the document list; it comes from `DOCS`.
+- Do not edit `docs-catalog.json` or add generated fields to the metadata.
+- Do not add a build step, framework, or dependency to the docs shell.
 
-## Existing examples
+## Examples
 
-- `autodrive-ml-training-overview.docx` — downloadable document, homepage card only (not in `DOCS`).
-- `llm-workflow.html` — shell page, `DOCS` entry, `/docs/` card, homepage card opening in a new tab.
+- `autodrive-ml-training-overview.docx` — library-only downloadable document, not in `DOCS`.
+- `llm-workflow.html` — shell page plus library document; includes the inline hybrid retrieval
+  figure in §1.11.2.
+- `client/public/docs/index.html` — the dark `/docs/` landing page; uses the library, not the shell.
 
-Use these as behavioural examples; do not hard-code their titles, descriptions or metadata.
+Related: `docs/documents-library.md` and `AGENTS.md`.
