@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="wenyan2video 文言文历史短视频生成系统的架构、单集流水线和批量任务工作流动态图集。">
+  <title>wenyan2video · 动态架构图集</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="../css/docs-shell.css">
+  <style>
+    :root{color-scheme:light;--paper:#f5f5f5;--surface:#fff;--ink:#252a35;--muted:#586174;--line:rgba(45,49,66,.16);--accent:#087e8b;--shadow:0 12px 34px rgba(36,48,66,.08);font-family:Inter,"Noto Sans SC","PingFang SC",sans-serif}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink)}main{width:min(100%,1560px);margin:0 auto;padding:32px clamp(16px,4vw,56px) 42px}.eyebrow{margin:0 0 8px;color:var(--accent);font:600 11px/1.4 ui-monospace,monospace;letter-spacing:.14em;text-transform:uppercase}h1{margin:0;font-size:clamp(28px,4vw,42px);line-height:1.1;letter-spacing:-.035em}.intro{max-width:900px;margin:12px 0 14px;color:var(--muted);font-size:14px;line-height:1.7}.evidence{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin:0 0 20px;color:var(--muted);font-size:12px;line-height:1.6}.evidence a{color:#28599b;text-decoration:underline;text-underline-offset:3px}.note{margin:0 0 18px;padding:10px 13px;border:1px solid rgba(8,126,139,.2);border-left:3px solid var(--accent);border-radius:5px;background:rgba(8,126,139,.045);color:#414b5a;font-size:12px;line-height:1.6}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px;padding:0;border-bottom:1px solid var(--line)}.tab{position:relative;min-height:46px;padding:11px 16px;border:1px solid transparent;border-bottom:0;border-radius:8px 8px 0 0;background:transparent;color:var(--muted);font-family:inherit;font-size:13px;font-weight:600;line-height:1.35;cursor:pointer}.tab:hover{background:rgba(255,255,255,.65);color:var(--ink)}.tab[aria-selected="true"]{border-color:var(--line);background:var(--surface);color:var(--ink);box-shadow:0 -2px 0 var(--accent) inset}.tab:focus-visible{outline:3px solid rgba(8,126,139,.35);outline-offset:2px}.panel{overflow:hidden;border:1px solid var(--line);border-radius:0 10px 10px 10px;background:var(--surface);box-shadow:var(--shadow)}.panel[hidden]{display:none}.panel iframe{display:block;width:100%;height:min(79vh,1050px);min-height:690px;border:0;background:#fff}.hint{margin:12px 2px 0;color:var(--muted);font-size:12px;line-height:1.6}@media(max-width:700px){main{padding-top:24px}.tabs{gap:4px}.tab{flex:1 1 44%;padding:10px 8px;font-size:12px}.panel iframe{height:76vh;min-height:620px}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+  </style>
+</head>
+<body><main>
+  <p class="eyebrow">wenyan2video · Classical Story to Short Video</p>
+  <h1>wenyan2video 动态架构图集</h1>
+  <p class="intro">从古籍原文生成口播稿与分镜，合成配音和字幕，生成场景插图，最后通过 FFmpeg 运镜、混音并输出视频。图集也展示批量任务状态与本地 Web 面板。</p>
+  <p class="note">当前配置把 9:16 竖版比例保留为配置项但权重设为 0，因此批量变体选择 16:9，成片输出为 1920×1080。任务状态为 success 的故事会跳过；单集失败记入状态后，批量 runner 会继续处理后续故事。</p>
+  <div class="evidence" aria-label="实现依据"><span>实现依据：</span>
+    <a href="https://github.com/williamjxj/wenyan2video/blob/main/README.md" target="_blank" rel="noreferrer">项目说明</a>
+    <a href="https://github.com/williamjxj/wenyan2video/blob/main/pipeline/main.py" target="_blank" rel="noreferrer">单集主控</a>
+    <a href="https://github.com/williamjxj/wenyan2video/blob/main/pipeline/variants.py" target="_blank" rel="noreferrer">变体引擎</a>
+    <a href="https://github.com/williamjxj/wenyan2video/blob/main/pipeline/render.py" target="_blank" rel="noreferrer">FFmpeg 合成</a>
+    <a href="https://github.com/williamjxj/wenyan2video/blob/main/webui/server.mjs" target="_blank" rel="noreferrer">Web 面板服务</a>
+  </div>
+  <div class="tabs" role="tablist" aria-label="wenyan2video 流程图">
+    <button class="tab" id="tab-architecture" type="button" role="tab" aria-selected="true" aria-controls="panel-architecture" tabindex="0">系统架构</button>
+    <button class="tab" id="tab-pipeline" type="button" role="tab" aria-selected="false" aria-controls="panel-pipeline" tabindex="-1">单集生产流程</button>
+    <button class="tab" id="tab-ops" type="button" role="tab" aria-selected="false" aria-controls="panel-ops" tabindex="-1">批量任务与恢复</button>
+  </div>
+  <section class="panel" id="panel-architecture" role="tabpanel" aria-labelledby="tab-architecture"><iframe title="wenyan2video 系统架构" src="wenyan2video-diagrams/wenyan2video-architecture.html" loading="eager" allow="fullscreen"></iframe></section>
+  <section class="panel" id="panel-pipeline" role="tabpanel" aria-labelledby="tab-pipeline" hidden><iframe title="wenyan2video 单集生产流程" src="wenyan2video-diagrams/wenyan2video-pipeline.html" loading="lazy" allow="fullscreen"></iframe></section>
+  <section class="panel" id="panel-ops" role="tabpanel" aria-labelledby="tab-ops" hidden><iframe title="wenyan2video 批量任务调度与恢复" src="wenyan2video-diagrams/wenyan2video-batch-ops.html" loading="lazy" allow="fullscreen"></iframe></section>
+  <p class="hint">每张图内可使用追踪动画、引导章节和节点探索；标签支持鼠标、方向键、Home 与 End 键切换。</p>
+</main><script src="../js/docs-shell.js"></script><script>
+(()=>{const tabs=[...document.querySelectorAll('[role="tab"]')];const panels=tabs.map(tab=>document.getElementById(tab.getAttribute('aria-controls')));function activate(index,moveFocus=false){tabs.forEach((tab,i)=>{const selected=i===index;tab.setAttribute('aria-selected',String(selected));tab.tabIndex=selected?0:-1;panels[i].hidden=!selected});if(moveFocus)tabs[index].focus()}tabs.forEach((tab,index)=>{tab.addEventListener('click',()=>activate(index));tab.addEventListener('keydown',event=>{let next=index;if(event.key==='ArrowRight'||event.key==='ArrowDown')next=(index+1)%tabs.length;else if(event.key==='ArrowLeft'||event.key==='ArrowUp')next=(index+tabs.length-1)%tabs.length;else if(event.key==='Home')next=0;else if(event.key==='End')next=tabs.length-1;else return;event.preventDefault();activate(next,true)})})})();
+</script></body></html>

@@ -25,11 +25,20 @@ test('combined search distinguishes English and Chinese editions',()=>{
   assert(selectDocuments(docs,{...defaults,query:'前端'},'zh').some(doc=>doc.file==='frontend-animation-reference.html'));
 });
 test('topic, language, empty search and sorting behave independently',()=>{
-  const result=selectDocuments(docs,{...defaults,topic:'ml',language:'zh'});
-  assert.equal(result.length,0);
+  const result=selectDocuments(docs,{...defaults,topic:'git-apps',language:'zh'});
+  assert.deepEqual(result.map(doc=>doc.file).sort(),[
+    'agenticap-architecture-diagrams.html',
+    'agenticomni-architecture.html',
+    'hairflow-architecture.html',
+    'jinyong-finetune-qlora-architecture.html',
+    'lianhuanai-architecture.html',
+    'wenyan2video-architecture.html',
+    'wuxia-jiangyunxing-architecture.html',
+    'yuan-kuocheng-architecture.html',
+  ]);
   assert.equal(selectDocuments(docs,{...defaults,query:'not-a-matching-term'}).length,0);
   const alphabetical=selectDocuments(docs,{...defaults,sort:'az'});
-  assert.equal(alphabetical[0].title.en,'AutoDrive ML Training Details');
+  assert.equal(alphabetical[0].title.en,'AgenticAP Architecture Diagrams');
   assert.equal(selectDocuments(docs,defaults).length,docs.length);
 });
 test('large collections retain all results for pagination without mutating the catalog',()=>{

@@ -7,6 +7,14 @@
     { file: "llm-workflow.html", en: "LLM Workflow Handbook", zh: "LLM 工作流手册" },
     { file: "llm-workflow-en.html", en: "LLM Workflow Handbook (English)", zh: "LLM 工作流手册（英文版）" },
     { file: "rag-pipelines-animation.html", en: "RAG Pipelines", zh: "RAG 流水线 (动画)" },
+    { file: "agenticap-architecture-diagrams.html", en: "AgenticAP Architecture Diagrams", zh: "AgenticAP 动态架构图集" },
+    { file: "agenticomni-architecture.html", en: "AgenticOmni Architecture Diagrams", zh: "AgenticOmni 动态架构图集" },
+    { file: "lianhuanai-architecture.html", en: "LianHuanAI Architecture Diagrams", zh: "LianHuanAI 动态架构图集" },
+    { file: "wenyan2video-architecture.html", en: "wenyan2video Architecture Diagrams", zh: "wenyan2video 动态架构图集" },
+    { file: "jinyong-finetune-qlora-architecture.html", en: "Jin Yong QLoRA Architecture Diagrams", zh: "Jin Yong QLoRA 动态架构图集" },
+    { file: "wuxia-jiangyunxing-architecture.html", en: "Wuxia Jiangyunxing Architecture Diagrams", zh: "Wuxia Jiangyunxing 动态架构图集" },
+    { file: "hairflow-architecture.html", en: "hairflow Architecture Diagrams", zh: "hairflow 动态架构图集" },
+    { file: "yuan-kuocheng-architecture.html", en: "Yuan Kuocheng GPT-SoVITS Diagrams", zh: "袁阔成 GPT-SoVITS 动态图集" },
     { file: "genai-handbook.html", en: "GenAI Multimedia Handbook", zh: "GenAI 多媒体手册" },
     { file: "genai-handbook-en.html", en: "GenAI Multimedia Handbook (English)", zh: "GenAI 多媒体手册（英文版）" }
   ];

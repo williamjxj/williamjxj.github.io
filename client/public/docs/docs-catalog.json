@@ -2,6 +2,50 @@
   "version": 1,
   "documents": [
     {
+      "id": "agenticap-architecture-diagrams.html",
+      "file": "agenticap-architecture-diagrams.html",
+      "title": {
+        "en": "AgenticAP Architecture Diagrams",
+        "zh": "AgenticAP 动态架构图集"
+      },
+      "description": {
+        "en": "An interactive tabbed collection covering the AgenticAP system, invoice ingestion, and Chat RAG query architecture.",
+        "zh": "通过标签切换交互查看 AgenticAP 系统架构、发票摄取与自校验，以及 Chat RAG 查询路径。"
+      },
+      "topic": "git-apps",
+      "language": "zh",
+      "tags": [
+        "AgenticAP",
+        "Architecture",
+        "Interactive"
+      ],
+      "format": "HTML",
+      "bytes": 5585,
+      "updated": "2026-11-24T21:49:08.747Z"
+    },
+    {
+      "id": "agenticomni-architecture.html",
+      "file": "agenticomni-architecture.html",
+      "title": {
+        "en": "AgenticOmni Architecture Diagrams",
+        "zh": "AgenticOmni 动态架构图集"
+      },
+      "description": {
+        "en": "Interactive diagrams for AgenticOmni document ingestion, background indexing, and tenant-filtered semantic search.",
+        "zh": "交互查看 AgenticOmni 文档上传、后台向量索引与按租户隔离的语义检索流程。"
+      },
+      "topic": "git-apps",
+      "language": "zh",
+      "tags": [
+        "AgenticOmni",
+        "Document Intelligence",
+        "RAG"
+      ],
+      "format": "HTML",
+      "bytes": 7076,
+      "updated": "2026-11-24T22:00:25.160Z"
+    },
+    {
       "id": "autodrive-ml-training-details.docx",
       "file": "autodrive-ml-training-details.docx",
       "title": {
@@ -110,6 +154,72 @@
       "updated": "2026-11-23T00:02:24.974Z"
     },
     {
+      "id": "hairflow-architecture.html",
+      "file": "hairflow-architecture.html",
+      "title": {
+        "en": "hairflow Architecture Diagrams",
+        "zh": "hairflow 动态架构图集"
+      },
+      "description": {
+        "en": "Interactive system architecture, AI hairstyle try-on generation, and face-shape recommendation workflows.",
+        "zh": "交互查看 hairflow 系统架构、AI 虚拟试戴生成与按脸型推荐发型流程。"
+      },
+      "topic": "git-apps",
+      "language": "zh",
+      "tags": [
+        "hairflow",
+        "ComfyUI",
+        "Computer Vision"
+      ],
+      "format": "HTML",
+      "bytes": 6759,
+      "updated": "2026-11-24T22:28:07.155Z"
+    },
+    {
+      "id": "jinyong-finetune-qlora-architecture.html",
+      "file": "jinyong-finetune-qlora-architecture.html",
+      "title": {
+        "en": "Jin Yong QLoRA Architecture Diagrams",
+        "zh": "Jin Yong QLoRA 动态架构图集"
+      },
+      "description": {
+        "en": "Interactive diagrams for SFT data preparation, QLoRA training, optional DPO, rubric evaluation, and model release.",
+        "zh": "交互查看指令数据准备、QLoRA 训练、可选 DPO、量规评估与模型发布流程。"
+      },
+      "topic": "git-apps",
+      "language": "zh",
+      "tags": [
+        "QLoRA",
+        "Fine-tuning",
+        "DPO"
+      ],
+      "format": "HTML",
+      "bytes": 6603,
+      "updated": "2026-11-24T22:22:05.285Z"
+    },
+    {
+      "id": "lianhuanai-architecture.html",
+      "file": "lianhuanai-architecture.html",
+      "title": {
+        "en": "LianHuanAI Architecture Diagrams",
+        "zh": "LianHuanAI 动态架构图集"
+      },
+      "description": {
+        "en": "Interactive system architecture, batch comic generation, and regeneration workflows for LianHuanAI.",
+        "zh": "交互查看 LianHuanAI 系统架构、批量生成與基于已有故事重新出图流程。"
+      },
+      "topic": "git-apps",
+      "language": "zh",
+      "tags": [
+        "LianHuanAI",
+        "Architecture",
+        "Image Generation"
+      ],
+      "format": "HTML",
+      "bytes": 6909,
+      "updated": "2026-11-24T22:15:41.977Z"
+    },
+    {
       "id": "llm-workflow-en.html",
       "file": "llm-workflow-en.html",
       "title": {
@@ -175,6 +285,72 @@
       "format": "HTML",
       "bytes": 33768,
       "updated": "2026-11-23T00:02:24.977Z"
+    },
+    {
+      "id": "wenyan2video-architecture.html",
+      "file": "wenyan2video-architecture.html",
+      "title": {
+        "en": "wenyan2video Architecture Diagrams",
+        "zh": "wenyan2video 动态架构图集"
+      },
+      "description": {
+        "en": "Interactive system architecture, single-story production, and batch task recovery workflows for wenyan2video.",
+        "zh": "交互查看 wenyan2video 系统架构、单集视频生成流水线与批量任务调度和恢复流程。"
+      },
+      "topic": "git-apps",
+      "language": "zh",
+      "tags": [
+        "wenyan2video",
+        "Video Generation",
+        "Workflow"
+      ],
+      "format": "HTML",
+      "bytes": 6696,
+      "updated": "2026-11-24T22:15:28.973Z"
+    },
+    {
+      "id": "wuxia-jiangyunxing-architecture.html",
+      "file": "wuxia-jiangyunxing-architecture.html",
+      "title": {
+        "en": "Wuxia Jiangyunxing Architecture Diagrams",
+        "zh": "Wuxia Jiangyunxing 动态架构图集"
+      },
+      "description": {
+        "en": "Interactive diagrams for local PDF preprocessing, AutoDL OCR, text conversion, and chapter image-text assembly.",
+        "zh": "交互查看本地 PDF 预处理、AutoDL OCR、繁简转换与章节图文装配流程。"
+      },
+      "topic": "git-apps",
+      "language": "zh",
+      "tags": [
+        "PDF",
+        "OCR",
+        "AutoDL"
+      ],
+      "format": "HTML",
+      "bytes": 6591,
+      "updated": "2026-11-24T22:25:13.386Z"
+    },
+    {
+      "id": "yuan-kuocheng-architecture.html",
+      "file": "yuan-kuocheng-architecture.html",
+      "title": {
+        "en": "Yuan Kuocheng GPT-SoVITS Diagrams",
+        "zh": "袁阔成 GPT-SoVITS 动态图集"
+      },
+      "description": {
+        "en": "Interactive audio preparation, AutoDL training, and model artifact delivery workflows for the Yuan Kuocheng voice project.",
+        "zh": "交互查看袁阔成评书音频准备、AutoDL GPT-SoVITS 训练与权重交付流程。"
+      },
+      "topic": "git-apps",
+      "language": "zh",
+      "tags": [
+        "GPT-SoVITS",
+        "Voice Cloning",
+        "AutoDL"
+      ],
+      "format": "HTML",
+      "bytes": 6712,
+      "updated": "2026-11-24T22:30:27.102Z"
     }
   ]
 }

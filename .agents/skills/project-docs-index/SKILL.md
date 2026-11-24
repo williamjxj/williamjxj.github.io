@@ -32,7 +32,7 @@ step for either system.
    as the homepage; the docs test checks every HTML page.
 2. Edit `client/public/docs/document-metadata.json` using the exact filename as the key. Provide:
    - `title` and `description`, each with both `en` and `zh` strings;
-   - `topic`: `ai`, `ml`, `frontend`, or `resources`;
+   - `topic`: `git-apps`, `ai`, `ml`, `frontend`, or `resources`;
    - `language`: `en`, `zh`, or `und`;
    - `tags`: an array of strings.
    Do not add `format`, `bytes`, or `updated`; the generator derives them.
