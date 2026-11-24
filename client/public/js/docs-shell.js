@@ -15,6 +15,7 @@
     { file: "wuxia-jiangyunxing-architecture.html", en: "Wuxia Jiangyunxing Architecture Diagrams", zh: "Wuxia Jiangyunxing 动态架构图集" },
     { file: "hairflow-architecture.html", en: "hairflow Architecture Diagrams", zh: "hairflow 动态架构图集" },
     { file: "yuan-kuocheng-architecture.html", en: "Yuan Kuocheng GPT-SoVITS Diagrams", zh: "袁阔成 GPT-SoVITS 动态图集" },
+    { file: "everheart-architecture.html", en: "Everheart Architecture Diagrams", zh: "Everheart 动态架构图集" },
     { file: "genai-handbook.html", en: "GenAI Multimedia Handbook", zh: "GenAI 多媒体手册" },
     { file: "genai-handbook-en.html", en: "GenAI Multimedia Handbook (English)", zh: "GenAI 多媒体手册（英文版）" }
   ];

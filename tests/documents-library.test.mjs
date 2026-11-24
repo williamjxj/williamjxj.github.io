@@ -29,6 +29,7 @@ test('topic, language, empty search and sorting behave independently',()=>{
   assert.deepEqual(result.map(doc=>doc.file).sort(),[
     'agenticap-architecture-diagrams.html',
     'agenticomni-architecture.html',
+    'everheart-architecture.html',
     'hairflow-architecture.html',
     'jinyong-finetune-qlora-architecture.html',
     'lianhuanai-architecture.html',

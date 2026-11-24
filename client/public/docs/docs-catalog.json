@@ -88,6 +88,28 @@
       "updated": "2026-02-25T05:33:37.352Z"
     },
     {
+      "id": "everheart-architecture.html",
+      "file": "everheart-architecture.html",
+      "title": {
+        "en": "Everheart Architecture Diagrams",
+        "zh": "Everheart 动态架构图集"
+      },
+      "description": {
+        "en": "Interactive diagrams for Everheart system architecture, character creation with offline fallback, and memory-aware chat persistence.",
+        "zh": "交互查看 Everheart 系统架构、含离线回退的角色创建流程，以及长期记忆聊天和数据持久化。"
+      },
+      "topic": "git-apps",
+      "language": "zh",
+      "tags": [
+        "Everheart",
+        "AI Companion",
+        "Memory"
+      ],
+      "format": "HTML",
+      "bytes": 7197,
+      "updated": "2026-11-24T23:09:26.744Z"
+    },
+    {
       "id": "frontend-animation-reference.html",
       "file": "frontend-animation-reference.html",
       "title": {

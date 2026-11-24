@@ -8,7 +8,7 @@ frontend craft, and resources.
 
 ## Git Apps diagram collection
 
-The **Git Apps / Git 项目** topic groups eight interactive, tabbed architecture and workflow
+The **Git Apps / Git 项目** topic groups nine interactive, tabbed architecture and workflow
 galleries. Each gallery opens from its document card and is also listed in the curated reader:
 
 | Project | Diagram gallery | Repository |
@@ -21,6 +21,7 @@ galleries. Each gallery opens from its document card and is also listed in the c
 | Wuxia Jiangyunxing | [Open diagrams](../client/public/docs/wuxia-jiangyunxing-architecture.html) | [GitHub](https://github.com/jxjwilliam/wuxia-jiangyunxing) |
 | hairflow | [Open diagrams](../client/public/docs/hairflow-architecture.html) | [GitHub](https://github.com/jxjwilliam/hairflow) |
 | Yuan Kuocheng voice project | [Open diagrams](../client/public/docs/yuan-kuocheng-architecture.html) | [GitHub](https://github.com/jxjwilliam/yuan_kuocheng) |
+| Everheart | [Open diagrams](../client/public/docs/everheart-architecture.html) | [GitHub](https://github.com/williamjxj/everheart) |
 
 On `/docs/` and the homepage Documents section, select **Git Apps** in the topic filter to show
 this collection. The shared bilingual metadata and generated catalog provide the titles, links,
