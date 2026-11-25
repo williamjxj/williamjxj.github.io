@@ -53,11 +53,11 @@ export interface Translations {
     subtitle: string;
     viewAll: string;
     autobidder: { title: string; description: string };
-    manusShop: { title: string; description: string };
+    agenticomni: { title: string; description: string };
     faceSwap: { title: string; description: string };
-    bidmaster: { title: string; description: string };
-    uploadImage: { title: string; description: string };
-    jqueryPs: { title: string; description: string };
+    agenticap: { title: string; description: string };
+    imagesHub: { title: string; description: string };
+    lianhuanAI: { title: string; description: string };
   };
   experience: {
     title: string;
@@ -136,8 +136,8 @@ export const translations: Record<Language, Translations> = {
       available: "Open to AI & Web Projects",
       greeting: "Hi, I'm",
       name: "William Jiang",
-      title1: "Full-Stack Engineer",
-      title2: "AI Consultant",
+      title1: "AI Consultant",
+      title2: "Full-Stack Engineer",
       title3: "AI SaaS Builder",
       title4: "Agent & Automation Specialist",
       description:
@@ -183,30 +183,30 @@ export const translations: Record<Language, Translations> = {
         description:
           "AI-powered proposal automation agent — job scraping, requirement analysis, and personalized proposal drafting, end to end.",
       },
-      manusShop: {
-        title: "manus-ai-shop",
+      agenticomni: {
+        title: "AgenticOmni",
         description:
-          "Full-stack AI e-commerce build with Next.js, Tailwind, Stripe, Supabase, and Vercel.",
+          "Enterprise document intelligence with async ingestion, semantic search, and RAG over trusted source documents.",
       },
       faceSwap: {
         title: "Face Swap SaaS",
         description:
           "Production-ready AI face-swap platform — Next.js 15, React 19, Supabase. Video, image & GIF, multi-payment.",
       },
-      bidmaster: {
-        title: "BidMaster",
+      agenticap: {
+        title: "AgenticAP",
         description:
-          "Centralized platform to discover, track, and manage freelance opportunities across multiple sources.",
+          "AI-powered accounts payable automation: extract and validate invoices across PDFs, spreadsheets, and images, with RAG-backed chat.",
       },
-      uploadImage: {
-        title: "upload-image",
+      imagesHub: {
+        title: "Images Hub",
         description:
-          "A simple Node.js tool to upload local images to the web in seconds.",
+          "Unified stock-image search across Unsplash, Pixabay, and Pexels, with AI chat and a Cloudflare R2 media gallery.",
       },
-      jqueryPs: {
-        title: "jQuery Photoshop UI",
+      lianhuanAI: {
+        title: "LianHuanAI",
         description:
-          "jQuery-driven UI toolkit that works with Photoshop PSD and PNG workflows.",
+          "Generates illustrated Chinese historical comics with narration, using AI story planning, image generation, and quality checks.",
       },
     },
     experience: {
@@ -290,8 +290,8 @@ export const translations: Record<Language, Translations> = {
       available: "接受 AI 与 Web 项目合作",
       greeting: "您好，我是",
       name: "William Jiang",
-      title1: "全栈工程师",
-      title2: "AI 顾问",
+      title1: "AI 顾问",
+      title2: "全栈工程师",
       title3: "AI SaaS 开发者",
       title4: "智能体与自动化专家",
       description:
@@ -337,30 +337,30 @@ export const translations: Record<Language, Translations> = {
         description:
           "AI 驱动的提案自动化智能体——职位抓取、需求分析、个性化提案起草，全流程自动化。",
       },
-      manusShop: {
-        title: "manus-ai-shop",
+      agenticomni: {
+        title: "AgenticOmni",
         description:
-          "基于 Next.js、Tailwind、Stripe、Supabase 与 Vercel 的全栈 AI 电商项目。",
+          "企业级文档智能平台：异步导入多种文档，构建可检索知识库并基于可信来源生成回答。",
       },
       faceSwap: {
         title: "换脸 SaaS 平台",
         description:
           "生产就绪的 AI 换脸平台——Next.js 15、React 19、Supabase，支持视频、图片、GIF 与多种支付方式。",
       },
-      bidmaster: {
-        title: "BidMaster",
+      agenticap: {
+        title: "AgenticAP",
         description:
-          "集中式平台，用于跨多个来源发现、跟踪和管理自由职业机会。",
+          "AI 应付账款自动化：提取并校验 PDF、电子表格与图像中的发票信息，并支持 RAG 查询。",
       },
-      uploadImage: {
-        title: "upload-image",
+      imagesHub: {
+        title: "Images Hub",
         description:
-          "一个简单的 Node.js 工具，可在数秒内将本地图片上传到网络。",
+          "整合 Unsplash、Pixabay 与 Pexels 的图片搜索，并提供 AI 对话与 Cloudflare R2 媒体图库。",
       },
-      jqueryPs: {
-        title: "jQuery Photoshop UI",
+      lianhuanAI: {
+        title: "LianHuanAI",
         description:
-          "基于 jQuery 的 UI 工具包，适用于 Photoshop PSD 与 PNG 工作流。",
+          "生成中国历史连环画与旁白，覆盖故事规划、AI 图像生成与自动质量检查。",
       },
     },
     experience: {

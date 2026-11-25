@@ -68,12 +68,12 @@ export default function Stack() {
   ];
 
   return (
-    <section id="stack" className="relative py-24 sm:py-32">
+    <section id="stack" className="editorial-section relative py-24 sm:py-32">
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         <div className="absolute left-1/2 top-0 h-72 w-[36rem] -translate-x-1/2 rounded-full bg-violet-600/10 blur-3xl" />
       </div>
       <div className="container relative">
-        <SectionHeading eyebrow="02" title={t.stack.title} subtitle={t.stack.subtitle} />
+        <SectionHeading title={t.stack.title} subtitle={t.stack.subtitle} />
 
         <div className="mx-auto mb-14 max-w-3xl rounded-2xl border border-border bg-card/60 p-6 backdrop-blur">
           <p className="mb-5 text-center font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">

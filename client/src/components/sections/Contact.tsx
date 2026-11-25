@@ -25,7 +25,7 @@ export default function Contact() {
           transition={{ duration: 0.6 }}
           className="mx-auto max-w-3xl rounded-3xl border border-border bg-card/70 p-8 text-center backdrop-blur sm:p-12"
         >
-          <SectionHeading eyebrow="06" title={t.contact.title} subtitle={t.contact.subtitle} />
+          <SectionHeading title={t.contact.title} subtitle={t.contact.subtitle} />
 
           <p className="-mt-6 mb-2 text-base leading-relaxed text-muted-foreground">
             Whether you need AI-driven automation, full-stack development, or a web platform for

@@ -60,10 +60,10 @@ export default function Navbar() {
             <a
               key={link.id}
               href={`#${link.id}`}
-              className={`text-sm transition-colors ${
+              className={`relative py-2 text-sm transition-colors after:absolute after:inset-x-0 after:-bottom-1 after:h-px after:origin-left after:scale-x-0 after:bg-accent after:transition-transform ${
                 active === link.id
-                  ? "text-accent"
-                  : "text-muted-foreground hover:text-foreground"
+                  ? "text-accent after:scale-x-100"
+                  : "text-muted-foreground hover:text-foreground hover:after:scale-x-100"
               }`}
             >
               {link.label}
@@ -105,7 +105,7 @@ export default function Navbar() {
                 className={`rounded-lg px-3 py-2.5 text-sm ${
                   active === link.id
                     ? "bg-primary/10 text-accent"
-                    : "text-muted-foreground hover:bg-white/5 hover:text-foreground"
+                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
                 }`}
               >
                 {link.label}
@@ -115,9 +115,9 @@ export default function Navbar() {
               href="https://github.com/williamjxj"
               target="_blank"
               rel="noreferrer"
-              className="rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-white/5 hover:text-foreground"
+              className="rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
             >
-              GitHub ↗
+              GitHub
             </a>
           </div>
         </div>

@@ -1,11 +1,11 @@
 import { motion } from "framer-motion";
-import { ArrowUpRight, Github } from "lucide-react";
+import { Github } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslations } from "@/lib/translations";
 import { SectionHeading } from "@/components/sections/SectionHeading";
 
 type Project = {
-  key: "autobidder" | "manusShop" | "faceSwap" | "bidmaster" | "uploadImage" | "jqueryPs";
+  key: "agenticomni" | "agenticap" | "autobidder" | "imagesHub" | "lianhuanAI" | "faceSwap";
   icon: string;
   repo: string;
   tags: string[];
@@ -15,6 +15,41 @@ type Project = {
 
 const FEATURED: Project[] = [
   {
+    key: "agenticomni",
+    icon: "📚",
+    repo: "agenticomni",
+    tags: ["FastAPI", "RAG", "pgvector", "Document AI"],
+    lang: "Python",
+    langColor: "#3572A5",
+  },
+  {
+    key: "agenticap",
+    icon: "🧾",
+    repo: "agenticap",
+    tags: ["FastAPI", "OCR", "RAG", "pgvector"],
+    lang: "Python",
+    langColor: "#3572A5",
+  },
+  {
+    key: "lianhuanAI",
+    icon: "🎨",
+    repo: "LianHuanAI",
+    tags: ["Python", "AI Images", "ComfyUI", "Storytelling"],
+    lang: "Python",
+    langColor: "#3572A5",
+  },
+  {
+    key: "imagesHub",
+    icon: "🖼️",
+    repo: "images-hub",
+    tags: ["Next.js", "AI Chat", "Image Search", "Cloudflare R2"],
+    lang: "TypeScript",
+    langColor: "#3178C6",
+  },
+];
+
+const OTHERS: Project[] = [
+  {
     key: "autobidder",
     icon: "🤖",
     repo: "AutoBidder",
@@ -23,45 +58,10 @@ const FEATURED: Project[] = [
     langColor: "#3178C6",
   },
   {
-    key: "manusShop",
-    icon: "🛍️",
-    repo: "manus-ai-shop",
-    tags: ["Next.js", "Tailwind", "Stripe", "Supabase"],
-    lang: "TypeScript",
-    langColor: "#3178C6",
-  },
-  {
     key: "faceSwap",
     icon: "🎭",
     repo: "face-swap-poc",
     tags: ["Next.js 15", "React 19", "Supabase", "Payments"],
-    lang: "JavaScript",
-    langColor: "#F7DF1E",
-  },
-  {
-    key: "bidmaster",
-    icon: "🎯",
-    repo: "bidmaster",
-    tags: ["Next.js", "TypeScript", "Supabase"],
-    lang: "TypeScript",
-    langColor: "#3178C6",
-  },
-];
-
-const OTHERS: Project[] = [
-  {
-    key: "uploadImage",
-    icon: "📤",
-    repo: "upload-image",
-    tags: ["Node.js", "CLI"],
-    lang: "JavaScript",
-    langColor: "#F7DF1E",
-  },
-  {
-    key: "jqueryPs",
-    icon: "🖌️",
-    repo: "jQuery-Photoshop-UI",
-    tags: ["jQuery", "Photoshop", "UI"],
     lang: "JavaScript",
     langColor: "#F7DF1E",
   },
@@ -99,10 +99,10 @@ export default function Projects() {
       href={`https://github.com/williamjxj/${p.repo}`}
       target="_blank"
       rel="noreferrer"
-      className="group flex h-full flex-col rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:border-violet-500/40 hover:shadow-xl hover:shadow-violet-500/10"
+      className="project-card group flex h-full flex-col rounded-3xl border border-border/90 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-violet-400/40 hover:shadow-2xl hover:shadow-violet-950/30 sm:p-7"
     >
       <div className="mb-4 flex items-start justify-between">
-        <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-gradient-to-br from-violet-500/15 to-teal-400/10 text-xl">
+        <span className="flex h-12 w-12 items-center justify-center rounded-2xl border border-violet-500/10 bg-gradient-to-br from-violet-500/10 to-teal-500/10 text-xl">
           {p.icon}
         </span>
         <Github
@@ -136,17 +136,17 @@ export default function Projects() {
         </span>
         <StarBadge repo={p.repo} />
         <ForkBadge repo={p.repo} />
-        <span className="ml-auto flex items-center gap-1 text-xs font-medium text-accent opacity-0 transition group-hover:opacity-100">
-          View <ArrowUpRight size={14} />
+        <span className="ml-auto text-xs font-medium text-accent opacity-70 transition group-hover:opacity-100">
+          GitHub
         </span>
       </div>
     </a>
   );
 
   return (
-    <section id="projects" className="relative py-24 sm:py-32">
+    <section id="projects" className="editorial-section relative py-24 sm:py-32">
       <div className="container">
-        <SectionHeading eyebrow="03" title={t.projects.title} subtitle={t.projects.subtitle} />
+        <SectionHeading title={t.projects.title} subtitle={t.projects.subtitle} />
 
         <div className="grid gap-6 md:grid-cols-2">
           {FEATURED.map((p, i) => (
@@ -183,7 +183,7 @@ export default function Projects() {
             rel="noreferrer"
             className="inline-flex items-center gap-2 text-sm font-medium text-accent transition hover:text-accent/80"
           >
-            {t.projects.viewAll} <ArrowUpRight size={15} />
+            {t.projects.viewAll}
           </a>
         </p>
       </div>

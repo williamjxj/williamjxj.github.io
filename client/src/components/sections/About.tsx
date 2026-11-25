@@ -16,9 +16,9 @@ export default function About() {
   ];
 
   return (
-    <section id="about" className="relative py-24 sm:py-32">
+    <section id="about" className="editorial-section relative py-24 sm:py-32">
       <div className="container">
-        <SectionHeading eyebrow="01" title={t.about.title} subtitle={t.about.subtitle} />
+        <SectionHeading title={t.about.title} subtitle={t.about.subtitle} />
 
         <div className="grid items-center gap-12 lg:grid-cols-5">
           <motion.div
@@ -84,7 +84,7 @@ export default function About() {
                     key={i}
                     className="flex items-center gap-3 rounded-2xl border border-border bg-card/70 px-4 py-3.5 transition hover:border-accent/40"
                   >
-                    <span className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 ${fact.color}`}>
+                    <span className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl border border-violet-500/10 bg-violet-500/5 ${fact.color}`}>
                       <Icon size={17} />
                     </span>
                     <span className="text-sm text-foreground">{fact.label}</span>

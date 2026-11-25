@@ -58,7 +58,7 @@ export default function Hero() {
   }, [t.hero.title1, t.hero.title2, t.hero.title3, t.hero.title4]);
 
   return (
-    <section className="relative flex min-h-screen items-center overflow-hidden pb-24 pt-32">
+    <section className="relative flex min-h-screen items-center overflow-hidden pb-24 pt-28 sm:pt-32">
       {/* Background */}
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         <div className="bg-grid absolute inset-0" />
@@ -143,9 +143,9 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="mt-8 flex flex-wrap items-center gap-3"
           >
-            <Button asChild className="glow-violet bg-primary text-primary-foreground hover:bg-primary/90">
+            <Button asChild className="glow-violet rounded-full bg-primary px-6 text-primary-foreground hover:bg-primary/90">
               <a href="#projects">
-                {t.hero.viewWork} <ArrowDown size={16} className="ml-1" />
+                {t.hero.viewWork}
               </a>
             </Button>
             <Button variant="outline" asChild>
@@ -176,29 +176,29 @@ export default function Hero() {
               }
             }}
             viewport={{ once: true, amount: 0.5 }}
-            className="mt-12 grid max-w-lg grid-cols-3 gap-4"
+            className="mt-11 grid max-w-xl grid-cols-3 border-t border-border/80 pt-5"
           >
-            <div className="rounded-2xl border border-border bg-card/60 px-4 py-5 text-center backdrop-blur">
-              <div className="text-2xl font-bold text-accent sm:text-3xl">
+            <div className="pr-3 text-left sm:pr-5">
+              <div className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
                 {yearsCount.count}+
               </div>
-              <div className="mt-1 text-xs text-muted-foreground sm:text-sm">
+              <div className="mt-1.5 text-xs leading-snug text-muted-foreground sm:text-sm">
                 {t.hero.yearsLabel}
               </div>
             </div>
-            <div className="rounded-2xl border border-border bg-card/60 px-4 py-5 text-center backdrop-blur">
-              <div className="text-2xl font-bold text-accent sm:text-3xl">
+            <div className="border-l border-border/80 px-3 text-left sm:px-5">
+              <div className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
                 {projectsCount.count}+
               </div>
-              <div className="mt-1 text-xs text-muted-foreground sm:text-sm">
+              <div className="mt-1.5 text-xs leading-snug text-muted-foreground sm:text-sm">
                 {t.hero.projectsLabel}
               </div>
             </div>
-            <div className="rounded-2xl border border-border bg-card/60 px-4 py-5 text-center backdrop-blur">
-              <div className="text-2xl font-bold text-accent sm:text-3xl">
+            <div className="border-l border-border/80 pl-3 text-left sm:pl-5">
+              <div className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
                 {systemsCount.count}+
               </div>
-              <div className="mt-1 text-xs text-muted-foreground sm:text-sm">
+              <div className="mt-1.5 text-xs leading-snug text-muted-foreground sm:text-sm">
                 {t.hero.systemsLabel}
               </div>
             </div>
@@ -209,7 +209,7 @@ export default function Hero() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.35 }}
-          className="hidden sm:block"
+          className="block"
         >
           <TerminalCard />
         </motion.div>

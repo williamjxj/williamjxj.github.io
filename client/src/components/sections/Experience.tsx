@@ -46,11 +46,7 @@ export default function Experience() {
   return (
     <section id="experience" className="relative py-24 sm:py-32">
       <div className="container">
-        <SectionHeading
-          eyebrow="04"
-          title={t.experience.title}
-          subtitle={t.experience.subtitle}
-        />
+        <SectionHeading title={t.experience.title} subtitle={t.experience.subtitle} />
 
         <div className="relative mx-auto max-w-3xl">
           <div className="absolute bottom-4 left-[7px] top-4 w-px bg-gradient-to-b from-violet-500/70 via-border to-transparent" />
