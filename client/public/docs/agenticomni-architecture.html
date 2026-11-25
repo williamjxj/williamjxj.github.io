@@ -35,7 +35,7 @@
   <main>
     <p class="eyebrow">AgenticOmni · Document Intelligence</p>
     <h1>AgenticOmni 动态架构图集</h1>
-    <p class="intro">从文档接入、异步解析与向量化，到按租户隔离的语义检索。每张图都保留 Archify 动画、引导章节和节点探索控件。</p>
+    <p class="intro">展示文档上传后的异步解析与向量化，以及带租户隔离的语义检索。仓库中的主要工作流分为这两条。</p>
     <p class="note">核对说明：仓库 README 与旧版 next-steps 对 embedding 自动化状态描述不一致；图示以当前代码中“解析成功后触发 embedding actor”的任务链为准。当前路由提供语义检索结果，没有发现 Chat 答案生成路由。</p>
     <div class="evidence" aria-label="实现依据">
       <span>实现依据：</span>
@@ -45,19 +45,15 @@
       <a href="https://github.com/williamjxj/AgenticOmni/blob/main/src/rag_orchestration/services/search_service.py" target="_blank" rel="noreferrer">语义检索</a>
     </div>
 
-    <div class="tabs" role="tablist" aria-label="AgenticOmni 架构图">
-      <button class="tab" id="tab-system" type="button" role="tab" aria-selected="true" aria-controls="panel-system" tabindex="0">系统架构总览</button>
-      <button class="tab" id="tab-ingestion" type="button" role="tab" aria-selected="false" aria-controls="panel-ingestion" tabindex="-1">上传到向量索引</button>
-      <button class="tab" id="tab-search" type="button" role="tab" aria-selected="false" aria-controls="panel-search" tabindex="-1">语义搜索流程</button>
+    <div class="tabs" role="tablist" aria-label="AgenticOmni 流程图">
+      <button class="tab" id="tab-ingestion" type="button" role="tab" aria-selected="true" aria-controls="panel-ingestion" tabindex="0">异步文档摄取</button>
+      <button class="tab" id="tab-search" type="button" role="tab" aria-selected="false" aria-controls="panel-search" tabindex="-1">租户语义检索</button>
     </div>
-    <section class="panel" id="panel-system" role="tabpanel" aria-labelledby="tab-system">
-      <iframe title="AgenticOmni 文档智能系统架构" src="agenticomni-diagrams/agenticomni-architecture.html" loading="eager" allow="fullscreen"></iframe>
-    </section>
-    <section class="panel" id="panel-ingestion" role="tabpanel" aria-labelledby="tab-ingestion" hidden>
-      <iframe title="AgenticOmni 上传到向量索引流程" src="agenticomni-diagrams/agenticomni-ingestion.html" loading="lazy" allow="fullscreen"></iframe>
+    <section class="panel" id="panel-ingestion" role="tabpanel" aria-labelledby="tab-ingestion">
+      <iframe title="AgenticOmni 异步文档摄取流程" src="agenticomni-diagrams/agenticomni-ingestion.html" loading="eager" allow="fullscreen"></iframe>
     </section>
     <section class="panel" id="panel-search" role="tabpanel" aria-labelledby="tab-search" hidden>
-      <iframe title="AgenticOmni 语义搜索流程" src="agenticomni-diagrams/agenticomni-search.html" loading="lazy" allow="fullscreen"></iframe>
+      <iframe title="AgenticOmni 租户语义检索流程" src="agenticomni-diagrams/agenticomni-search.html" loading="lazy" allow="fullscreen"></iframe>
     </section>
     <p class="hint">可使用图表内的“动态 / 演示”开关或引导章节，追踪文件处理与查询路径。此图集聚焦当前仓库代码中已接通的 API 和任务流程。</p>
   </main>

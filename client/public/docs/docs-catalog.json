@@ -20,8 +20,8 @@
         "Interactive"
       ],
       "format": "HTML",
-      "bytes": 5585,
-      "updated": "2026-11-24T21:49:08.747Z"
+      "bytes": 6401,
+      "updated": "2026-11-24T23:39:39.411Z"
     },
     {
       "id": "agenticomni-architecture.html",
@@ -42,8 +42,8 @@
         "RAG"
       ],
       "format": "HTML",
-      "bytes": 7076,
-      "updated": "2026-11-24T22:00:25.160Z"
+      "bytes": 6625,
+      "updated": "2026-11-24T23:39:39.412Z"
     },
     {
       "id": "autodrive-ml-training-details.docx",
@@ -106,8 +106,8 @@
         "Memory"
       ],
       "format": "HTML",
-      "bytes": 7197,
-      "updated": "2026-11-24T23:09:26.744Z"
+      "bytes": 9292,
+      "updated": "2026-11-24T23:39:39.414Z"
     },
     {
       "id": "frontend-animation-reference.html",
@@ -194,8 +194,8 @@
         "Computer Vision"
       ],
       "format": "HTML",
-      "bytes": 6759,
-      "updated": "2026-11-24T22:28:07.155Z"
+      "bytes": 7490,
+      "updated": "2026-11-24T23:39:39.413Z"
     },
     {
       "id": "jinyong-finetune-qlora-architecture.html",
@@ -216,8 +216,8 @@
         "DPO"
       ],
       "format": "HTML",
-      "bytes": 6603,
-      "updated": "2026-11-24T22:22:05.285Z"
+      "bytes": 6757,
+      "updated": "2026-11-24T23:39:39.413Z"
     },
     {
       "id": "lianhuanai-architecture.html",
@@ -238,8 +238,8 @@
         "Image Generation"
       ],
       "format": "HTML",
-      "bytes": 6909,
-      "updated": "2026-11-24T22:15:41.977Z"
+      "bytes": 6517,
+      "updated": "2026-11-24T23:39:39.412Z"
     },
     {
       "id": "llm-workflow-en.html",
@@ -288,6 +288,29 @@
       "updated": "2026-11-23T00:02:24.976Z"
     },
     {
+      "id": "nsfw-app-architecture.html",
+      "file": "nsfw-app-architecture.html",
+      "title": {
+        "en": "RunningHub NSFW Generator Workflows",
+        "zh": "RunningHub NSFW Generator 动态工作流图集"
+      },
+      "description": {
+        "en": "Five source-checked workflows covering backend planning, generation jobs, local ComfyUI batches, local AnimateDiff video, and Vercel KV/R2 persistence.",
+        "zh": "五张源码核对流程图：后端计划路由、生成任务、本地 ComfyUI 批次、本地 AnimateDiff 视频与 Vercel KV/R2 持久化。"
+      },
+      "topic": "git-apps",
+      "language": "zh",
+      "tags": [
+        "RunningHub",
+        "ComfyUI",
+        "Vercel",
+        "Workflow"
+      ],
+      "format": "HTML",
+      "bytes": 8474,
+      "updated": "2026-11-24T23:54:30.253Z"
+    },
+    {
       "id": "rag-pipelines-animation.html",
       "file": "rag-pipelines-animation.html",
       "title": {
@@ -327,8 +350,8 @@
         "Workflow"
       ],
       "format": "HTML",
-      "bytes": 6696,
-      "updated": "2026-11-24T22:15:28.973Z"
+      "bytes": 6695,
+      "updated": "2026-11-24T23:39:39.413Z"
     },
     {
       "id": "wuxia-jiangyunxing-architecture.html",
@@ -349,8 +372,8 @@
         "AutoDL"
       ],
       "format": "HTML",
-      "bytes": 6591,
-      "updated": "2026-11-24T22:25:13.386Z"
+      "bytes": 5751,
+      "updated": "2026-11-24T23:39:39.413Z"
     },
     {
       "id": "yuan-kuocheng-architecture.html",
@@ -371,8 +394,8 @@
         "AutoDL"
       ],
       "format": "HTML",
-      "bytes": 6712,
-      "updated": "2026-11-24T22:30:27.102Z"
+      "bytes": 6732,
+      "updated": "2026-11-24T23:39:39.414Z"
     }
   ]
 }

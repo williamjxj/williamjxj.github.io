@@ -35,7 +35,7 @@
   <main>
     <p class="eyebrow">Everheart · AI Companions</p>
     <h1>Everheart 动态架构图集</h1>
-    <p class="intro">从 Next.js 应用与可选服务，到角色生成回退、记忆上下文组装和聊天持久化。切换标签查看系统总览与两条核心工作流。</p>
+    <p class="intro">从应用与服务关系、角色创建和记忆聊天，扩展到许可证权益、点数账本、TTS 回退链与 ComfyUI 头像生成的具体实现。</p>
     <p class="evidence" aria-label="实现依据">
       <span>实现依据：</span>
       <a href="https://github.com/williamjxj/everheart/tree/019a9a2818fcf2b3c9cdb7853e1fbfb28c1ffd18" target="_blank" rel="noreferrer">锁定的仓库版本</a>
@@ -43,22 +43,38 @@
       <a href="https://github.com/williamjxj/everheart/blob/019a9a2818fcf2b3c9cdb7853e1fbfb28c1ffd18/src/app/api/chat/route.ts" target="_blank" rel="noreferrer">聊天 API</a>
       <a href="https://github.com/williamjxj/everheart/blob/019a9a2818fcf2b3c9cdb7853e1fbfb28c1ffd18/src/lib/memory/server-store.ts" target="_blank" rel="noreferrer">记忆持久化</a>
       <a href="https://github.com/williamjxj/everheart/blob/019a9a2818fcf2b3c9cdb7853e1fbfb28c1ffd18/src/components/AgeGate.tsx" target="_blank" rel="noreferrer">AgeGate 预览</a>
-    </p>
+      <a href="https://github.com/williamjxj/everheart/blob/019a9a2818fcf2b3c9cdb7853e1fbfb28c1ffd18/src/app/api/entitlements/checkout/route.ts" target="_blank" rel="noreferrer">许可证结账</a>
+      <a href="https://github.com/williamjxj/everheart/blob/019a9a2818fcf2b3c9cdb7853e1fbfb28c1ffd18/src/app/api/entitlements/webhook/route.ts" target="_blank" rel="noreferrer">支付 Webhook</a>
+      <a href="https://github.com/williamjxj/everheart/blob/019a9a2818fcf2b3c9cdb7853e1fbfb28c1ffd18/src/app/api/tts/route.ts" target="_blank" rel="noreferrer">TTS API</a>
+      <a href="https://github.com/williamjxj/everheart/blob/019a9a2818fcf2b3c9cdb7853e1fbfb28c1ffd18/src/app/api/portrait/route.ts" target="_blank" rel="noreferrer">头像 API</a>
+</p>
     <p class="note">代码核对：聊天回合由服务端异步写入；记忆提取与同步仍是独立流程。年龄门控目前只是本地预览确认，并非身份验证；角色创建 API 的权益/额度检查仍标记为 TODO。</p>
 
-    <div class="tabs" role="tablist" aria-label="Everheart 架构图">
-      <button class="tab" id="tab-system" type="button" role="tab" aria-selected="true" aria-controls="panel-system" tabindex="0">系统架构总览</button>
-      <button class="tab" id="tab-creation" type="button" role="tab" aria-selected="false" aria-controls="panel-creation" tabindex="-1">角色创建流程</button>
+    <div class="tabs" role="tablist" aria-label="Everheart 工作流">
+      <button class="tab" id="tab-system" type="button" role="tab" aria-selected="true" aria-controls="panel-system" tabindex="0">系统组件关系</button>
+      <button class="tab" id="tab-creation" type="button" role="tab" aria-selected="false" aria-controls="panel-creation" tabindex="-1">角色创建与回退</button>
       <button class="tab" id="tab-memory" type="button" role="tab" aria-selected="false" aria-controls="panel-memory" tabindex="-1">聊天与长期记忆</button>
+      <button class="tab" id="tab-entitlement" type="button" role="tab" aria-selected="false" aria-controls="panel-entitlement" tabindex="-1">许可证与点数账本</button>
+      <button class="tab" id="tab-tts" type="button" role="tab" aria-selected="false" aria-controls="panel-tts" tabindex="-1">TTS 提供方回退与缓存</button>
+      <button class="tab" id="tab-portrait" type="button" role="tab" aria-selected="false" aria-controls="panel-portrait" tabindex="-1">ComfyUI 头像与短片</button>
     </div>
     <section class="panel" id="panel-system" role="tabpanel" aria-labelledby="tab-system">
-      <iframe title="Everheart 系统架构总览" src="everheart-diagrams/everheart-architecture.html" loading="eager" allow="fullscreen"></iframe>
+      <iframe title="Everheart 系统组件关系" src="everheart-diagrams/everheart-architecture.html" loading="eager" allow="fullscreen"></iframe>
     </section>
     <section class="panel" id="panel-creation" role="tabpanel" aria-labelledby="tab-creation" hidden>
       <iframe title="Everheart 角色创建与离线回退流程" src="everheart-diagrams/everheart-creation.html" loading="lazy" allow="fullscreen"></iframe>
     </section>
     <section class="panel" id="panel-memory" role="tabpanel" aria-labelledby="tab-memory" hidden>
       <iframe title="Everheart 聊天与长期记忆流程" src="everheart-diagrams/everheart-chat-memory.html" loading="lazy" allow="fullscreen"></iframe>
+    </section>
+    <section class="panel" id="panel-entitlement" role="tabpanel" aria-labelledby="tab-entitlement" hidden>
+      <iframe title="Everheart 许可证结账、权益与点数账本流程" src="everheart-diagrams/everheart-entitlement.html" loading="lazy" allow="fullscreen"></iframe>
+    </section>
+    <section class="panel" id="panel-tts" role="tabpanel" aria-labelledby="tab-tts" hidden>
+      <iframe title="Everheart TTS 提供方回退、分块与缓存流程" src="everheart-diagrams/everheart-tts.html" loading="lazy" allow="fullscreen"></iframe>
+    </section>
+    <section class="panel" id="panel-portrait" role="tabpanel" aria-labelledby="tab-portrait" hidden>
+      <iframe title="Everheart ComfyUI 头像生成与短片流程" src="everheart-diagrams/everheart-portrait.html" loading="lazy" allow="fullscreen"></iframe>
     </section>
     <p class="hint">图内支持动画轨迹与引导视图。主图以 Everheart 仓库 commit 019a9a2 的源码为依据。</p>
   </main>

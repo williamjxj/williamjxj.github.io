@@ -33,6 +33,7 @@ test('topic, language, empty search and sorting behave independently',()=>{
     'hairflow-architecture.html',
     'jinyong-finetune-qlora-architecture.html',
     'lianhuanai-architecture.html',
+    'nsfw-app-architecture.html',
     'wenyan2video-architecture.html',
     'wuxia-jiangyunxing-architecture.html',
     'yuan-kuocheng-architecture.html',

@@ -32,22 +32,29 @@
   <main>
     <p class="eyebrow">AgenticAP · Architecture diagrams</p>
     <h1>AgenticAP 动态架构图集</h1>
-    <p class="intro">按标签切换系统总览、发票处理和 Chat 检索路径。每张图保留 Archify 的交互控件，可在图内开启动画、播放引导章节并探索节点。</p>
+    <p class="intro">从发票摄取与自校验、文档检索，到批量 CLI 和后台任务的版本追踪。图集按源码里的独立实现流程组织。</p>
+    <p class="evidence" aria-label="实现依据">
+      <span>实现依据：</span>
+      <a href="https://github.com/williamjxj/AgenticAP/blob/main/scripts/process_invoices.py" target="_blank" rel="noreferrer">批量 CLI</a>
+      <a href="https://github.com/williamjxj/AgenticAP/blob/main/interface/api/routes/invoices.py" target="_blank" rel="noreferrer">发票处理 API</a>
+      <a href="https://github.com/williamjxj/AgenticAP/blob/main/core/jobs.py" target="_blank" rel="noreferrer">后台任务处理器</a>
+      <a href="https://github.com/williamjxj/AgenticAP/blob/main/ingestion/orchestrator.py" target="_blank" rel="noreferrer">摄取编排</a>
+      <a href="https://github.com/williamjxj/AgenticAP/blob/main/docs/duplicate-processing-logic.md" target="_blank" rel="noreferrer">重复文件版本逻辑</a>
+    </p>
 
-    <div class="tabs" role="tablist" aria-label="AgenticAP 架构图">
-      <button class="tab" id="tab-system" type="button" role="tab" aria-selected="true" aria-controls="panel-system" tabindex="0">系统架构总览</button>
-      <button class="tab" id="tab-ingestion" type="button" role="tab" aria-selected="false" aria-controls="panel-ingestion" tabindex="-1">发票摄取与自校验</button>
-      <button class="tab" id="tab-rag" type="button" role="tab" aria-selected="false" aria-controls="panel-rag" tabindex="-1">Chat · RAG 查询路径</button>
+    <div class="tabs" role="tablist" aria-label="AgenticAP 流程图">
+      <button class="tab" id="tab-ingestion" type="button" role="tab" aria-selected="true" aria-controls="panel-ingestion" tabindex="0">发票摄取与自校验</button>
+      <button class="tab" id="tab-rag" type="button" role="tab" aria-selected="false" aria-controls="panel-rag" tabindex="-1">RAG 检索路径</button>
+      <button class="tab" id="tab-jobs" type="button" role="tab" aria-selected="false" aria-controls="panel-jobs" tabindex="-1">批量处理与后台任务</button>
     </div>
-
-    <section class="panel" id="panel-system" role="tabpanel" aria-labelledby="tab-system">
-      <iframe title="AgenticAP 系统架构总览" src="agenticap-diagrams/agenticap-architecture.html" loading="eager" allow="fullscreen"></iframe>
-    </section>
-    <section class="panel" id="panel-ingestion" role="tabpanel" aria-labelledby="tab-ingestion" hidden>
-      <iframe title="AgenticAP 发票摄取与自校验流程" src="agenticap-diagrams/agenticap-ingestion.html" loading="lazy" allow="fullscreen"></iframe>
+    <section class="panel" id="panel-ingestion" role="tabpanel" aria-labelledby="tab-ingestion">
+      <iframe title="AgenticAP 发票摄取与自校验流程" src="agenticap-diagrams/agenticap-ingestion.html" loading="eager" allow="fullscreen"></iframe>
     </section>
     <section class="panel" id="panel-rag" role="tabpanel" aria-labelledby="tab-rag" hidden>
-      <iframe title="AgenticAP Chat RAG 查询路径" src="agenticap-diagrams/agenticap-rag.html" loading="lazy" allow="fullscreen"></iframe>
+      <iframe title="AgenticAP RAG 检索路径" src="agenticap-diagrams/agenticap-rag.html" loading="lazy" allow="fullscreen"></iframe>
+    </section>
+    <section class="panel" id="panel-jobs" role="tabpanel" aria-labelledby="tab-jobs" hidden>
+      <iframe title="AgenticAP 批量处理、后台任务与版本追踪" src="agenticap-diagrams/agenticap-background-jobs.html" loading="lazy" allow="fullscreen"></iframe>
     </section>
     <p class="hint">提示：可以使用图表右上角的“动态 / 演示”控件，也可以选择图表顶部的引导章节来追踪各条处理路径。</p>
   </main>

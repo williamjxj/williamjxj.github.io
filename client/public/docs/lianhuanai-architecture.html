@@ -32,7 +32,7 @@
   <main>
     <p class="eyebrow">LianHuanAI · Traditional Comic Generation</p>
     <h1>LianHuanAI 动态架构图集</h1>
-    <p class="intro">从题材与场景规划，到白描提示词、图像后端、Vision QA 和宣纸做旧成品；也可切换查看批量生成与基于历史故事重新出图的工作流。</p>
+    <p class="intro">聚焦两条实际操作路径：批量生成连环画，以及复用已有故事重新生成画面；省略与这些路径重复的泛化架构总览。</p>
     <p class="note">实现说明：Vision QA 明确判定空白、彩色泄漏、现代元素、人体畸变或非连环画风格时会触发重试；质检 API 异常或空响应则按当前代码放行。配置与 README 中个别后端“默认值”说明存在版本痕迹，本图以 <code>src/main.py</code> 的运行分支和 <code>config.yaml</code> 当前值为准。</p>
     <div class="evidence" aria-label="实现依据">
       <span>实现依据：</span>
@@ -42,14 +42,16 @@
       <a href="https://github.com/williamjxj/LianHuanAI/blob/main/src/image_engine/post_process.py" target="_blank" rel="noreferrer">图像后处理</a>
       <a href="https://github.com/williamjxj/LianHuanAI/blob/main/config.yaml" target="_blank" rel="noreferrer">当前配置</a>
     </div>
-    <div class="tabs" role="tablist" aria-label="LianHuanAI 流程图">
-      <button class="tab" id="tab-architecture" type="button" role="tab" aria-selected="true" aria-controls="panel-architecture" tabindex="0">系统架构</button>
-      <button class="tab" id="tab-batch" type="button" role="tab" aria-selected="false" aria-controls="panel-batch" tabindex="-1">批量生成</button>
-      <button class="tab" id="tab-regen" type="button" role="tab" aria-selected="false" aria-controls="panel-regen" tabindex="-1">重新出图</button>
+    <div class="tabs" role="tablist" aria-label="LianHuanAI 工作流">
+      <button class="tab" id="tab-batch" type="button" role="tab" aria-selected="true" aria-controls="panel-batch" tabindex="0">批量连环画生成</button>
+      <button class="tab" id="tab-regen" type="button" role="tab" aria-selected="false" aria-controls="panel-regen" tabindex="-1">复用故事重新出图</button>
     </div>
-    <section class="panel" id="panel-architecture" role="tabpanel" aria-labelledby="tab-architecture"><iframe title="LianHuanAI 系统架构" src="lianhuanai-diagrams/lianhuanai-architecture.html" loading="eager" allow="fullscreen"></iframe></section>
-    <section class="panel" id="panel-batch" role="tabpanel" aria-labelledby="tab-batch" hidden><iframe title="LianHuanAI 批量生成流程" src="lianhuanai-diagrams/lianhuanai-batch.html" loading="lazy" allow="fullscreen"></iframe></section>
-    <section class="panel" id="panel-regen" role="tabpanel" aria-labelledby="tab-regen" hidden><iframe title="LianHuanAI 重新出图流程" src="lianhuanai-diagrams/lianhuanai-regen.html" loading="lazy" allow="fullscreen"></iframe></section>
+    <section class="panel" id="panel-batch" role="tabpanel" aria-labelledby="tab-batch">
+      <iframe title="LianHuanAI 批量连环画生成" src="lianhuanai-diagrams/lianhuanai-batch.html" loading="eager" allow="fullscreen"></iframe>
+    </section>
+    <section class="panel" id="panel-regen" role="tabpanel" aria-labelledby="tab-regen" hidden>
+      <iframe title="LianHuanAI 复用故事重新出图" src="lianhuanai-diagrams/lianhuanai-regen.html" loading="lazy" allow="fullscreen"></iframe>
+    </section>
     <p class="hint">使用图表内的追踪动画、引导视图和节点探索控件；标签支持鼠标、方向键、Home 和 End 键切换。</p>
   </main>
   <script src="../js/docs-shell.js"></script>

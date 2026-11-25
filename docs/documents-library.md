@@ -8,20 +8,22 @@ frontend craft, and resources.
 
 ## Git Apps diagram collection
 
-The **Git Apps / Git 项目** topic groups nine interactive, tabbed architecture and workflow
-galleries. Each gallery opens from its document card and is also listed in the curated reader:
+The **Git Apps / Git 项目** topic groups ten interactive workflow galleries. Each gallery opens
+from its document card and is also listed in the curated reader. Diagram counts follow the
+repository’s distinct implemented workflows; they intentionally vary by project:
 
-| Project | Diagram gallery | Repository |
+| Project | Workflow diagrams | Diagram count | Repository |
 | --- | --- | --- |
-| AgenticAP | [Open diagrams](../client/public/docs/agenticap-architecture-diagrams.html) | [GitHub](https://github.com/williamjxj/AgenticAP) |
-| AgenticOmni | [Open diagrams](../client/public/docs/agenticomni-architecture.html) | [GitHub](https://github.com/williamjxj/AgenticOmni) |
-| LianHuanAI | [Open diagrams](../client/public/docs/lianhuanai-architecture.html) | [GitHub](https://github.com/williamjxj/LianHuanAI) |
-| wenyan2video | [Open diagrams](../client/public/docs/wenyan2video-architecture.html) | [GitHub](https://github.com/williamjxj/wenyan2video) |
-| Jin Yong QLoRA fine-tuning | [Open diagrams](../client/public/docs/jinyong-finetune-qlora-architecture.html) | [GitHub](https://github.com/jxjwilliam/jinyong-finetune-qlora) |
-| Wuxia Jiangyunxing | [Open diagrams](../client/public/docs/wuxia-jiangyunxing-architecture.html) | [GitHub](https://github.com/jxjwilliam/wuxia-jiangyunxing) |
-| hairflow | [Open diagrams](../client/public/docs/hairflow-architecture.html) | [GitHub](https://github.com/jxjwilliam/hairflow) |
-| Yuan Kuocheng voice project | [Open diagrams](../client/public/docs/yuan-kuocheng-architecture.html) | [GitHub](https://github.com/jxjwilliam/yuan_kuocheng) |
-| Everheart | [Open diagrams](../client/public/docs/everheart-architecture.html) | [GitHub](https://github.com/williamjxj/everheart) |
+| AgenticAP | [Open diagrams](../client/public/docs/agenticap-architecture-diagrams.html) | 3 | [GitHub](https://github.com/williamjxj/AgenticAP) |
+| AgenticOmni | [Open diagrams](../client/public/docs/agenticomni-architecture.html) | 2 | [GitHub](https://github.com/williamjxj/AgenticOmni) |
+| LianHuanAI | [Open diagrams](../client/public/docs/lianhuanai-architecture.html) | 2 | [GitHub](https://github.com/williamjxj/LianHuanAI) |
+| wenyan2video | [Open diagrams](../client/public/docs/wenyan2video-architecture.html) | 3 | [GitHub](https://github.com/williamjxj/wenyan2video) |
+| Jin Yong QLoRA fine-tuning | [Open diagrams](../client/public/docs/jinyong-finetune-qlora-architecture.html) | 3 | [GitHub](https://github.com/jxjwilliam/jinyong-finetune-qlora) |
+| Wuxia Jiangyunxing | [Open diagrams](../client/public/docs/wuxia-jiangyunxing-architecture.html) | 1 | [GitHub](https://github.com/jxjwilliam/wuxia-jiangyunxing) |
+| hairflow | [Open diagrams](../client/public/docs/hairflow-architecture.html) | 4 | [GitHub](https://github.com/jxjwilliam/hairflow) |
+| Yuan Kuocheng voice project | [Open diagrams](../client/public/docs/yuan-kuocheng-architecture.html) | 3 | [GitHub](https://github.com/jxjwilliam/yuan_kuocheng) |
+| Everheart | [Open diagrams](../client/public/docs/everheart-architecture.html) | 6 | [GitHub](https://github.com/williamjxj/everheart) |
+| RunningHub NSFW Generator | [Open diagrams](../client/public/docs/nsfw-app-architecture.html) | 5 | [GitHub](https://github.com/jxjwilliam/nsfw-app) |
 
 On `/docs/` and the homepage Documents section, select **Git Apps** in the topic filter to show
 this collection. The shared bilingual metadata and generated catalog provide the titles, links,

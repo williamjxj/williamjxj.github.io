@@ -12,7 +12,7 @@
 <body><main>
   <p class="eyebrow">wenyan2video · Classical Story to Short Video</p>
   <h1>wenyan2video 动态架构图集</h1>
-  <p class="intro">从古籍原文生成口播稿与分镜，合成配音和字幕，生成场景插图，最后通过 FFmpeg 运镜、混音并输出视频。图集也展示批量任务状态与本地 Web 面板。</p>
+  <p class="intro">从单集制作与批量任务，到故事变体选择和重抽配置；图集对应仓库实现的生产路径与变体机制。</p>
   <p class="note">当前配置把 9:16 竖版比例保留为配置项但权重设为 0，因此批量变体选择 16:9，成片输出为 1920×1080。任务状态为 success 的故事会跳过；单集失败记入状态后，批量 runner 会继续处理后续故事。</p>
   <div class="evidence" aria-label="实现依据"><span>实现依据：</span>
     <a href="https://github.com/williamjxj/wenyan2video/blob/main/README.md" target="_blank" rel="noreferrer">项目说明</a>
@@ -21,15 +21,21 @@
     <a href="https://github.com/williamjxj/wenyan2video/blob/main/pipeline/render.py" target="_blank" rel="noreferrer">FFmpeg 合成</a>
     <a href="https://github.com/williamjxj/wenyan2video/blob/main/webui/server.mjs" target="_blank" rel="noreferrer">Web 面板服务</a>
   </div>
-  <div class="tabs" role="tablist" aria-label="wenyan2video 流程图">
-    <button class="tab" id="tab-architecture" type="button" role="tab" aria-selected="true" aria-controls="panel-architecture" tabindex="0">系统架构</button>
-    <button class="tab" id="tab-pipeline" type="button" role="tab" aria-selected="false" aria-controls="panel-pipeline" tabindex="-1">单集生产流程</button>
-    <button class="tab" id="tab-ops" type="button" role="tab" aria-selected="false" aria-controls="panel-ops" tabindex="-1">批量任务与恢复</button>
-  </div>
-  <section class="panel" id="panel-architecture" role="tabpanel" aria-labelledby="tab-architecture"><iframe title="wenyan2video 系统架构" src="wenyan2video-diagrams/wenyan2video-architecture.html" loading="eager" allow="fullscreen"></iframe></section>
-  <section class="panel" id="panel-pipeline" role="tabpanel" aria-labelledby="tab-pipeline" hidden><iframe title="wenyan2video 单集生产流程" src="wenyan2video-diagrams/wenyan2video-pipeline.html" loading="lazy" allow="fullscreen"></iframe></section>
-  <section class="panel" id="panel-ops" role="tabpanel" aria-labelledby="tab-ops" hidden><iframe title="wenyan2video 批量任务调度与恢复" src="wenyan2video-diagrams/wenyan2video-batch-ops.html" loading="lazy" allow="fullscreen"></iframe></section>
-  <p class="hint">每张图内可使用追踪动画、引导章节和节点探索；标签支持鼠标、方向键、Home 与 End 键切换。</p>
+  <div class="tabs" role="tablist" aria-label="wenyan2video 工作流">
+      <button class="tab" id="tab-pipeline" type="button" role="tab" aria-selected="true" aria-controls="panel-pipeline" tabindex="0">单集制作流水线</button>
+      <button class="tab" id="tab-ops" type="button" role="tab" aria-selected="false" aria-controls="panel-ops" tabindex="-1">批量任务与 Web 面板</button>
+      <button class="tab" id="tab-variants" type="button" role="tab" aria-selected="false" aria-controls="panel-variants" tabindex="-1">故事变体与重抽</button>
+    </div>
+    <section class="panel" id="panel-pipeline" role="tabpanel" aria-labelledby="tab-pipeline">
+      <iframe title="wenyan2video 单集制作流水线" src="wenyan2video-diagrams/wenyan2video-pipeline.html" loading="eager" allow="fullscreen"></iframe>
+    </section>
+    <section class="panel" id="panel-ops" role="tabpanel" aria-labelledby="tab-ops" hidden>
+      <iframe title="wenyan2video 批量任务与 Web 面板" src="wenyan2video-diagrams/wenyan2video-batch-ops.html" loading="lazy" allow="fullscreen"></iframe>
+    </section>
+    <section class="panel" id="panel-variants" role="tabpanel" aria-labelledby="tab-variants" hidden>
+      <iframe title="wenyan2video 故事变体与重抽流程" src="wenyan2video-diagrams/wenyan2video-variants.html" loading="lazy" allow="fullscreen"></iframe>
+    </section>
+    <p class="hint">每张图内可使用追踪动画、引导章节和节点探索；标签支持鼠标、方向键、Home 与 End 键切换。</p>
 </main><script src="../js/docs-shell.js"></script><script>
 (()=>{const tabs=[...document.querySelectorAll('[role="tab"]')];const panels=tabs.map(tab=>document.getElementById(tab.getAttribute('aria-controls')));function activate(index,moveFocus=false){tabs.forEach((tab,i)=>{const selected=i===index;tab.setAttribute('aria-selected',String(selected));tab.tabIndex=selected?0:-1;panels[i].hidden=!selected});if(moveFocus)tabs[index].focus()}tabs.forEach((tab,index)=>{tab.addEventListener('click',()=>activate(index));tab.addEventListener('keydown',event=>{let next=index;if(event.key==='ArrowRight'||event.key==='ArrowDown')next=(index+1)%tabs.length;else if(event.key==='ArrowLeft'||event.key==='ArrowUp')next=(index+tabs.length-1)%tabs.length;else if(event.key==='Home')next=0;else if(event.key==='End')next=tabs.length-1;else return;event.preventDefault();activate(next,true)})})})();
 </script></body></html>

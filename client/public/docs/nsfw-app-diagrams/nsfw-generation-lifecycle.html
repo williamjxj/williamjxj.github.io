@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="archify 2.17.0-dev.0">
-  <title>yuan_kuocheng 工作流架构</title>
+  <title>NSFW Generator · Job Lifecycle</title>
   <script>
     // Resolve the theme before first paint so light-preference users don't
     // see a dark flash. The toolbar script below re-applies with UI state.
@@ -4955,11 +4955,11 @@
            data-preset-badge-blueprint="蓝图 / 修订 01"
            data-preset-badge-editorial="编辑风格 / 现场笔记">
         <div class="pulse-dot"></div>
-        <h1>yuan_kuocheng 工作流架构</h1>
+        <h1>NSFW Generator · Job Lifecycle</h1>
       </div>
     </div>
 
-    <script id="archify-guided-views-data" type="application/json">[]</script>
+    <script id="archify-guided-views-data" type="application/json">[{"id":"confirm","label":"确认并提交","focus":["plan","confirm","submit","job"],"note":"确认时读取未过期的 planId，再按计划模式提交任务并创建 jobId 与运行记录。"},{"id":"poll-result","label":"轮询与收尾","focus":["status","terminal","success","failure"],"note":"UI 每约 8 秒轮询状态；成功下载媒体并更新记录，失败或超时保存错误。"}]</script>
 
     <script id="archify-i18n-data" type="application/json">{"locale":"zh-CN","messages":{"viewer.kind.frontend":"前端","viewer.kind.backend":"后端","viewer.kind.database":"数据库","viewer.kind.cloud":"云服务","viewer.kind.security":"安全","viewer.kind.messagebus":"消息总线","viewer.kind.external":"外部系统","viewer.kind.neutral":"中性","viewer.kind.node":"节点","viewer.kind.start":"开始","viewer.kind.active":"活动","viewer.kind.waiting":"等待","viewer.kind.decision":"决策","viewer.kind.success":"成功","viewer.kind.failure":"失败","viewer.toolbar.actions":"图表操作","viewer.theme.toggle.title":"切换主题（T）","viewer.theme.toggle":"切换颜色主题","viewer.theme.dark":"深色","viewer.theme.light":"浅色","viewer.preset.choose.title":"选择视觉风格（S 循环切换）","viewer.preset.choose":"选择视觉风格","viewer.preset.style":"风格","viewer.preset.menu":"视觉风格","viewer.preset.identity":"视觉表达","viewer.preset.cycles":"S 循环切换","viewer.preset.classic":"经典","viewer.preset.classic.short":"经典","viewer.preset.classic.hint":"稳定的技术默认风格","viewer.preset.flow":"信号流","viewer.preset.flow.short":"流动","viewer.preset.flow.hint":"突出动态流向","viewer.preset.blueprint":"蓝图","viewer.preset.blueprint.hint":"工程评审","viewer.preset.editorial":"编辑风格","viewer.preset.editorial.hint":"适合发布与上线说明","viewer.preset.badge.signalFlow":"信号流","viewer.preset.badge.blueprint":"蓝图 / 修订 01","viewer.preset.badge.editorial":"编辑风格 / 现场笔记","viewer.preset.badge.editorialPlate":"ARCHIFY / 图版 04","viewer.preset.current":"当前视觉风格：{style}。选择视觉风格","viewer.motion.live":"动态","viewer.motion.still":"静态","viewer.motion.pause":"暂停动效","viewer.motion.resume":"恢复动效","viewer.motion.reduced":"已根据减少动态效果偏好暂停动效","viewer.motion.hidden":"页面不可见时已暂停动效","viewer.motion.yielding":"暂停动效；当前让位于{owner}","viewer.motion.yielding.title":"动态预览已启用 · 正在让位于{owner}","viewer.owner.story":"引导故事","viewer.owner.chapter":"当前章节","viewer.owner.chapterPreview":"章节差异预览","viewer.owner.handoff":"章节交接","viewer.owner.route":"路径探测","viewer.owner.lens":"语义透镜","viewer.owner.relationship":"关系预览","viewer.owner.intent":"意图追踪","viewer.owner.focus":"语义聚焦","viewer.owner.legend":"图例预览","viewer.owner.reader":"读者交互","viewer.present.enter":"进入演示模式","viewer.present.enter.title":"演示模式（F）","viewer.present.exit":"退出演示模式","viewer.present.exit.title":"退出演示模式（F 或 Escape）","viewer.present.present":"演示","viewer.present.exit.label":"退出","viewer.export.button":"导出","viewer.export.button.title":"导出图表（E）","viewer.export.diagram":"导出图表","viewer.export.menu":"导出","viewer.export.subtitle":"便携、整洁的输出","viewer.export.share":"分享","viewer.export.shareCard":"分享卡片","viewer.export.routeShareCard":"路径分享卡片","viewer.export.reachShareCard":"可达范围分享卡片","viewer.export.copyShareCard":"复制分享卡片","viewer.export.copyDiagram":"复制图表","viewer.export.clipboardPng":"复制 PNG 到剪贴板","viewer.export.raster":"位图","viewer.export.image":"图像","viewer.export.lossless":"无损图像","viewer.export.compact":"紧凑图像","viewer.export.modern":"现代图像格式","viewer.export.vectorMotion":"矢量与动效","viewer.export.vectorMotion.heading":"矢量与动效","viewer.export.editable":"可编辑矢量图","viewer.export.motion6s":"6 秒动效","viewer.export.unsupported":"当前浏览器不支持","viewer.export.clipboardUnsupported":"当前浏览器不支持写入图片剪贴板","viewer.export.clipboardUnsupported.period":"当前浏览器不支持写入图片剪贴板。","viewer.export.clipboardUnsupported.short":"此浏览器不支持写入图片剪贴板。","viewer.export.motionUnavailable":"当前浏览器无法录制动效","viewer.export.webmUnavailable":"当前浏览器不支持 WebM","viewer.export.failed":"导出失败：{message}","viewer.export.unknownVariant":"未知的分享卡片类型：{variant}","viewer.export.routeRequired":"请先追踪路径，再导出路径分享卡片","viewer.export.reachRequired":"请先追踪编写可达范围，再导出可达范围分享卡片","viewer.export.unknown":"未知错误","viewer.export.routeFailed":"路径分享卡片导出失败：{message}","viewer.export.reachFailed":"可达范围分享卡片导出失败：{message}","viewer.export.copyFailed":"复制失败：{message}","viewer.export.copiedPng":"已将 PNG 复制到剪贴板","viewer.export.copiedShare":"已复制分享卡片","viewer.export.downloadedShare":"已下载分享卡片","viewer.export.downloadedRoute":"已下载路径分享卡片","viewer.export.downloadedReach":"已下载可达范围分享卡片","viewer.export.downloadedWebm":"已下载 WebM","viewer.export.recording":"正在录制 6 秒动效…","viewer.export.card.routeSummary.one":"路径：{source} → {target} · {count} 个有向跳转","viewer.export.card.routeSummary.other":"路径：{source} → {target} · {count} 个有向跳转","viewer.export.card.reachSummary":"从{origin}开始的编写{direction} · {nodes} · {links} · 最深 {hops}","viewer.export.card.node.one":"{count} 个节点","viewer.export.card.node.other":"{count} 个节点","viewer.export.card.link.one":"{count} 条连接","viewer.export.card.link.other":"{count} 条连接","viewer.export.card.hop.one":"{count} 跳","viewer.export.card.hop.other":"{count} 跳","viewer.export.card.routeBadge":"ARCHIFY · 路径 · {hops}","viewer.export.card.reachBadge":"ARCHIFY · {direction}可达范围","viewer.export.card.defaultBadge":"ARCHIFY · {preset} · {theme}","viewer.export.direction.upstream":"上游","viewer.export.direction.downstream":"下游","viewer.export.error.canvasUnavailable":"无法为{label}使用画布","viewer.export.error.contextUnavailable":"无法为{label}创建二维画布上下文","viewer.export.error.toBlobUnavailable":"{label}无法使用 canvas.toBlob","viewer.export.error.toBlobNull":"{label}的 canvas.toBlob 未返回数据","viewer.export.error.variantsCombined":"无法同时组合多种分享卡片类型","viewer.export.error.viewerState":"分享卡片导出无法移除临时 Viewer 状态","viewer.export.error.routeState":"路径卡片导出无法安全保留已解析路径","viewer.export.error.reachState":"可达范围卡片导出无法安全保留编写的可达范围","viewer.export.error.webmRequirements":"WebM 动效导出需要追踪动画及浏览器 MediaRecorder 支持","viewer.export.error.mediaRecorder":"MediaRecorder 录制失败","viewer.export.error.emptyWebm":"MediaRecorder 生成了空的 WebM","viewer.export.error.webmBackground":"无法为 WebM 导出加载 SVG 背景","viewer.guided.region":"图表引导视图","viewer.guided.previous":"上一个引导视图","viewer.guided.previous.title":"上一个引导视图（[）","viewer.guided.next":"下一个引导视图","viewer.guided.next.title":"下一个引导视图（]）","viewer.guided.views":"引导视图","viewer.guided.explore":"探索此系统","viewer.guided.intro":"沿精选路径逐步查看，而不改变源图表。","viewer.guided.trail":"故事轨迹","viewer.guided.beat":"节点","viewer.guided.nextBeat":"下一步","viewer.guided.play":"播放引导故事","viewer.guided.play.title":"播放引导故事（P）","viewer.guided.pause":"暂停引导故事","viewer.guided.pause.title":"暂停引导故事（P）","viewer.guided.replay":"重播引导故事","viewer.guided.replay.title":"重播引导故事（P）","viewer.guided.playStory":"播放故事","viewer.guided.pauseStory":"暂停","viewer.guided.replayStory":"重播故事","viewer.guided.motionUnavailable":"静态模式下无法播放故事","viewer.guided.enableMotion":"切换为动态模式以播放引导故事","viewer.guided.selectBeatLink":"选择故事节点以复制其精确链接","viewer.guided.copyMoment":"复制此刻","viewer.guided.momentCopied":"已复制时刻链接","viewer.guided.momentCopyFailed":"无法复制故事时刻链接","viewer.guided.copied":"已复制","viewer.guided.copyFailed":"复制失败","viewer.guided.showAll":"显示全部","viewer.guided.showAll.aria":"显示完整图表","viewer.guided.chapters":"故事章节","viewer.guided.storyTrail":"{label}的故事轨迹：{count} 个节点","viewer.guided.chapter.open":"打开第 {index}/{total} 章：{label}，{count} 个停靠点","viewer.guided.chapter.current":"当前第 {index}/{total} 章：{label}，{count} 个停靠点","viewer.guided.chapter.selectedNodes":"已选择 {count} 个节点","viewer.guided.chapter.stops":"{count} 个停靠点","viewer.guided.chapter.stop.one":"{count} 个停靠点","viewer.guided.chapter.stop.other":"{count} 个停靠点","viewer.guided.chapter.current.title":"{label} — 当前章节，{count} 个停靠点","viewer.guided.chapter.delta.expanded":"{stay} 个保留，{enter} 个进入，{leave} 个离开","viewer.guided.chapter.delta.aria":"打开第 {index}/{total} 章：{label}。章节聚焦差异：{delta}","viewer.guided.chapter.delta.title":"{label} — 章节聚焦 {delta}","viewer.guided.handoff":"{from} → {to} · 经由{label}","viewer.guided.share.chapter":"章节 {index} / {total}","viewer.guided.share.initial":"章节 01 / 01","viewer.guided.share.default":"引导章节","viewer.guided.state.ready":"就绪","viewer.guided.state.playing":"播放中","viewer.guided.state.settled":"已完成","viewer.guided.state.paused":"已暂停","viewer.guided.state.pinned":"已固定","viewer.guided.state.still":"静态","viewer.guided.share.step":"步骤 {index} / {total} · {label}","viewer.guided.share.staticMoment":"{step} · 静态时刻","viewer.guided.share.complete":"{count} 个步骤已完成 · {note}","viewer.guided.share.settled":"路径已稳定，可供阅读。","viewer.guided.share.staticPath":"{count} 个步骤 · 静态路径","viewer.guided.share.ready":"{count} 个步骤 · 就绪","viewer.guided.share.aria":"{state}，第 {index}/{total} 章：{label}。{beat}。{route}","viewer.guided.beat.start":"节点 {index} / {total} · {label} · 起点","viewer.guided.beat.forward":"节点 {index} / {total} · {from} → {to}","viewer.guided.beat.reverse":"节点 {index} / {total} · {from} → {to} · 反向编写连接","viewer.guided.beat.multiple":"节点 {index} / {total} · {from} ⇄ {to} · {count} 条编写连接","viewer.guided.beat.group":"节点 {index} / {total} · {from} · {to} · 分组 · 无直接连接","viewer.guided.beat.aria.prefix":"故事节点 {index}/{total}：{label}。","viewer.guided.beat.aria.start":"起点。","viewer.guided.beat.aria.forward":"从{from}经一条正向编写关系到达。","viewer.guided.beat.aria.reverse":"从{from}出发；编写关系实际由{to}指向{from}。","viewer.guided.beat.aria.multiple":"从{from}经 {count} 条编写关系到达；不使用任意动效。","viewer.guided.beat.aria.group":"与{from}分组展示，没有直接编写关系。","viewer.guided.caption.start":"起点","viewer.guided.caption.grouped":"分组过渡 · 无直接编写连接","viewer.guided.caption.more":" +另外 {count} 条","viewer.guided.caption.reverse":"反向编写关系","viewer.guided.caption.relationships":"{count} 条编写关系","viewer.guided.caption.relationship":"编写关系","viewer.guided.caption.direction":"编写方向：{from} → {to}","viewer.guided.caption.starting":"编写起点","viewer.guided.beatLink":"复制当前故事时刻链接：第 {index}/{total} 个节点：{label}","viewer.guided.noStory":"此图表没有编写引导故事。","viewer.guide.eyebrow":"图表指南","viewer.guide.close":"关闭图表指南","viewer.guide.inspecting":"正在检查已编译语义","viewer.guide.actions":"图表探索操作","viewer.guide.find":"查找任意节点","viewer.guide.find.hint":"搜索标签、职责、类型和稳定 ID。","viewer.guide.route":"追踪路径","viewer.guide.route.aria":"追踪有向路径","viewer.guide.route.hint":"查看两个语义节点如何按编写方向连接。","viewer.guide.map":"查看完整系统","viewer.guide.map.hint":"打开带实时视口和稳定节点的语义雷达。","viewer.guide.lens":"比较语义类型","viewer.guide.lens.hint":"统计角色、显示流量并比较直接编写的连接。","viewer.guide.story":"播放引导故事","viewer.guide.story.hint":"浏览已编写的章节和真实关系。","viewer.guide.present":"进入演示模式","viewer.guide.present.hint":"让实时图表占满视口，同时不改变导出。","viewer.guide.shortcuts":"其他键盘快捷键","viewer.guide.shortcut.export":"导出","viewer.guide.shortcut.theme":"主题","viewer.guide.shortcut.style":"风格","viewer.guide.shortcut.reset":"重置","viewer.guide.shortcut.zoomIn":"放大","viewer.guide.shortcut.zoomOut":"缩小","viewer.guide.shortcut.close":"关闭","viewer.guide.facts":"{nodes} · {relationships} · {views}","viewer.guide.fact.node.one":"{count} 个语义节点","viewer.guide.fact.node.other":"{count} 个语义节点","viewer.guide.fact.relationship.one":"{count} 条关系","viewer.guide.fact.relationship.other":"{count} 条关系","viewer.guide.fact.view.one":"{count} 个引导视图","viewer.guide.fact.view.other":"{count} 个引导视图","viewer.guide.story.available.one":"浏览 {count} 个已编写章节及其真实关系。","viewer.guide.story.available.other":"浏览 {count} 个已编写章节及其真实关系。","viewer.guide.story.unavailable":"此图表没有编写引导故事。","viewer.guide.open":"打开图表指南","viewer.guide.noStory":"此图表没有编写引导故事。","viewer.finder.title":"查找节点","viewer.finder.close":"关闭节点查找器","viewer.finder.placeholder":"搜索标签或 ID","viewer.finder.search":"搜索图表节点","viewer.finder.results":"图表节点","viewer.finder.empty":"没有匹配的节点","viewer.finder.result.focus":"聚焦{label}","viewer.finder.result.routeStart":"选择{label}作为路径起点","viewer.finder.result.routeTarget":"选择{label}作为路径终点，{links}","viewer.finder.status.empty":"没有匹配的节点","viewer.finder.status.count.one":"{count} 个匹配节点","viewer.finder.status.count.other":"{count} 个匹配节点","viewer.finder.noun.nodes":"个节点","viewer.finder.link.one":"{count} 条连接","viewer.finder.link.other":"{count} 条连接","viewer.finder.result.focus.one":"聚焦{label}，{count} 条相关连接","viewer.finder.result.focus.other":"聚焦{label}，{count} 条相关连接","viewer.finder.status.filtered":"{visible}/{available} {noun}","viewer.finder.status.all":"{available} {noun}","viewer.passport.eyebrow":"语义护照","viewer.passport.metadata":"节点元数据","viewer.passport.evidence":"已验证的源代码证据","viewer.passport.verified":"已验证来源","viewer.passport.reach":"编写可达范围","viewer.passport.reach.trace":"追踪编写的可达性","viewer.passport.upstream":"上游","viewer.passport.downstream":"下游","viewer.passport.upstream.trace":"追踪上游编写可达性","viewer.passport.downstream.trace":"追踪下游编写可达性","viewer.passport.close":"关闭语义护照","viewer.passport.copy":"复制链接","viewer.passport.copy.focus":"复制聚焦节点的链接","viewer.passport.relations":"关系","viewer.passport.relations.show":"显示关联关系","viewer.passport.relations.hide":"隐藏关联关系","viewer.passport.relations.list":"关联关系","viewer.passport.copyRelation":"复制关系","viewer.passport.copyNode":"复制节点","viewer.passport.copyPinned":"复制固定关系的链接","viewer.passport.copySource":"复制来源节点的链接","viewer.passport.copy.focused.success":"已复制聚焦节点链接","viewer.passport.copy.pinned.success":"已复制固定关系链接","viewer.passport.copy.focused.failed":"无法复制聚焦节点链接","viewer.passport.copy.pinned.failed":"无法复制固定关系链接","viewer.passport.relationship.none":"没有关联关系","viewer.passport.relationship.count.one":"{count} 条关系","viewer.passport.relationship.count.other":"{count} 条关系","viewer.passport.relationship.show.one":"显示 {count} 条关联关系","viewer.passport.relationship.show.other":"显示 {count} 条关联关系","viewer.passport.relationship.summary":"{out} 条出向 · {in} 条入向{loops}","viewer.passport.relationship.loops":" · {count} 条自环","viewer.passport.relationship.explorer":"直接关系浏览器","viewer.passport.relationship.help":"使用方向键浏览关系。按 Enter 或空格键固定详情；按 Escape 清除。","viewer.passport.relationship.loopsBack":"回环","viewer.passport.relationship.connectsTo":"连接到","viewer.passport.relationship.connectsFrom":"连接自","viewer.passport.relationship.pinned":"已固定关系 · {from} → {to} · {label}","viewer.passport.relationship.inspect":"检查第 {index}/{total} 条关系：{from} 到 {to}，{label}。按 Enter 查看详情。","viewer.passport.relationship.group.out":"出向","viewer.passport.relationship.group.in":"入向","viewer.passport.relationship.group.loop":"自环","viewer.passport.relationship.row":"{group}：{relationship}，{neighbor}","viewer.passport.relationship.direction.out":"出 →","viewer.passport.relationship.direction.in":"← 入","viewer.passport.relationship.direction.loop":"自环","viewer.passport.sourceCount.one":"{count} 个已验证来源引用","viewer.passport.sourceCount.other":"{count} 个已验证来源引用","viewer.passport.sourceMarker":"来源","viewer.passport.beacon.one":"{count} 个已验证来源；聚焦此节点以检查","viewer.passport.beacon.other":"{count} 个已验证来源；聚焦此节点以检查","viewer.passport.repository.open":"打开已验证的仓库修订版本 {revision}","viewer.passport.source.open":"打开修订版本 {revision} 中已验证的来源 {path}","viewer.passport.source.openLink":"打开 ↗","viewer.passport.reach.upstream.one":"追踪 {count} 个上游编写节点","viewer.passport.reach.upstream.other":"追踪 {count} 个上游编写节点","viewer.passport.reach.downstream.one":"追踪 {count} 个下游编写节点","viewer.passport.reach.downstream.other":"追踪 {count} 个下游编写节点","viewer.passport.reach.noUpstream":"没有上游编写节点","viewer.passport.reach.noDownstream":"没有下游编写节点","viewer.passport.reach.status":"{direction} · {nodes} 个节点 · {links} 条连接 · 最深 {hops} 跳","viewer.route.eyebrow":"路径探测","viewer.route.start":"选择起点节点","viewer.route.start.find":"查找起点","viewer.route.start.find.aria":"查找路径起点","viewer.route.copy":"复制链接","viewer.route.copy.aria":"复制已追踪路径的链接","viewer.route.clear":"清除","viewer.route.clear.aria":"清除路径探测","viewer.route.traced":"已追踪路径","viewer.route.pickTwo":"在图表中选择两个语义节点","viewer.route.pickOne":"在图表中选择一个语义节点","viewer.route.controls":"路径旅程控制","viewer.route.previous":"上一个路径位置","viewer.route.play":"播放路径旅程","viewer.route.pause":"暂停路径旅程","viewer.route.replay":"重播路径旅程","viewer.route.next":"下一个路径位置","viewer.route.journey":"旅程","viewer.route.pause.label":"暂停","viewer.route.replay.label":"重播","viewer.route.overview":"总览","viewer.route.overview.aria":"显示完整路径总览","viewer.route.instructions":"先选择来源，再选择目标；方向很重要。","viewer.route.destination":"选择从{label}出发的目标","viewer.route.destination.find":"查找目标","viewer.route.destination.find.aria":"查找可达的路径目标","viewer.route.differentDestination":"选择其他目标","viewer.route.distinct":"一条路径需要两个不同的语义节点。","viewer.route.unreachable":"没有通往{label}的有向路径","viewer.route.unreachable.detail":"从{source}无法到达{target}。请选择高亮的目标。","viewer.route.start.instructions":"选择来源。下一步只会显示有向可达的目标。","viewer.route.copy.success":"已复制路径链接","viewer.route.copy.failed":"无法复制路径链接","viewer.route.position":"路径位置 {index}/{total}：{label}","viewer.route.step":"第 {index}/{total} 步 · {phase} · {label}","viewer.route.motionRequired":"自动旅程需要动态模式","viewer.route.trigger.clear":"清除已追踪路径","viewer.route.overview.status":"{nodes} · {hops} · 最短编写路径","viewer.route.overview.node.one":"{count} 个节点","viewer.route.overview.node.other":"{count} 个节点","viewer.route.overview.hop.one":"{count} 个有向跳转","viewer.route.overview.hop.other":"{count} 个有向跳转","viewer.route.phase.playing":"播放中","viewer.route.phase.complete":"已完成","viewer.route.phase.inspecting":"检查中","viewer.route.destination.count.one":"有 {count} 个有向目标可用。请选择高亮节点。","viewer.route.destination.count.other":"有 {count} 个有向目标可用。请选择高亮节点。","viewer.route.noOutgoing":"此处没有可用的出向路径。请清除后选择其他来源。","viewer.route.result.title":"{source} 到 {target}","viewer.route.finder.source.title":"选择路径起点","viewer.route.finder.source.placeholder":"搜索路径来源","viewer.route.finder.source.empty":"没有匹配的路径来源","viewer.route.finder.source.results":"可作为路径起点的节点","viewer.route.finder.source.noun":"个路径来源","viewer.route.finder.source.badge":"起点","viewer.route.finder.target.title":"从{label}出发的目标","viewer.route.finder.target.placeholder":"搜索可达目标","viewer.route.finder.target.empty":"没有匹配的可达目标","viewer.route.finder.target.results":"可达路径目标","viewer.route.finder.target.noun":"个可达目标","viewer.route.hop.one":"{count} 跳","viewer.route.hop.other":"{count} 跳","viewer.lens.eyebrow":"语义透镜","viewer.lens.title":"比较系统角色","viewer.lens.close":"关闭语义透镜","viewer.lens.instruction":"最多选择两种语义类型。选择一种可显示其真实流量；选择两种只比较直接编写的关系。","viewer.lens.kinds":"语义类型","viewer.lens.choose":"选择一种类型以检查其节点和相连关系。","viewer.lens.copy":"复制语义透镜链接","viewer.lens.clear":"清除语义透镜","viewer.lens.open":"打开语义透镜","viewer.lens.openActive":"打开当前语义透镜","viewer.lens.legend":"语义图例","viewer.lens.legend.inspect.one":"检查{label}，{count} 个节点","viewer.lens.legend.inspect.other":"检查{label}，{count} 个节点","viewer.lens.kind.count.one":"{label}，{count} 个节点","viewer.lens.kind.count.other":"{label}，{count} 个节点","viewer.lens.compare.one":"{first} → {second}：{forward} · {second} → {first}：{reverse} · 共 {count} 条直接关系","viewer.lens.compare.other":"{first} → {second}：{forward} · {second} → {first}：{reverse} · 共 {count} 条直接关系","viewer.lens.single":"{nodes} · {relationships} · 已连接节点保持可见","viewer.lens.node.one":"{count} 个{label}节点","viewer.lens.node.other":"{count} 个{label}节点","viewer.lens.relationship.one":"{count} 条相连关系","viewer.lens.relationship.other":"{count} 条相连关系","viewer.radar.title":"语义雷达","viewer.radar.building":"正在构建总览","viewer.radar.openFull":"打开完整语义雷达","viewer.radar.open":"打开雷达","viewer.radar.close":"关闭语义雷达","viewer.radar.surface":"图表总览。点击节点进行聚焦，或使用方向键平移。","viewer.radar.click":"点击节点","viewer.radar.drag":"拖动平移","viewer.radar.space":"语义雷达需要更多地图可见空间。","viewer.radar.nodes":"语义图表雷达节点","viewer.radar.focus":"从语义雷达聚焦{label}","viewer.radar.status":"{count} 个节点 · {viewport}","viewer.radar.fullMap":"{count} 个节点 · 完整地图","viewer.radar.compacted":"已收紧雷达，避免遮挡语义护照或地图控件。","viewer.radar.cancelWaiting":"取消等待更多地图空间的语义雷达","viewer.radar.needsSpace":"语义雷达需要更多可见地图空间","viewer.radar.viewport.full":"完整地图","viewer.radar.viewport.width":"宽度 {percent}%","viewer.radar.viewport.scale":"视口 {percent}%","viewer.nav.controls":"图表视图控制","viewer.nav.route":"追踪有向路径","viewer.nav.route.title":"追踪路径（R）","viewer.nav.route.short":"路径","viewer.nav.radar":"打开语义雷达","viewer.nav.radar.title":"语义雷达（M）","viewer.nav.radar.short":"地图","viewer.nav.lens":"打开语义透镜","viewer.nav.lens.title":"语义透镜（L）","viewer.nav.lens.short":"透镜","viewer.nav.find":"查找节点","viewer.nav.find.title":"查找节点（/）","viewer.nav.guide":"打开图表指南","viewer.nav.guide.title":"图表指南（?）","viewer.nav.zoomOut":"缩小","viewer.nav.zoomOut.title":"缩小（-）","viewer.nav.reset":"重置图表视图","viewer.nav.reset.title":"重置视图（0）","viewer.nav.read":"阅读","viewer.nav.zoomIn":"放大","viewer.nav.zoomIn.title":"放大（+）","viewer.nav.camera":"{hint}。重置图表视图","viewer.nav.camera.title":"{semantic}{hint} · 重置视图（0）","viewer.nav.camera.semantic":"语义相机已启用 · ","viewer.nav.level.map":"概览","viewer.nav.level.read":"阅读","viewer.nav.level.full":"完整","viewer.nav.level.auto":"自动","viewer.nav.detail.map":"放大以显示关系标签和节点上下文","viewer.nav.detail.read":"再次放大以显示标签和注释","viewer.nav.detail.full":"完整图表详情","viewer.intent.summary":"{label}。{out} 条出向，{in} 条入向{loops}。共 {total} 条连接。按 Enter 查看详情。","viewer.intent.loops":"，{count} 条自环","viewer.common.copied":"已复制","viewer.common.copyFailed":"复制失败","viewer.common.copyLink":"复制链接","viewer.common.clear":"清除","viewer.common.close":"关闭"}}</script>
     <div class="guided-views no-print" id="guided-views" hidden aria-label="图表引导视图">
@@ -5004,9 +5004,9 @@
     <!-- Main Diagram -->
     <div class="diagram-container" data-detail-level="read"
          data-preset-badge-editorial-plate="ARCHIFY / 图版 04">
-      <svg viewBox="0 0 1300 640" role="img" lang="zh-CN" aria-labelledby="archify-diagram-title archify-diagram-description" data-animation="trace" data-preset="classic" data-quality-profile="showcase">
-        <title id="archify-diagram-title">yuan_kuocheng 工作流架构</title>
-        <desc id="archify-diagram-description">由 Archify 生成的架构图。</desc>
+      <svg viewBox="0 0 1210 776" role="img" lang="zh-CN" aria-labelledby="archify-diagram-title archify-diagram-description" data-animation="trace" data-preset="classic" data-quality-profile="showcase">
+        <title id="archify-diagram-title">NSFW Generator · Job Lifecycle</title>
+        <desc id="archify-diagram-description">由 Archify 生成的工作流图。</desc>
         <!-- Definitions -->
         <defs>
           <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
@@ -5029,162 +5029,214 @@
         <!-- Background Grid -->
         <rect width="100%" height="100%" fill="url(#grid)" />
 
-        <!-- Boundaries (behind everything) -->
+        <!-- Swimlanes -->
+        <rect data-graph-role="structural-frame" data-composition-frame-kind="lane" data-composition-frame-id="lane-0" x="40" y="52" width="1073" height="104" rx="10" class="c-lane" stroke-width="1"/>
+        <text x="54" y="74" class="t-dim" font-size="10" font-weight="600">01 / 浏览器 UI</text>
+
+        <rect data-graph-role="structural-frame" data-composition-frame-kind="lane" data-composition-frame-id="lane-1" x="40" y="176" width="1073" height="104" rx="10" class="c-lane" stroke-width="1"/>
+        <text x="54" y="198" class="t-dim" font-size="10" font-weight="600">02 / Next.js API</text>
+
+        <rect data-graph-role="structural-frame" data-composition-frame-kind="lane" data-composition-frame-id="lane-2" x="40" y="300" width="1073" height="104" rx="10" class="c-lane" stroke-width="1"/>
+        <text x="54" y="322" class="t-dim" font-size="10" font-weight="600">03 / ComfyUI / RunningHub</text>
+
+        <rect data-graph-role="structural-frame" data-composition-frame-kind="lane" data-composition-frame-id="lane-3" x="40" y="424" width="1073" height="104" rx="10" class="c-lane" stroke-width="1"/>
+        <text x="54" y="446" class="t-dim" font-size="10" font-weight="600">04 / outputs 与记录</text>
+
+        <rect data-graph-role="structural-frame" data-composition-frame-kind="lane" data-composition-frame-id="lane-4" x="40" y="548" width="1073" height="104" rx="10" class="c-lane" stroke-width="1"/>
+        <rect data-graph-role="structural-frame" data-composition-frame-kind="exception-lane" data-composition-frame-id="lane-4-exception" x="46" y="554" width="1061" height="92" rx="8" class="c-security-group" stroke-width="1"/>
+        <text x="54" y="570" class="t-security" font-size="10" font-weight="600">EX / 失败路径</text>
+
+        <!-- Phase headers -->
+        <line x1="84.5" y1="35" x2="520.4" y2="35" class="a-default" stroke-width="1.1"/>
+        <rect x="84.5" y="27" width="435.9" height="16" rx="4" class="c-mask"/>
+        <text x="302.45" y="39" class="t-muted" font-size="8" font-weight="600" text-anchor="middle">确认并启动任务</text>
+        <line x1="548.4" y1="35" x2="760.4" y2="35" class="a-emphasis" stroke-width="1.1"/>
+        <rect x="548.4" y="27" width="212" height="16" rx="4" class="c-mask"/>
+        <text x="654.4" y="39" class="t-backend" font-size="8" font-weight="600" text-anchor="middle">轮询实际后端</text>
+        <line x1="955.9000000000001" y1="35" x2="1047.9" y2="35" class="a-default" stroke-width="1.1"/>
+        <rect x="955.9000000000001" y="27" width="92.00000000000011" height="16" rx="4" class="c-mask"/>
+        <text x="1001.9000000000001" y="39" class="t-muted" font-size="8" font-weight="600" text-anchor="middle">保存结果</text>
+
+        <!-- Workflow groups -->
 
 
-        <!-- Connection paths (before components for correct z-order) -->
-        <path data-edge-from="audio" data-edge-to="prep" data-edge-label="选择音频" data-edge-key="0" data-composition-points="182,298;220,298" d="M 182 298 L 220 298" class="a-default" data-animate="edge" style="--step:0" stroke-width="1.5" marker-end="url(#arrowhead)"/>
-        <path data-edge-from="prep" data-edge-to="dataset" data-edge-label="切片 + 标注" data-edge-key="1" data-composition-points="368,298;406,298" d="M 368 298 L 406 298" class="a-default" data-animate="edge" style="--step:1" stroke-width="1.5" marker-end="url(#arrowhead)"/>
-        <path data-edge-from="dataset" data-edge-to="autodl" data-edge-label="上传训练数据" data-edge-key="2" data-composition-points="554,298;592,298" d="M 554 298 L 592 298" class="a-default" data-animate="edge" style="--step:2" stroke-width="1.5" marker-end="url(#arrowhead)"/>
-        <path data-edge-from="autodl" data-edge-to="models" data-edge-label="导出模型产物" data-edge-key="3" data-composition-points="740,298;778,298" d="M 740 298 L 778 298" class="a-default" data-animate="edge" style="--step:3" stroke-width="1.5" marker-end="url(#arrowhead)"/>
-        <path data-edge-from="models" data-edge-to="pack" data-edge-label="选择候选权重" data-edge-key="4" data-composition-points="926,298;964,298" d="M 926 298 L 964 298" class="a-default" data-animate="edge" style="--step:4" stroke-width="1.5" marker-end="url(#arrowhead)"/>
-        <path data-edge-from="pack" data-edge-to="download" data-edge-label="远端 tarball" data-edge-key="5" data-composition-points="1112,298;1150,298" d="M 1112 298 L 1150 298" class="a-default" data-animate="edge" style="--step:5" stroke-width="1.5" marker-end="url(#arrowhead)"/>
-        <path data-edge-from="download" data-edge-to="inference" data-edge-label="解包后选择权重" data-edge-key="6" data-composition-points="1224,336;1224,388;1038,388;1038,440" d="M 1224 336 L 1224 380 Q 1224 388 1216 388 L 1046 388 Q 1038 388 1038 396 L 1038 440" class="a-default" data-animate="edge" style="--step:6" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <!-- Edge paths -->
+        <path data-edge-from="confirm" data-edge-to="submit" data-edge-label="planId" data-edge-key="0" data-edge-id="confirm-submit" data-composition-points="439.4,119;474.4,119;474.4,217" d="M 439.4 119 L 474.4 119 L 474.4 217" class="a-default" data-animate="edge" style="--step:1" stroke-width="1.4" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="job" data-edge-to="status" data-edge-label="jobId + RUNNING" data-edge-key="1" data-edge-id="job-status" data-composition-points="809.4,243;899.4,243" d="M 809.4 243 L 899.4 243" class="a-emphasis" data-animate="edge" style="--step:4" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
+        <path data-edge-from="plan" data-edge-to="confirm" data-edge-label="人工确认" data-edge-key="2" data-edge-id="plan-confirm" data-composition-points="213,119;269.4,119" d="M 213 119 L 269.4 119" class="a-emphasis" data-animate="edge" style="--step:0" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
+        <path data-edge-from="backend_submit" data-edge-to="job" data-edge-label="taskId" data-edge-key="3" data-edge-id="provider-job" data-composition-points="594.4,341;594.4,290;714.4,290;714.4,269" d="M 594.4 341 L 594.4 290 L 714.4 290 L 714.4 269" class="a-default" data-animate="edge" style="--step:3" stroke-width="1.4" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="status" data-edge-to="terminal" data-edge-label="RUNNING / terminal" data-edge-key="4" data-edge-id="status-terminal" data-composition-points="1104.4,243;1191.801,243;1191.801,367;1099.4,367" d="M 1104.4 243 L 1191.801 243 L 1191.801 367 L 1099.4 367" class="a-default" data-animate="edge" style="--step:5" stroke-width="1.4" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="submit" data-edge-to="backend_submit" data-edge-label="按 plan.mode 提交" data-edge-key="5" data-edge-id="submit-provider" data-composition-points="474.4,269;474.4,290;594.4,290;594.4,341" d="M 474.4 269 L 474.4 290 L 594.4 290 L 594.4 341" class="a-emphasis" data-animate="edge" style="--step:2" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
+        <path data-edge-from="terminal" data-edge-to="failure" data-edge-label="FAILED / timeout" data-edge-key="6" data-edge-id="terminal-failure" data-composition-points="904.4,367;888.4,367;888.4,668;1001.9,668;1001.9,641" d="M 904.4 367 L 888.4 367 L 888.4 668 L 1001.9 668 L 1001.9 641" class="a-security" data-animate="edge" style="--step:12" stroke-width="1.4" marker-end="url(#arrowhead-security)"/>
+        <path data-edge-from="terminal" data-edge-to="success" data-edge-label="SUCCESS" data-edge-key="7" data-edge-id="terminal-success" data-composition-points="1001.9,393;1001.9,414;1117.9,414;1117.9,491;1101.9,491" d="M 1001.9 393 L 1001.9 414 L 1117.9 414 L 1117.9 491 L 1101.9 491" class="a-emphasis" data-animate="edge" style="--step:6" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
 
-        <!-- Components -->
-        <g id="node-audio" data-node-id="audio" data-node-label="袁阔成评书音频" tabindex="0" role="button" aria-label="聚焦袁阔成评书音频，MP3 · 选集与片段, 架构组件" aria-pressed="false" data-node-kind="database" data-node-sublabel="MP3 · 选集与片段" data-node-context="架构组件">
-          <title>袁阔成评书音频 · MP3 · 选集与片段 · 架构组件</title>
-          <rect x="34" y="260" width="148" height="76" rx="6" class="c-mask"/>
-          <rect x="34" y="260" width="148" height="76" rx="6" class="c-database" data-animate="node" style="--step:0" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(40 266) scale(0.6875)">
+        <!-- Nodes -->
+        <g id="node-plan" data-node-id="plan" data-node-label="查看计划卡" tabindex="0" role="button" aria-label="聚焦查看计划卡，planId · 估价 · 路由, 浏览器 UI › 确认并启动任务" aria-pressed="false" data-node-kind="frontend" data-node-sublabel="planId · 估价 · 路由" data-node-context="浏览器 UI › 确认并启动任务">
+          <title>查看计划卡 · planId · 估价 · 路由 · 浏览器 UI › 确认并启动任务</title>
+          <rect x="48" y="93" width="165" height="52" rx="6" class="c-mask"/>
+          <rect x="48" y="93" width="165" height="52" rx="6" class="c-frontend" data-animate="node" style="--step:0" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="frontend" class="semantic-sigil s-frontend" transform="translate(54 99) scale(0.6875)">
+            <rect x="2" y="3" width="12" height="10" rx="2"/>
+            <path d="M2 6.5h12"/>
+            <circle cx="4.1" cy="4.8" r=".7" class="sigil-fill"/>
+            <circle cx="6.3" cy="4.8" r=".7" class="sigil-fill"/>
+          </g>
+          <text data-node-label="" data-detail-anchor="" x="130.5" y="114" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">查看计划卡</text>
+          <text data-detail="context" x="130.5" y="131" class="t-muted" font-size="8" text-anchor="middle">planId · 估价 · 路由</text>
+        </g>
+
+        <g id="node-confirm" data-node-id="confirm" data-node-label="点击 Confirm" tabindex="0" role="button" aria-label="聚焦点击 Confirm，确认后才提交生成, 浏览器 UI › 确认并启动任务" aria-pressed="false" data-node-kind="frontend" data-node-sublabel="确认后才提交生成" data-node-context="浏览器 UI › 确认并启动任务">
+          <title>点击 Confirm · 确认后才提交生成 · 浏览器 UI › 确认并启动任务</title>
+          <rect x="269.4" y="93" width="170" height="52" rx="6" class="c-mask"/>
+          <rect x="269.4" y="93" width="170" height="52" rx="6" class="c-frontend" data-animate="node" style="--step:1" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="frontend" class="semantic-sigil s-frontend" transform="translate(275.4 99) scale(0.6875)">
+            <rect x="2" y="3" width="12" height="10" rx="2"/>
+            <path d="M2 6.5h12"/>
+            <circle cx="4.1" cy="4.8" r=".7" class="sigil-fill"/>
+            <circle cx="6.3" cy="4.8" r=".7" class="sigil-fill"/>
+          </g>
+          <text data-node-label="" data-detail-anchor="" x="354.4" y="114" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">点击 Confirm</text>
+          <text data-detail="context" x="354.4" y="131" class="t-muted" font-size="8" text-anchor="middle">确认后才提交生成</text>
+        </g>
+
+        <g id="node-submit" data-node-id="submit" data-node-label="POST /api/generate" tabindex="0" role="button" aria-label="聚焦POST /api/generate，读取 5 分钟 planId, Next.js API › 确认并启动任务" aria-pressed="false" data-node-kind="backend" data-node-sublabel="读取 5 分钟 planId" data-node-context="Next.js API › 确认并启动任务">
+          <title>POST /api/generate · 读取 5 分钟 planId · Next.js API › 确认并启动任务</title>
+          <rect x="381.9" y="217" width="185" height="52" rx="6" class="c-mask"/>
+          <rect x="381.9" y="217" width="185" height="52" rx="6" class="c-backend" data-animate="node" style="--step:2" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(387.9 223) scale(0.6875)">
+            <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
+          </g>
+          <text data-node-label="" data-detail-anchor="" x="474.4" y="238" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">POST /api/generate</text>
+          <text data-detail="context" x="474.4" y="255" class="t-muted" font-size="8" text-anchor="middle">读取 5 分钟 planId</text>
+        </g>
+
+        <g id="node-job" data-node-id="job" data-node-label="建立 job 记录" tabindex="0" role="button" aria-label="聚焦建立 job 记录，jobId · plan.json · metadata.json, Next.js API › 轮询实际后端" aria-pressed="false" data-node-kind="database" data-node-sublabel="jobId · plan.json · metadata.json" data-node-context="Next.js API › 轮询实际后端">
+          <title>建立 job 记录 · jobId · plan.json · metadata.json · Next.js API › 轮询实际后端</title>
+          <rect x="619.4" y="217" width="190" height="52" rx="6" class="c-mask"/>
+          <rect x="619.4" y="217" width="190" height="52" rx="6" class="c-database" data-animate="node" style="--step:4" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(625.4 223) scale(0.6875)">
             <ellipse cx="8" cy="4" rx="5" ry="2"/>
             <path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="108" y="296" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">袁阔成评书音频</text>
-        <text data-detail="context" x="108" y="312" class="t-muted" font-size="9" text-anchor="middle">MP3 · 选集与片段</text>
+          <text data-node-label="" data-detail-anchor="" x="714.4" y="238" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">建立 job 记录</text>
+          <text data-detail="context" x="714.4" y="255" class="t-muted" font-size="8" text-anchor="middle">jobId · plan.json · metadata.json</text>
         </g>
 
-        <g id="node-prep" data-node-id="prep" data-node-label="数据准备方案" tabindex="0" role="button" aria-label="聚焦数据准备方案，降噪 / 切片 / ASR / 校对, 架构组件" aria-pressed="false" data-node-kind="backend" data-node-sublabel="降噪 / 切片 / ASR / 校对" data-node-context="架构组件">
-          <title>数据准备方案 · 降噪 / 切片 / ASR / 校对 · 架构组件</title>
-          <rect x="220" y="260" width="148" height="76" rx="6" class="c-mask"/>
-          <rect x="220" y="260" width="148" height="76" rx="6" class="c-backend" data-animate="node" style="--step:1" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(226 266) scale(0.6875)">
+        <g id="node-status" data-node-id="status" data-node-label="按 apiMode 查询" tabindex="0" role="button" aria-label="聚焦按 apiMode 查询，UI poll · local / RH / v2, Next.js API › 保存结果" aria-pressed="false" data-node-kind="backend" data-node-sublabel="UI poll · local / RH / v2" data-node-context="Next.js API › 保存结果">
+          <title>按 apiMode 查询 · UI poll · local / RH / v2 · Next.js API › 保存结果</title>
+          <rect x="899.4" y="217" width="205" height="52" rx="6" class="c-mask"/>
+          <rect x="899.4" y="217" width="205" height="52" rx="6" class="c-backend" data-animate="node" style="--step:5" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(905.4 223) scale(0.6875)">
             <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="294" y="296" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">数据准备方案</text>
-        <text data-detail="context" x="294" y="312" class="t-muted" font-size="9" text-anchor="middle">降噪 / 切片 / ASR / 校对</text>
+          <text data-node-label="" data-detail-anchor="" x="1001.9" y="238" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">按 apiMode 查询</text>
+          <text data-detail="context" x="1001.9" y="255" class="t-muted" font-size="8" text-anchor="middle">UI poll · local / RH / v2</text>
         </g>
 
-        <g id="node-dataset" data-node-id="dataset" data-node-label="GPT-SoVITS 数据集" tabindex="0" role="button" aria-label="聚焦GPT-SoVITS 数据集，WAV 片段 + esd.list, 架构组件" aria-pressed="false" data-node-kind="database" data-node-sublabel="WAV 片段 + esd.list" data-node-context="架构组件">
-          <title>GPT-SoVITS 数据集 · WAV 片段 + esd.list · 架构组件</title>
-          <rect x="406" y="260" width="148" height="76" rx="6" class="c-mask"/>
-          <rect x="406" y="260" width="148" height="76" rx="6" class="c-database" data-animate="node" style="--step:2" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(412 266) scale(0.6875)">
-            <ellipse cx="8" cy="4" rx="5" ry="2"/>
-            <path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/>
-          </g>
-          <text data-node-label="" data-detail-anchor="" x="480" y="296" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">GPT-SoVITS 数据集</text>
-        <text data-detail="context" x="480" y="312" class="t-muted" font-size="9" text-anchor="middle">WAV 片段 + esd.list</text>
-        </g>
-
-        <g id="node-autodl" data-node-id="autodl" data-node-label="AutoDL RTX 4090" tabindex="0" role="button" aria-label="聚焦AutoDL RTX 4090，上游 GPT-SoVITS WebUI, 架构组件" aria-pressed="false" data-node-kind="cloud" data-node-sublabel="上游 GPT-SoVITS WebUI" data-node-context="架构组件">
-          <title>AutoDL RTX 4090 · 上游 GPT-SoVITS WebUI · 架构组件</title>
-          <rect x="592" y="260" width="148" height="76" rx="6" class="c-mask"/>
-          <rect x="592" y="260" width="148" height="76" rx="6" class="c-cloud" data-animate="node" style="--step:3" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="cloud" class="semantic-sigil s-cloud" transform="translate(598 266) scale(0.6875)">
-            <path d="M4.3 12.5h7.3a2.4 2.4 0 0 0 .2-4.8 4 4 0 0 0-7.5-1.3A3.1 3.1 0 0 0 4.3 12.5Z"/>
-          </g>
-          <text data-node-label="" data-detail-anchor="" x="666" y="296" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">AutoDL RTX 4090</text>
-        <text data-detail="context" x="666" y="312" class="t-muted" font-size="9" text-anchor="middle">上游 GPT-SoVITS WebUI</text>
-        </g>
-
-        <g id="node-models" data-node-id="models" data-node-label="训练权重与日志" tabindex="0" role="button" aria-label="聚焦训练权重与日志，SoVITS .pth + GPT .ckpt, 架构组件" aria-pressed="false" data-node-kind="database" data-node-sublabel="SoVITS .pth + GPT .ckpt" data-node-context="架构组件">
-          <title>训练权重与日志 · SoVITS .pth + GPT .ckpt · 架构组件</title>
-          <rect x="778" y="260" width="148" height="76" rx="6" class="c-mask"/>
-          <rect x="778" y="260" width="148" height="76" rx="6" class="c-database" data-animate="node" style="--step:4" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(784 266) scale(0.6875)">
-            <ellipse cx="8" cy="4" rx="5" ry="2"/>
-            <path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/>
-          </g>
-          <text data-node-label="" data-detail-anchor="" x="852" y="296" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">训练权重与日志</text>
-        <text data-detail="context" x="852" y="312" class="t-muted" font-size="9" text-anchor="middle">SoVITS .pth + GPT .ckpt</text>
-        </g>
-
-        <g id="node-pack" data-node-id="pack" data-node-label="打包与校验" tabindex="0" role="button" aria-label="聚焦打包与校验，tar.gz + SHA256, 架构组件" aria-pressed="false" data-node-kind="backend" data-node-sublabel="tar.gz + SHA256" data-node-context="架构组件">
-          <title>打包与校验 · tar.gz + SHA256 · 架构组件</title>
-          <rect x="964" y="260" width="148" height="76" rx="6" class="c-mask"/>
-          <rect x="964" y="260" width="148" height="76" rx="6" class="c-backend" data-animate="node" style="--step:5" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(970 266) scale(0.6875)">
-            <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
-          </g>
-          <text data-node-label="" data-detail-anchor="" x="1038" y="296" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">打包与校验</text>
-        <text data-detail="context" x="1038" y="312" class="t-muted" font-size="9" text-anchor="middle">tar.gz + SHA256</text>
-        </g>
-
-        <g id="node-download" data-node-id="download" data-node-label="本地下载器" tabindex="0" role="button" aria-label="聚焦本地下载器，SCP → 验签 → 解包, 架构组件" aria-pressed="false" data-node-kind="backend" data-node-sublabel="SCP → 验签 → 解包" data-node-context="架构组件">
-          <title>本地下载器 · SCP → 验签 → 解包 · 架构组件</title>
-          <rect x="1150" y="260" width="148" height="76" rx="6" class="c-mask"/>
-          <rect x="1150" y="260" width="148" height="76" rx="6" class="c-backend" data-animate="node" style="--step:6" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(1156 266) scale(0.6875)">
-            <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
-          </g>
-          <text data-node-label="" data-detail-anchor="" x="1224" y="296" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">本地下载器</text>
-        <text data-detail="context" x="1224" y="312" class="t-muted" font-size="9" text-anchor="middle">SCP → 验签 → 解包</text>
-        </g>
-
-        <g id="node-inference" data-node-id="inference" data-node-label="本地推理尝试" tabindex="0" role="button" aria-label="聚焦本地推理尝试，GPT-SoVITS WebUI / 权重选择, 架构组件" aria-pressed="false" data-node-kind="external" data-node-sublabel="GPT-SoVITS WebUI / 权重选择" data-node-context="架构组件">
-          <title>本地推理尝试 · GPT-SoVITS WebUI / 权重选择 · 架构组件</title>
-          <rect x="964" y="440" width="148" height="76" rx="6" class="c-mask"/>
-          <rect x="964" y="440" width="148" height="76" rx="6" class="c-external" data-animate="node" style="--step:7" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="external" class="semantic-sigil s-external" transform="translate(970 446) scale(0.6875)">
+        <g id="node-backend_submit" data-node-id="backend_submit" data-node-label="提交选定后端" tabindex="0" role="button" aria-label="聚焦提交选定后端，local prompt · RH Workflow · Standard, ComfyUI / RunningHub › 轮询实际后端" aria-pressed="false" data-node-kind="external" data-node-sublabel="local prompt · RH Workflow · Standard" data-node-context="ComfyUI / RunningHub › 轮询实际后端">
+          <title>提交选定后端 · local prompt · RH Workflow · Standard · ComfyUI / RunningHub › 轮询实际后端</title>
+          <rect x="491.9" y="341" width="205" height="52" rx="6" class="c-mask"/>
+          <rect x="491.9" y="341" width="205" height="52" rx="6" class="c-external" data-animate="node" style="--step:3" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="external" class="semantic-sigil s-external" transform="translate(497.9 347) scale(0.6875)">
             <rect x="2.5" y="5" width="8.5" height="8" rx="1.5"/>
             <path d="M8 2.5h5.5V8M13.5 2.5 7.5 8.5"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="1038" y="476" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">本地推理尝试</text>
-        <text data-detail="context" x="1038" y="492" class="t-muted" font-size="8.6" text-anchor="middle">GPT-SoVITS WebUI / 权重选择</text>
+          <text data-node-label="" data-detail-anchor="" x="594.4" y="362" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">提交选定后端</text>
+          <text data-detail="context" x="594.4" y="379" class="t-muted" font-size="8" text-anchor="middle">local prompt · RH Workflow · Standard</text>
         </g>
 
-        <!-- Connection labels -->
-        <g data-detail="context" data-edge-from="audio" data-edge-to="prep" data-edge-label="选择音频" data-edge-key="0">
-          <rect x="176.8" y="244" width="48.4" height="14" rx="3" class="c-mask"/>
-          <text x="201" y="254" class="t-muted" font-size="8" text-anchor="middle">选择音频</text>
-        </g>
-        <g data-detail="context" data-edge-from="prep" data-edge-to="dataset" data-edge-label="切片 + 标注" data-edge-key="1">
-          <rect x="355.6" y="244" width="62.8" height="14" rx="3" class="c-mask"/>
-          <text x="387" y="254" class="t-muted" font-size="8" text-anchor="middle">切片 + 标注</text>
-        </g>
-        <g data-detail="context" data-edge-from="dataset" data-edge-to="autodl" data-edge-label="上传训练数据" data-edge-key="2">
-          <rect x="539.2" y="244" width="67.6" height="14" rx="3" class="c-mask"/>
-          <text x="573" y="254" class="t-muted" font-size="8" text-anchor="middle">上传训练数据</text>
-        </g>
-        <g data-detail="context" data-edge-from="autodl" data-edge-to="models" data-edge-label="导出模型产物" data-edge-key="3">
-          <rect x="725.2" y="244" width="67.6" height="14" rx="3" class="c-mask"/>
-          <text x="759" y="254" class="t-muted" font-size="8" text-anchor="middle">导出模型产物</text>
-        </g>
-        <g data-detail="context" data-edge-from="models" data-edge-to="pack" data-edge-label="选择候选权重" data-edge-key="4">
-          <rect x="911.2" y="244" width="67.6" height="14" rx="3" class="c-mask"/>
-          <text x="945" y="254" class="t-muted" font-size="8" text-anchor="middle">选择候选权重</text>
-        </g>
-        <g data-detail="context" data-edge-from="pack" data-edge-to="download" data-edge-label="远端 tarball" data-edge-key="5">
-          <rect x="1097.2" y="244" width="67.6" height="14" rx="3" class="c-mask"/>
-          <text x="1131" y="254" class="t-muted" font-size="8" text-anchor="middle">远端 tarball</text>
-        </g>
-        <g data-detail="context" data-edge-from="download" data-edge-to="inference" data-edge-label="解包后选择权重" data-edge-key="6">
-          <rect x="1187.4" y="386" width="77.2" height="14" rx="3" class="c-mask"/>
-          <text x="1226" y="396" class="t-muted" font-size="8" text-anchor="middle">解包后选择权重</text>
+        <g id="node-terminal" data-node-id="terminal" data-node-label="SUCCESS / FAILED？" tabindex="0" role="button" aria-label="聚焦SUCCESS / FAILED？，图片 60 次 · 视频 180 次上限, ComfyUI / RunningHub › 保存结果" aria-pressed="false" data-node-kind="security" data-node-sublabel="图片 60 次 · 视频 180 次上限" data-node-context="ComfyUI / RunningHub › 保存结果">
+          <title>SUCCESS / FAILED？ · 图片 60 次 · 视频 180 次上限 · ComfyUI / RunningHub › 保存结果</title>
+          <rect x="904.4" y="341" width="195" height="52" rx="6" class="c-mask"/>
+          <rect x="904.4" y="341" width="195" height="52" rx="6" class="c-security" data-animate="node" style="--step:6" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="security" class="semantic-sigil s-security" transform="translate(910.4 347) scale(0.6875)">
+            <path d="M8 2.2 13 4v3.5c0 3.1-1.8 5.4-5 6.5-3.2-1.1-5-3.4-5-6.5V4Z"/>
+            <path d="m5.8 8 1.5 1.5 3-3"/>
+          </g>
+          <text data-node-label="" data-detail-anchor="" x="1001.9" y="362" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">SUCCESS / FAILED？</text>
+          <text data-detail="context" x="1001.9" y="379" class="t-muted" font-size="8" text-anchor="middle">图片 60 次 · 视频 180 次上限</text>
         </g>
 
-        <!-- Boundary labels (foreground masks keep routes out of titles) -->
+        <g id="node-success" data-node-id="success" data-node-label="落盘并返回媒体" tabindex="0" role="button" aria-label="聚焦落盘并返回媒体，image.png / video.mp4 · /api/image, outputs 与记录 › 保存结果" aria-pressed="false" data-node-kind="database" data-node-sublabel="image.png / video.mp4 · /api/image" data-node-context="outputs 与记录 › 保存结果">
+          <title>落盘并返回媒体 · image.png / video.mp4 · /api/image · outputs 与记录 › 保存结果</title>
+          <rect x="901.9" y="465" width="200" height="52" rx="6" class="c-mask"/>
+          <rect x="901.9" y="465" width="200" height="52" rx="6" class="c-database" data-animate="node" style="--step:7" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(907.9 471) scale(0.6875)">
+            <ellipse cx="8" cy="4" rx="5" ry="2"/>
+            <path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/>
+          </g>
+          <text data-node-label="" data-detail-anchor="" x="1001.9" y="486" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">落盘并返回媒体</text>
+          <text data-detail="context" x="1001.9" y="503" class="t-muted" font-size="8" text-anchor="middle">image.png / video.mp4 · /api/image</text>
+        </g>
 
+        <g id="node-failure" data-node-id="failure" data-node-label="写入失败状态" tabindex="0" role="button" aria-label="聚焦写入失败状态，FAILED · errorMessage, 失败路径 › 保存结果" aria-pressed="false" data-node-kind="security" data-node-sublabel="FAILED · errorMessage" data-node-context="失败路径 › 保存结果">
+          <title>写入失败状态 · FAILED · errorMessage · 失败路径 › 保存结果</title>
+          <rect x="909.4" y="589" width="185" height="52" rx="6" class="c-mask"/>
+          <rect x="909.4" y="589" width="185" height="52" rx="6" class="c-security" data-animate="node" style="--step:12" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="security" class="semantic-sigil s-security" transform="translate(915.4 595) scale(0.6875)">
+            <path d="M8 2.2 13 4v3.5c0 3.1-1.8 5.4-5 6.5-3.2-1.1-5-3.4-5-6.5V4Z"/>
+            <path d="m5.8 8 1.5 1.5 3-3"/>
+          </g>
+          <text data-node-label="" data-detail-anchor="" x="1001.9" y="610" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">写入失败状态</text>
+          <text data-detail="context" x="1001.9" y="627" class="t-muted" font-size="8" text-anchor="middle">FAILED · errorMessage</text>
+        </g>
+
+        <!-- Edge labels -->
+        <g data-detail="context" data-edge-from="confirm" data-edge-to="submit" data-edge-label="planId" data-edge-key="0" data-edge-id="confirm-submit">
+          <rect x="437.5" y="99" width="38.8" height="14" rx="3" class="c-mask"/>
+          <text x="456.9" y="109" class="t-muted" font-size="8" text-anchor="middle">planId</text>
+        </g>
+        <g data-detail="context" data-edge-from="job" data-edge-to="status" data-edge-label="jobId + RUNNING" data-edge-key="1" data-edge-id="job-status">
+          <rect x="813.4" y="223" width="82" height="14" rx="3" class="c-mask"/>
+          <text x="854.4" y="233" class="t-backend" font-size="8" text-anchor="middle">jobId + RUNNING</text>
+        </g>
+        <g data-detail="context" data-edge-from="plan" data-edge-to="confirm" data-edge-label="人工确认" data-edge-key="2" data-edge-id="plan-confirm">
+          <rect x="217" y="99" width="48.4" height="14" rx="3" class="c-mask"/>
+          <text x="241.2" y="109" class="t-backend" font-size="8" text-anchor="middle">人工确认</text>
+        </g>
+        <g data-detail="context" data-edge-from="backend_submit" data-edge-to="job" data-edge-label="taskId" data-edge-key="3" data-edge-id="provider-job">
+          <rect x="635" y="270" width="38.8" height="14" rx="3" class="c-mask"/>
+          <text x="654.4" y="280" class="t-muted" font-size="8" text-anchor="middle">taskId</text>
+        </g>
+        <g data-detail="context" data-edge-from="status" data-edge-to="terminal" data-edge-label="RUNNING / terminal" data-edge-key="4" data-edge-id="status-terminal">
+          <rect x="1097.4005" y="347" width="96.39999999999999" height="14" rx="3" class="c-mask"/>
+          <text x="1145.6005" y="357" class="t-muted" font-size="8" text-anchor="middle">RUNNING / terminal</text>
+        </g>
+        <g data-detail="context" data-edge-from="submit" data-edge-to="backend_submit" data-edge-label="按 plan.mode 提交" data-edge-key="5" data-edge-id="submit-provider">
+          <rect x="488.59999999999997" y="270" width="91.6" height="14" rx="3" class="c-mask"/>
+          <text x="534.4" y="280" class="t-backend" font-size="8" text-anchor="middle">按 plan.mode 提交</text>
+        </g>
+        <g data-detail="context" data-edge-from="terminal" data-edge-to="failure" data-edge-label="FAILED / timeout" data-edge-key="6" data-edge-id="terminal-failure">
+          <rect x="901.75" y="648" width="86.8" height="14" rx="3" class="c-mask"/>
+          <text x="945.15" y="658" class="t-security" font-size="8" text-anchor="middle">FAILED / timeout</text>
+        </g>
+        <g data-detail="context" data-edge-from="terminal" data-edge-to="success" data-edge-label="SUCCESS" data-edge-key="7" data-edge-id="terminal-success">
+          <rect x="1038.1000000000001" y="394" width="43.6" height="14" rx="3" class="c-mask"/>
+          <text x="1059.9" y="404" class="t-backend" font-size="8" text-anchor="middle">SUCCESS</text>
+        </g>
 
         <!-- Legend -->
         <g data-legend="" data-legend-bridge="">
-          <text x="40" y="604" class="t-primary" font-size="12" font-weight="650">图例</text>
-          <g data-legend-semantic-kind="backend" data-legend-kind="backend" data-legend-label="后端" data-legend-x="40" data-legend-baseline="624" data-legend-width="63">
-            <rect x="40" y="615" width="16" height="10" rx="2.5" class="c-backend" stroke-width="1"/>
-            <text x="62" y="624" class="t-muted" font-size="10" font-weight="500">后端</text>
+          <text x="20" y="676" class="t-primary" font-size="12" font-weight="650">图例</text>
+          <g data-legend-semantic-kind="frontend" data-legend-kind="frontend" data-legend-label="用户界面" data-legend-x="20" data-legend-baseline="696" data-legend-width="78">
+            <rect x="20" y="688" width="14" height="9" rx="2" class="c-frontend" stroke-width="1"/>
+            <text x="42" y="696" class="t-muted" font-size="7.5" font-weight="500">用户界面</text>
           </g>
-          <g data-legend-semantic-kind="database" data-legend-kind="database" data-legend-label="数据库" data-legend-x="125" data-legend-baseline="624" data-legend-width="73">
-            <rect x="125" y="615" width="16" height="10" rx="2.5" class="c-database" stroke-width="1"/>
-            <text x="147" y="624" class="t-muted" font-size="10" font-weight="500">数据库</text>
+          <g data-legend-semantic-kind="backend" data-legend-kind="backend" data-legend-label="Agent 逻辑" data-legend-x="105" data-legend-baseline="696" data-legend-width="87">
+            <rect x="105" y="688" width="14" height="9" rx="2" class="c-backend" stroke-width="1"/>
+            <text x="127" y="696" class="t-muted" font-size="7.5" font-weight="500">Agent 逻辑</text>
           </g>
-          <g data-legend-semantic-kind="cloud" data-legend-kind="cloud" data-legend-label="云服务" data-legend-x="220" data-legend-baseline="624" data-legend-width="73">
-            <rect x="220" y="615" width="16" height="10" rx="2.5" class="c-cloud" stroke-width="1"/>
-            <text x="242" y="624" class="t-muted" font-size="10" font-weight="500">云服务</text>
+          <g data-legend-semantic-kind="security" data-legend-kind="security" data-legend-label="策略" data-legend-x="199" data-legend-baseline="696" data-legend-width="61">
+            <rect x="199" y="688" width="14" height="9" rx="2" class="c-security" stroke-width="1"/>
+            <text x="221" y="696" class="t-muted" font-size="7.5" font-weight="500">策略</text>
           </g>
-          <g data-legend-semantic-kind="external" data-legend-kind="external" data-legend-label="外部系统" data-legend-x="315" data-legend-baseline="624" data-legend-width="83">
-            <rect x="315" y="615" width="16" height="10" rx="2.5" class="c-external" stroke-width="1"/>
-            <text x="337" y="624" class="t-muted" font-size="10" font-weight="500">外部系统</text>
+          <g data-legend-semantic-kind="database" data-legend-kind="database" data-legend-label="上下文 / 追踪" data-legend-x="267" data-legend-baseline="696" data-legend-width="100">
+            <rect x="267" y="688" width="14" height="9" rx="2" class="c-database" stroke-width="1"/>
+            <text x="289" y="696" class="t-muted" font-size="7.5" font-weight="500">上下文 / 追踪</text>
+          </g>
+          <g data-legend-semantic-kind="external" data-legend-kind="external" data-legend-label="外部系统" data-legend-x="374" data-legend-baseline="696" data-legend-width="78">
+            <rect x="374" y="688" width="14" height="9" rx="2" class="c-external" stroke-width="1"/>
+            <text x="396" y="696" class="t-muted" font-size="7.5" font-weight="500">外部系统</text>
           </g>
         </g>
       </svg>
@@ -5373,7 +5425,25 @@
 
     <!-- Info Cards -->
     <div class="cards">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-dot cyan"></div>
+          <h3>轮询状态取决于后端</h3>
+        </div>
+        <ul>
+          <li>&bull; Local 查 ComfyUI history；RunningHub 查 outputs；Standard 查 v2 query</li>
+        </ul>
+      </div>
 
+      <div class="card">
+        <div class="card-header">
+          <div class="card-dot rose"></div>
+          <h3>完成与超时边界</h3>
+        </div>
+        <ul>
+          <li>&bull; 图片最多轮询 8 分钟；视频最多约 24 分钟且要求 BACKEND=local。成功写媒体文件，失败或超时记录 FAILED</li>
+        </ul>
+      </div>
     </div>
 
   </div>
